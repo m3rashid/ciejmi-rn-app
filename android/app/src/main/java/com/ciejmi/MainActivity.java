@@ -1,6 +1,5 @@
 package com.ciejmi;
 import android.os.Bundle;
-import com.reactlibrary.RNMediaLibraryPackage;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -22,13 +21,6 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "ciejmi";
-  }
-
-  @Override
-  protected getPackages() {
-    return [
-      new RNMediaLibraryPackage()
-    ]
   }
 
   /**
