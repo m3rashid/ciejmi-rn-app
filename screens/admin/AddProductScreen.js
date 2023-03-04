@@ -195,7 +195,7 @@ const AddProductScreen = ({ navigation, route }) => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <ProgressDialog visible={isloading} label={'Adding ...'} />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity

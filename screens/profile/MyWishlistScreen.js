@@ -7,16 +7,16 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {colors, network} from '../../constants';
-import {Ionicons} from 'react-native-vector-icons';
+import React, { useState, useEffect } from 'react';
+import { colors, network } from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WishList from '../../components/WishList/WishList';
 
-const MyWishlistScreen = ({navigation, route}) => {
-  const {user} = route.params;
+const MyWishlistScreen = ({ navigation, route }) => {
+  const { user } = route.params;
   const [isloading, setIsloading] = useState(false);
   const [label, setLabel] = useState('Please wait...');
   const [refeshing, setRefreshing] = useState(false);
@@ -27,7 +27,7 @@ const MyWishlistScreen = ({navigation, route}) => {
 
   //method to navigate to the product detail screen of the specific product
   const handleView = product => {
-    navigation.navigate('productdetail', {product: product});
+    navigation.navigate('productdetail', { product: product });
   };
 
   //method the remove the authUser from Aysnc Storage and navigate back to login screen
@@ -117,7 +117,7 @@ const MyWishlistScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <ProgressDialog visible={isloading} label={label} />
       <View style={styles.topBarContainer}>
         <TouchableOpacity
@@ -130,7 +130,7 @@ const MyWishlistScreen = ({navigation, route}) => {
             color={colors.muted}
           />
         </TouchableOpacity>
-        <View></View>
+        <View />
         <TouchableOpacity onPress={() => handleOnRefresh()}>
           <Ionicons name="heart-outline" size={30} color={colors.primary} />
         </TouchableOpacity>
@@ -154,7 +154,7 @@ const MyWishlistScreen = ({navigation, route}) => {
         </View>
       ) : (
         <ScrollView
-          style={{flex: 1, width: '100%', padding: 20}}
+          style={{ flex: 1, width: '100%', padding: 20 }}
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
@@ -176,7 +176,7 @@ const MyWishlistScreen = ({navigation, route}) => {
               />
             );
           })}
-          <View style={styles.emptyView}></View>
+          <View style={styles.emptyView} />
         </ScrollView>
       )}
     </View>

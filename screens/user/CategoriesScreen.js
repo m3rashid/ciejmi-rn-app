@@ -9,21 +9,21 @@ import {
   RefreshControl,
   Dimensions,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
-import {Ionicons} from 'react-native-vector-icons';
+import { Ionicons } from 'react-native-vector-icons';
 import cartIcon from '../../assets/icons/cart_beg.png';
 import emptyBox from '../../assets/image/emptybox.png';
-import {colors, network} from '../../constants';
-import {useSelector, useDispatch} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { colors, network } from '../../constants';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import CustomIconButton from '../../components/CustomIconButton/CustomIconButton';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import CustomInput from '../../components/CustomInput';
 
-const CategoriesScreen = ({navigation, route}) => {
-  const {categoryID} = route.params;
+const CategoriesScreen = ({ navigation, route }) => {
+  const { categoryID } = route.params;
 
   const [isLoading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
@@ -43,11 +43,11 @@ const CategoriesScreen = ({navigation, route}) => {
   const cartproduct = useSelector(state => state.product);
   const dispatch = useDispatch();
 
-  const {addCartItem} = bindActionCreators(actionCreaters, dispatch);
+  const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
 
   //method to navigate to product detail screen of specific product
   const handleProductPress = product => {
-    navigation.navigate('productdetail', {product: product});
+    navigation.navigate('productdetail', { product: product });
   };
 
   //method to add the product to cart (redux)
@@ -131,7 +131,7 @@ const CategoriesScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.topBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -144,7 +144,7 @@ const CategoriesScreen = ({navigation, route}) => {
           />
         </TouchableOpacity>
 
-        <View></View>
+        <View />
         <TouchableOpacity
           style={styles.cartIconContainer}
           onPress={() => navigation.navigate('cart')}>
@@ -159,7 +159,7 @@ const CategoriesScreen = ({navigation, route}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.bodyContainer}>
-        <View style={{padding: 0, paddingLeft: 20, paddingRight: 20}}>
+        <View style={{ padding: 0, paddingLeft: 20, paddingRight: 20 }}>
           <CustomInput
             radius={5}
             placeholder={'Search...'}
@@ -171,10 +171,10 @@ const CategoriesScreen = ({navigation, route}) => {
           data={category}
           keyExtractor={(index, item) => `${index}-${item}`}
           horizontal
-          style={{flexGrow: 0}}
-          contentContainerStyle={{padding: 10}}
+          style={{ flexGrow: 0 }}
+          contentContainerStyle={{ padding: 10 }}
           showsHorizontalScrollIndicator={false}
-          renderItem={({item: tab}) => (
+          renderItem={({ item: tab }) => (
             <CustomIconButton
               key={tab}
               text={tab.title}
@@ -203,7 +203,7 @@ const CategoriesScreen = ({navigation, route}) => {
               }}>
               <Image
                 source={emptyBox}
-                style={{height: 80, width: 80, resizeMode: 'contain'}}
+                style={{ height: 80, width: 80, resizeMode: 'contain' }}
               />
               <Text style={styles.emptyBoxText}>
                 There no product in this category
@@ -222,13 +222,13 @@ const CategoriesScreen = ({navigation, route}) => {
               />
             }
             keyExtractor={(index, item) => `${index}-${item}`}
-            contentContainerStyle={{margin: 10}}
+            contentContainerStyle={{ margin: 10 }}
             numColumns={2}
-            renderItem={({item: product}) => (
+            renderItem={({ item: product }) => (
               <View
                 style={[
                   styles.productCartContainer,
-                  {width: (windowWidth - windowWidth * 0.1) / 2},
+                  { width: (windowWidth - windowWidth * 0.1) / 2 },
                 ]}>
                 <ProductCard
                   cardSize={'large'}
@@ -239,7 +239,7 @@ const CategoriesScreen = ({navigation, route}) => {
                   onPress={() => handleProductPress(product)}
                   onPressSecondary={() => handleAddToCat(product)}
                 />
-                <View style={styles.emptyView}></View>
+                <View style={styles.emptyView} />
               </View>
             )}
           />

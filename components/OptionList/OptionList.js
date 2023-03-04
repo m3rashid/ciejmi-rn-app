@@ -1,8 +1,8 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 
-import {MaterialIcons, Ionicons} from 'react-native-vector-icons';
-import {colors} from '../../constants';
+import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
+import { colors } from '../../constants';
 
 const OptionList = ({
   Icon,
@@ -15,7 +15,7 @@ const OptionList = ({
   return (
     <>
       {type == 'morden' ? (
-        <View style={[styles.container, {backgroundColor: colors.white}]}>
+        <View style={[styles.container, { backgroundColor: colors.white }]}>
           <View style={styles.IconContainer}>
             <Icon name={iconName} size={24} color={colors.primary} />
             <Text style={styles.listText}>{text}</Text>

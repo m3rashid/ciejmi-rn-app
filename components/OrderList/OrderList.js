@@ -1,6 +1,6 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {colors} from '../../constants';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { colors } from '../../constants';
 
 function getTime(date) {
   let t = new Date(date);
@@ -35,7 +35,7 @@ const dateFormat = datex => {
   return newDate;
 };
 
-const OrderList = ({item, onPress}) => {
+const OrderList = ({ item, onPress }) => {
   const [totalCost, setTotalCost] = useState(0);
   const [quantity, setQuantity] = useState(0);
 

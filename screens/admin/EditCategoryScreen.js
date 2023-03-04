@@ -8,18 +8,18 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {colors, network} from '../../constants';
+import React, { useState, useEffect } from 'react';
+import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import {Ionicons} from 'react-native-vector-icons';
+import { Ionicons } from 'react-native-vector-icons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import * as ImagePicker from 'react-native-image-picker';
 import ProgressDialog from 'react-native-progress-dialog';
-import {AntDesign} from 'react-native-vector-icons';
+import { AntDesign } from 'react-native-vector-icons';
 
-const EditCategoryScreen = ({navigation, route}) => {
-  const {category, authUser} = route.params;
+const EditCategoryScreen = ({ navigation, route }) => {
+  const { category, authUser } = route.params;
   const [isloading, setIsloading] = useState(false);
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('easybuycat.png');
@@ -89,7 +89,7 @@ const EditCategoryScreen = ({navigation, route}) => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <ProgressDialog visible={isloading} label={'Adding ...'} />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
@@ -115,7 +115,7 @@ const EditCategoryScreen = ({navigation, route}) => {
       <CustomAlert message={error} type={alertType} />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{flex: 1, width: '100%'}}>
+        style={{ flex: 1, width: '100%' }}>
         <View style={styles.formContainer}>
           <CustomInput
             value={title}

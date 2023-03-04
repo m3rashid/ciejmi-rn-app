@@ -6,17 +6,17 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {colors, network} from '../../constants';
-import {Ionicons} from 'react-native-vector-icons';
+import React, { useState, useEffect } from 'react';
+import { colors, network } from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
 import BasicProductList from '../../components/BasicProductList/BasicProductList';
 import CustomButton from '../../components/CustomButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-const ViewOrderDetailScreen = ({navigation, route}) => {
-  const {orderDetail, Token} = route.params;
+const ViewOrderDetailScreen = ({ navigation, route }) => {
+  const { orderDetail, Token } = route.params;
   const [isloading, setIsloading] = useState(false);
   const [label, setLabel] = useState('Loading..');
   const [error, setError] = useState('');
@@ -27,9 +27,9 @@ const ViewOrderDetailScreen = ({navigation, route}) => {
   const [value, setValue] = useState(null);
   const [statusDisable, setStatusDisable] = useState(false);
   const [items, setItems] = useState([
-    {label: 'Pending', value: 'pending'},
-    {label: 'Shipped', value: 'shipped'},
-    {label: 'Delivered', value: 'delivered'},
+    { label: 'Pending', value: 'pending' },
+    { label: 'Shipped', value: 'shipped' },
+    { label: 'Delivered', value: 'delivered' },
   ]);
 
   //method to convert the time into AM PM format
@@ -123,7 +123,7 @@ const ViewOrderDetailScreen = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <ProgressDialog visible={isloading} label={label} />
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -219,12 +219,12 @@ const ViewOrderDetailScreen = ({navigation, route}) => {
             <Text>{totalCost}$</Text>
           </View>
         </View>
-        <View style={styles.emptyView}></View>
+        <View style={styles.emptyView} />
       </ScrollView>
       <View style={styles.bottomContainer}>
         <View>
           <DropDownPicker
-            style={{width: 200}}
+            style={{ width: 200 }}
             open={open}
             value={value}
             items={items}
@@ -236,7 +236,7 @@ const ViewOrderDetailScreen = ({navigation, route}) => {
               backgroundColor: colors.light,
               borderColor: colors.white,
             }}
-            labelStyle={{color: colors.muted}}
+            labelStyle={{ color: colors.muted }}
           />
         </View>
         <View>
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 15,
   },
-  bodyContainer: {flex: 1, width: '100%', padding: 5},
+  bodyContainer: { flex: 1, width: '100%', padding: 5 },
   ShipingInfoContainer: {
     marginTop: 5,
     display: 'flex',

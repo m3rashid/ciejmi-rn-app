@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import {colors, network} from '../../constants';
+import { colors, network } from '../../constants';
 
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {MaterialCommunityIcons} from 'react-native-vector-icons';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 const CartProductList = ({
   image,
@@ -34,7 +34,7 @@ const CartProductList = ({
         <Swipeable renderRightActions={rightSwipe}>
           <View style={styles.container}>
             <View style={styles.imageContainer}>
-              <Image source={{uri: image}} style={styles.productImage} />
+              <Image source={{ uri: image }} style={styles.productImage} />
             </View>
             <View style={styles.productInfoContainer}>
               <Text style={styles.productTitle}>{title}</Text>

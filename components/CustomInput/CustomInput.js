@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
-import {colors} from '../../constants';
+import { StyleSheet, TextInput, View } from 'react-native';
+import { colors } from '../../constants';
 
 const CustomInput = ({
   value,
@@ -15,7 +15,7 @@ const CustomInput = ({
   maxLength,
 }) => {
   return (
-    <View style={{width: width}}>
+    <View style={{ width: width }}>
       <TextInput
         placeholder={placeholder}
         onChangeText={setValue}

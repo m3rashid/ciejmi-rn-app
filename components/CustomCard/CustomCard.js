@@ -1,9 +1,9 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import {colors} from '../../constants';
-import {Ionicons} from 'react-native-vector-icons';
+import { colors } from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
 
-const CustomCard = ({title, value, iconName, onPress, type = 'danger'}) => {
+const CustomCard = ({ title, value, iconName, onPress, type = 'danger' }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={[styles.iconContainer, styles[`${type}`]]}>

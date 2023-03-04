@@ -1,7 +1,7 @@
-import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
+import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
-import {MaterialIcons} from 'react-native-vector-icons';
-import {colors} from '../../constants';
+import { MaterialIcons } from 'react-native-vector-icons';
+import { colors } from '../../constants';
 
 const CategoryList = ({
   icon,
@@ -15,8 +15,8 @@ const CategoryList = ({
       <View style={styles.detailContainer}>
         <View style={styles.imageContainer}>
           <Image
-            source={{uri: icon}}
-            style={{height: 30, width: 'auto', resizeMode: 'contain'}}
+            source={{ uri: icon }}
+            style={{ height: 30, width: 'auto', resizeMode: 'contain' }}
           />
         </View>
         <View style={styles.categoryInfo}>
@@ -29,12 +29,12 @@ const CategoryList = ({
       </View>
       <View style={styles.categoryActionContainer}>
         <TouchableOpacity
-          style={[styles.actionButton, {backgroundColor: colors.primary}]}
+          style={[styles.actionButton, { backgroundColor: colors.primary }]}
           onPress={onPressEdit}>
           <MaterialIcons name={'edit'} size={15} color={colors.white} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.actionButton, {backgroundColor: colors.danger}]}
+          style={[styles.actionButton, { backgroundColor: colors.danger }]}
           onPress={onPressDelete}>
           <MaterialIcons name={'delete'} size={15} color={colors.white} />
         </TouchableOpacity>

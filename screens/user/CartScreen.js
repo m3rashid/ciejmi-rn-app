@@ -7,24 +7,24 @@ import {
   Text,
   ScrollView,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Ionicons} from 'react-native-vector-icons';
+import React, { useEffect, useState } from 'react';
+import { Ionicons } from 'react-native-vector-icons';
 import cartIcon from '../../assets/icons/cart_beg_active.png';
-import {colors, network} from '../../constants';
+import { colors, network } from '../../constants';
 import CartProductList from '../../components/CartProductList/CartProductList';
 import CustomButton from '../../components/CustomButton';
-import {MaterialIcons} from 'react-native-vector-icons';
-import {useSelector, useDispatch} from 'react-redux';
+import { MaterialIcons } from 'react-native-vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 
-const CartScreen = ({navigation}) => {
+const CartScreen = ({ navigation }) => {
   const cartproduct = useSelector(state => state.product);
   const [totalPrice, setTotalPrice] = useState(0);
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
 
-  const {removeCartItem, increaseCartItemQuantity, decreaseCartItemQuantity} =
+  const { removeCartItem, increaseCartItemQuantity, decreaseCartItemQuantity } =
     bindActionCreators(actionCreaters, dispatch);
 
   //method to remove the item from (cart) redux
@@ -35,7 +35,7 @@ const CartScreen = ({navigation}) => {
   //method to increase the quantity of the item in(cart) redux
   const increaseQuantity = (id, quantity, avaiableQuantity) => {
     if (avaiableQuantity > quantity) {
-      increaseCartItemQuantity({id: id, type: 'increase'});
+      increaseCartItemQuantity({ id: id, type: 'increase' });
       setRefresh(!refresh);
     }
   };
@@ -43,7 +43,7 @@ const CartScreen = ({navigation}) => {
   //method to decrease the quantity of the item in(cart) redux
   const decreaseQuantity = (id, quantity) => {
     if (quantity > 1) {
-      decreaseCartItemQuantity({id: id, type: 'decrease'});
+      decreaseCartItemQuantity({ id: id, type: 'decrease' });
       setRefresh(!refresh);
     }
   };
@@ -59,7 +59,7 @@ const CartScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.topBarContainer}>
         <View style={styles.cartInfoContainerTopBar}>
           <TouchableOpacity
@@ -78,7 +78,7 @@ const CartScreen = ({navigation}) => {
           </View>
         </View>
 
-        <View></View>
+        <View />
         <TouchableOpacity>
           <Image source={cartIcon} />
         </TouchableOpacity>
@@ -116,7 +116,7 @@ const CartScreen = ({navigation}) => {
               }}
             />
           ))}
-          <View style={styles.emptyView}></View>
+          <View style={styles.emptyView} />
         </ScrollView>
       )}
       <View style={styles.cartBottomContainer}>
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
-  cartProductListContiainer: {width: '100%', padding: 20},
+  cartProductListContiainer: { width: '100%', padding: 20 },
   cartProductListContiainerEmpty: {
     width: '100%',
     display: 'flex',

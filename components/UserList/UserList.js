@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import {Ionicons} from 'react-native-vector-icons';
-import {colors} from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
+import { colors } from '../../constants';
 
-const UserList = ({username, email}) => {
+const UserList = ({ username, email }) => {
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>

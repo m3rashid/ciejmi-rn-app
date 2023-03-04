@@ -1,7 +1,7 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import {Ionicons} from 'react-native-vector-icons';
-import {colors} from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
+import { colors } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 
@@ -9,7 +9,7 @@ const sendInstructionsHandle = () => {
   //TODO: handle user verfication and mail password reset link
 };
 
-const ForgetPasswordScreen = ({navigation}) => {
+const ForgetPasswordScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.TopBarContainer}>

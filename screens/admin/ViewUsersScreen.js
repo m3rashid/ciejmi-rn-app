@@ -7,18 +7,18 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {colors, network} from '../../constants';
-import {Ionicons} from 'react-native-vector-icons';
-import {AntDesign} from 'react-native-vector-icons';
+import React, { useState, useEffect } from 'react';
+import { colors, network } from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
+import { AntDesign } from 'react-native-vector-icons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CustomInput from '../../components/CustomInput/';
 import ProgressDialog from 'react-native-progress-dialog';
 import UserList from '../../components/UserList/UserList';
 
-const ViewUsersScreen = ({navigation, route}) => {
+const ViewUsersScreen = ({ navigation, route }) => {
   const [name, setName] = useState('');
-  const {authUser} = route.params;
+  const { authUser } = route.params;
   const [user, setUser] = useState({});
   const [isloading, setIsloading] = useState(false);
   const [refeshing, setRefreshing] = useState(false);
@@ -105,7 +105,7 @@ const ViewUsersScreen = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <ProgressDialog visible={isloading} label={label} />
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -137,7 +137,7 @@ const ViewUsersScreen = ({navigation, route}) => {
         setValue={setFilterItem}
       />
       <ScrollView
-        style={{flex: 1, width: '100%'}}
+        style={{ flex: 1, width: '100%' }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />

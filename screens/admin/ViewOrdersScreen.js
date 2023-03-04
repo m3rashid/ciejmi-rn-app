@@ -7,16 +7,16 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {colors, network} from '../../constants';
-import {Ionicons} from 'react-native-vector-icons';
+import React, { useState, useEffect } from 'react';
+import { colors, network } from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CustomInput from '../../components/CustomInput';
 import ProgressDialog from 'react-native-progress-dialog';
 import OrderList from '../../components/OrderList/OrderList';
 
-const ViewOrdersScreen = ({navigation, route}) => {
-  const {authUser} = route.params;
+const ViewOrdersScreen = ({ navigation, route }) => {
+  const { authUser } = route.params;
   const [user, setUser] = useState({});
   const [isloading, setIsloading] = useState(false);
   const [refeshing, setRefreshing] = useState(false);
@@ -108,7 +108,7 @@ const ViewOrdersScreen = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <ProgressDialog visible={isloading} label={label} />
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -137,7 +137,7 @@ const ViewOrdersScreen = ({navigation, route}) => {
         setValue={setFilterItem}
       />
       <ScrollView
-        style={{flex: 1, width: '100%', padding: 2}}
+        style={{ flex: 1, width: '100%', padding: 2 }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />

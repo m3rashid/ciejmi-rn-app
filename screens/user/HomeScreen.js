@@ -9,20 +9,20 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
-import {Ionicons} from 'react-native-vector-icons';
-import React, {useEffect, useState} from 'react';
+import { Ionicons } from 'react-native-vector-icons';
+import React, { useEffect, useState } from 'react';
 import cartIcon from '../../assets/icons/cart_beg.png';
 import scanIcon from '../../assets/icons/scan_icons.png';
 import easybuylogo from '../../assets/logo/logo.png';
-import {colors} from '../../constants';
+import { colors } from '../../constants';
 import CustomIconButton from '../../components/CustomIconButton/CustomIconButton';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import {network} from '../../constants';
-import {useSelector, useDispatch} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { network } from '../../constants';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import SearchableDropdown from 'react-native-searchable-dropdown';
-import {SliderBox} from 'react-native-image-slider-box';
+import { SliderBox } from 'react-native-image-slider-box';
 
 const category = [
   {
@@ -37,13 +37,13 @@ const slides = [
   require('../../assets/image/banners/banner.png'),
 ];
 
-const HomeScreen = ({navigation, route}) => {
+const HomeScreen = ({ navigation, route }) => {
   const cartproduct = useSelector(state => state.product);
   const dispatch = useDispatch();
 
-  const {addCartItem} = bindActionCreators(actionCreaters, dispatch);
+  const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
 
-  const {user} = route.params;
+  const { user } = route.params;
   const [products, setProducts] = useState([]);
   const [refeshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
@@ -61,7 +61,7 @@ const HomeScreen = ({navigation, route}) => {
 
   //method to navigate to product detail screen of a specific product
   const handleProductPress = product => {
-    navigation.navigate('productdetail', {product: product});
+    navigation.navigate('productdetail', { product: product });
   };
 
   //method to add to cart (redux)
@@ -83,7 +83,7 @@ const HomeScreen = ({navigation, route}) => {
           setError('');
           let payload = [];
           result.data.forEach((cat, index) => {
-            let searchableItem = {...cat, id: ++index, name: cat.title};
+            let searchableItem = { ...cat, id: ++index, name: cat.title };
             payload.push(searchableItem);
           });
           setSearchItems(payload);
@@ -112,7 +112,7 @@ const HomeScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.topBarContainer}>
         <TouchableOpacity disabled>
           {/* <Ionicons name="menu" size={30} color={colors.muted} /> */}
@@ -204,20 +204,20 @@ const HomeScreen = ({navigation, route}) => {
               horizontal={true}
               data={category}
               keyExtractor={(item, index) => `${item}-${index}`}
-              renderItem={({item, index}) => (
-                <View style={{marginBottom: 10}} key={index}>
+              renderItem={({ item, index }) => (
+                <View style={{ marginBottom: 10 }} key={index}>
                   <CustomIconButton
                     key={index}
                     text={item.title}
                     image={item.image}
                     onPress={() =>
-                      navigation.jumpTo('categories', {categoryID: item})
+                      navigation.jumpTo('categories', { categoryID: item })
                     }
                   />
                 </View>
               )}
             />
-            <View style={styles.emptyView}></View>
+            <View style={styles.emptyView} />
           </View>
           <View style={styles.primaryTextContainer}>
             <Text style={styles.primaryText}>New Arrivals</Text>
@@ -242,10 +242,10 @@ const HomeScreen = ({navigation, route}) => {
                 horizontal={true}
                 data={products.slice(0, 4)}
                 keyExtractor={item => item._id}
-                renderItem={({item, index}) => (
+                renderItem={({ item, index }) => (
                   <View
                     key={item._id}
-                    style={{marginLeft: 5, marginBottom: 10, marginRight: 5}}>
+                    style={{ marginLeft: 5, marginBottom: 10, marginRight: 5 }}>
                     <ProductCard
                       name={item.title}
                       image={`${network.serverip}/uploads/${item.image}`}
@@ -257,7 +257,7 @@ const HomeScreen = ({navigation, route}) => {
                   </View>
                 )}
               />
-              <View style={styles.emptyView}></View>
+              <View style={styles.emptyView} />
             </View>
           )}
         </ScrollView>
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
     height: 60,
     marginLeft: 10,
   },
-  emptyView: {width: 30},
+  emptyView: { width: 30 },
   productCardContainer: {
     paddingLeft: 10,
     display: 'flex',

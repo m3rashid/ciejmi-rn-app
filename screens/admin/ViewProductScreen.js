@@ -8,17 +8,17 @@ import {
   RefreshControl,
   Alert,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {colors, network} from '../../constants';
-import {Ionicons} from 'react-native-vector-icons';
-import {AntDesign} from 'react-native-vector-icons';
+import React, { useState, useEffect } from 'react';
+import { colors, network } from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
+import { AntDesign } from 'react-native-vector-icons';
 import ProductList from '../../components/ProductList/ProductList';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CustomInput from '../../components/CustomInput/';
 import ProgressDialog from 'react-native-progress-dialog';
 
-const ViewProductScreen = ({navigation, route}) => {
-  const {authUser} = route.params;
+const ViewProductScreen = ({ navigation, route }) => {
+  const { authUser } = route.params;
   const [isloading, setIsloading] = useState(false);
   const [refeshing, setRefreshing] = useState(false);
   const [alertType, setAlertType] = useState('error');
@@ -142,7 +142,7 @@ const ViewProductScreen = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <ProgressDialog visible={isloading} label={label} />
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -156,7 +156,7 @@ const ViewProductScreen = ({navigation, route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('addproduct', {authUser: authUser});
+            navigation.navigate('addproduct', { authUser: authUser });
           }}>
           <AntDesign name="plussquare" size={30} color={colors.muted} />
         </TouchableOpacity>
@@ -177,7 +177,7 @@ const ViewProductScreen = ({navigation, route}) => {
         setValue={setFilterItem}
       />
       <ScrollView
-        style={{flex: 1, width: '100%'}}
+        style={{ flex: 1, width: '100%' }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />

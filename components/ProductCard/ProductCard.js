@@ -1,7 +1,7 @@
-import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import React from 'react';
-import {colors, network} from '../../constants';
-import {Ionicons} from 'react-native-vector-icons';
+import { colors, network } from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
 
 const ProductCard = ({
   name,
@@ -14,10 +14,10 @@ const ProductCard = ({
 }) => {
   return (
     <TouchableOpacity
-      style={[styles.container, {width: cardSize === 'large' ? '100%' : 150}]}
+      style={[styles.container, { width: cardSize === 'large' ? '100%' : 150 }]}
       onPress={onPress}>
       <View style={styles.imageContainer}>
-        <Image source={{uri: image}} style={styles.productImage} />
+        <Image source={{ uri: image }} style={styles.productImage} />
       </View>
       <View style={styles.infoContainer}>
         <View>

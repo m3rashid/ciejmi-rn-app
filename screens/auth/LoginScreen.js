@@ -8,8 +8,8 @@ import {
   ScrollView,
 } from 'react-native';
 
-import React, {useState} from 'react';
-import {colors, network} from '../../constants';
+import React, { useState } from 'react';
+import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import header_logo from '../../assets/logo/logo.png';
 import CustomButton from '../../components/CustomButton';
@@ -18,7 +18,7 @@ import ProgressDialog from 'react-native-progress-dialog';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -89,11 +89,11 @@ const LoginScreen = ({navigation}) => {
             //check the user type if the type is ADMIN then navigate to Dashboard else navigate to User Home
             _storeData(result.data);
             setIsloading(false);
-            navigation.replace('dashboard', {authUser: result.data}); // naviagte to Admin Dashboard
+            navigation.replace('dashboard', { authUser: result.data }); // naviagte to Admin Dashboard
           } else {
             _storeData(result.data);
             setIsloading(false);
-            navigation.replace('tab', {user: result.data}); // naviagte to User Dashboard
+            navigation.replace('tab', { user: result.data }); // naviagte to User Dashboard
           }
         } else {
           setIsloading(false);
@@ -111,9 +111,9 @@ const LoginScreen = ({navigation}) => {
       <KeyboardAvoidingView
         // behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}>
-        <ScrollView style={{flex: 1, width: '100%'}}>
+        <ScrollView style={{ flex: 1, width: '100%' }}>
           <ProgressDialog visible={isloading} label={'Login ...'} />
-          <StatusBar></StatusBar>
+          <StatusBar />
           <View style={styles.welconeContainer}>
             <View>
               <Text style={styles.welcomeText}>Welcome to CIE-JMI</Text>

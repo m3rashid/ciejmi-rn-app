@@ -6,23 +6,23 @@ import {
   StatusBar,
   Text,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {Ionicons} from 'react-native-vector-icons';
+import React, { useState, useEffect } from 'react';
+import { Ionicons } from 'react-native-vector-icons';
 import cartIcon from '../../assets/icons/cart_beg.png';
-import {colors, network} from '../../constants';
+import { colors, network } from '../../constants';
 import CustomButton from '../../components/CustomButton';
-import {useSelector, useDispatch} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 
-const ProductDetailScreen = ({navigation, route}) => {
-  const {product} = route.params;
+const ProductDetailScreen = ({ navigation, route }) => {
+  const { product } = route.params;
   const cartproduct = useSelector(state => state.product);
   const dispatch = useDispatch();
 
-  const {addCartItem} = bindActionCreators(actionCreaters, dispatch);
+  const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
 
   //method to add item to cart(redux)
   const handleAddToCat = item => {
@@ -191,7 +191,7 @@ const ProductDetailScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.topBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -204,7 +204,7 @@ const ProductDetailScreen = ({navigation, route}) => {
           />
         </TouchableOpacity>
 
-        <View></View>
+        <View />
         <TouchableOpacity
           style={styles.cartIconContainer}
           onPress={() => navigation.navigate('cart')}>
@@ -220,7 +220,7 @@ const ProductDetailScreen = ({navigation, route}) => {
       </View>
       <View style={styles.bodyContainer}>
         <View style={styles.productImageContainer}>
-          <Image source={{uri: productImage}} style={styles.productImage} />
+          <Image source={{ uri: productImage }} style={styles.productImage} />
         </View>
         <CustomAlert message={error} type={alertType} />
         <View style={styles.productInfoContainer}>
@@ -429,8 +429,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     elevation: 5,
   },
-  secondaryTextSm: {fontSize: 15, fontWeight: 'bold'},
-  primaryTextSm: {color: colors.primary, fontSize: 15, fontWeight: 'bold'},
+  secondaryTextSm: { fontSize: 15, fontWeight: 'bold' },
+  primaryTextSm: { color: colors.primary, fontSize: 15, fontWeight: 'bold' },
   productDescriptionContainer: {
     display: 'flex',
     width: '100%',

@@ -68,7 +68,7 @@ const SignupScreen = ({ navigation }) => {
       .then(response => response.json())
       .then(result => {
         console.log(result);
-        if (result.data['email'] == email) {
+        if (result.data.email == email) {
           navigation.navigate('login');
         }
       })
@@ -80,7 +80,7 @@ const SignupScreen = ({ navigation }) => {
         console.log('Connection State: ', connectionState);
       }}>
       <KeyboardAvoidingView style={styles.container}>
-        <StatusBar></StatusBar>
+        <StatusBar />
         <View style={styles.TopBarContainer}>
           <TouchableOpacity
             onPress={() => {

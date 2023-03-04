@@ -8,18 +8,18 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {colors, network} from '../../constants';
+import React, { useEffect, useState } from 'react';
+import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import {Ionicons} from 'react-native-vector-icons';
+import { Ionicons } from 'react-native-vector-icons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import * as ImagePicker from 'react-native-image-picker';
 import ProgressDialog from 'react-native-progress-dialog';
-import {AntDesign} from 'react-native-vector-icons';
+import { AntDesign } from 'react-native-vector-icons';
 
-const EditProductScreen = ({navigation, route}) => {
-  const {product, authUser} = route.params;
+const EditProductScreen = ({ navigation, route }) => {
+  const { product, authUser } = route.params;
   const [isloading, setIsloading] = useState(false);
   const [label, setLabel] = useState('Updating...');
   const [title, setTitle] = useState('');
@@ -120,7 +120,7 @@ const EditProductScreen = ({navigation, route}) => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <ProgressDialog visible={isloading} label={label} />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
@@ -144,14 +144,14 @@ const EditProductScreen = ({navigation, route}) => {
         </View>
       </View>
       <CustomAlert message={error} type={'error'} />
-      <ScrollView style={{flex: 1, width: '100%'}}>
+      <ScrollView style={{ flex: 1, width: '100%' }}>
         <View style={styles.formContainer}>
           <View style={styles.imageContainer}>
             {image ? (
               <TouchableOpacity style={styles.imageHolder} onPress={pickImage}>
                 <Image
-                  source={{uri: image}}
-                  style={{width: 200, height: 200}}
+                  source={{ uri: image }}
+                  style={{ width: 200, height: 200 }}
                 />
               </TouchableOpacity>
             ) : (

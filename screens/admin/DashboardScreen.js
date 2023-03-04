@@ -8,17 +8,17 @@ import {
   FlatList,
   RefreshControl,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {Ionicons, MaterialCommunityIcons} from 'react-native-vector-icons';
-import {colors} from '../../constants';
+import React, { useState, useEffect } from 'react';
+import { Ionicons, MaterialCommunityIcons } from 'react-native-vector-icons';
+import { colors } from '../../constants';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import OptionList from '../../components/OptionList/OptionList';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProgressDialog from 'react-native-progress-dialog';
 
-const DashboardScreen = ({navigation, route}) => {
-  const {authUser} = route.params;
+const DashboardScreen = ({ navigation, route }) => {
+  const { authUser } = route.params;
   const [user, setUser] = useState(authUser);
   const [label, setLabel] = useState('Loading...');
   const [error, setError] = useState('');
@@ -115,7 +115,7 @@ const DashboardScreen = ({navigation, route}) => {
   return (
     <InternetConnectionAlert onChange={connectionState => {}}>
       <View style={styles.container}>
-        <StatusBar></StatusBar>
+        <StatusBar />
         <ProgressDialog visible={isloading} label={label} />
         <View style={styles.topBarContainer}>
           <TouchableOpacity
@@ -140,17 +140,17 @@ const DashboardScreen = ({navigation, route}) => {
           <MaterialCommunityIcons name="menu-right" size={30} color="black" />
           <Text style={styles.headingText}>Welcome, Admin</Text>
         </View>
-        <View style={{flex: 1, width: '100%'}}>
+        <View style={{ flex: 1, width: '100%' }}>
           <ScrollView style={styles.actionContainer}>
             <OptionList
               text={'Products'}
               Icon={Ionicons}
               iconName={'md-square'}
               onPress={() =>
-                navigation.navigate('viewproduct', {authUser: user})
+                navigation.navigate('viewproduct', { authUser: user })
               }
               onPressSecondary={() =>
-                navigation.navigate('addproduct', {authUser: user})
+                navigation.navigate('addproduct', { authUser: user })
               }
               type="morden"
             />
@@ -159,10 +159,10 @@ const DashboardScreen = ({navigation, route}) => {
               Icon={Ionicons}
               iconName={'menu'}
               onPress={() =>
-                navigation.navigate('viewcategories', {authUser: user})
+                navigation.navigate('viewcategories', { authUser: user })
               }
               onPressSecondary={() =>
-                navigation.navigate('addcategories', {authUser: user})
+                navigation.navigate('addcategories', { authUser: user })
               }
               type="morden"
             />
@@ -170,18 +170,22 @@ const DashboardScreen = ({navigation, route}) => {
               text={'Orders'}
               Icon={Ionicons}
               iconName={'cart'}
-              onPress={() => navigation.navigate('vieworder', {authUser: user})}
+              onPress={() =>
+                navigation.navigate('vieworder', { authUser: user })
+              }
               type="morden"
             />
             <OptionList
               text={'Users'}
               Icon={Ionicons}
               iconName={'person'}
-              onPress={() => navigation.navigate('viewusers', {authUser: user})}
+              onPress={() =>
+                navigation.navigate('viewusers', { authUser: user })
+              }
               type="morden"
             />
 
-            <View style={{height: 20}}></View>
+            <View style={{ height: 20 }} />
           </ScrollView>
         </View>
       </View>
@@ -235,5 +239,5 @@ const styles = StyleSheet.create({
     color: colors.muted,
     fontWeight: '800',
   },
-  actionContainer: {padding: 20, width: '100%', flex: 1},
+  actionContainer: { padding: 20, width: '100%', flex: 1 },
 });

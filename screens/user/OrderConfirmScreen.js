@@ -1,10 +1,10 @@
-import {StyleSheet, Image, Text, View, StatusBar} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { StyleSheet, Image, Text, View, StatusBar } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import SuccessImage from '../../assets/image/success.png';
 import CustomButton from '../../components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const OrderConfirmScreen = ({navigation}) => {
+const OrderConfirmScreen = ({ navigation }) => {
   const [user, setUser] = useState({});
 
   //method to get authUser from async storage
@@ -20,7 +20,7 @@ const OrderConfirmScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.imageConatiner}>
         <Image source={SuccessImage} style={styles.Image} />
       </View>
@@ -28,7 +28,7 @@ const OrderConfirmScreen = ({navigation}) => {
       <View>
         <CustomButton
           text={'Back to Home'}
-          onPress={() => navigation.replace('tab', {user: user})}
+          onPress={() => navigation.replace('tab', { user: user })}
         />
       </View>
     </View>

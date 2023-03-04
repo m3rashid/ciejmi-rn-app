@@ -1,11 +1,11 @@
-import {StyleSheet, Image, View} from 'react-native';
-import React, {useEffect} from 'react';
-import {colors} from '../../constants';
+import { StyleSheet, Image, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { colors } from '../../constants';
 import logo from '../../assets/logo/logo_white.png';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Splash = ({navigation}) => {
+const Splash = ({ navigation }) => {
   //method to fetch the authUser data from aync storage if there is any and login the Dashboard or Home Screen according to the user type
   _retrieveData = async () => {
     try {
@@ -14,11 +14,11 @@ const Splash = ({navigation}) => {
         let user = JSON.parse(value); // covert the authUser value to json
         if (user.userType === 'ADMIN') {
           setTimeout(() => {
-            navigation.replace('dashboard', {authUser: JSON.parse(value)}); // navigate to Admin dashboard
+            navigation.replace('dashboard', { authUser: JSON.parse(value) }); // navigate to Admin dashboard
           }, 2000);
         } else {
           setTimeout(() => {
-            navigation.replace('tab', {user: JSON.parse(value)}); // navigate to User Home screen
+            navigation.replace('tab', { user: JSON.parse(value) }); // navigate to User Home screen
           }, 2000);
         }
       } else {

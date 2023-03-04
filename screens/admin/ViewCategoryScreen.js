@@ -8,17 +8,17 @@ import {
   RefreshControl,
   Alert,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {colors, network} from '../../constants';
-import {Ionicons} from 'react-native-vector-icons';
-import {AntDesign} from 'react-native-vector-icons';
+import React, { useState, useEffect } from 'react';
+import { colors, network } from '../../constants';
+import { Ionicons } from 'react-native-vector-icons';
+import { AntDesign } from 'react-native-vector-icons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CustomInput from '../../components/CustomInput/';
 import ProgressDialog from 'react-native-progress-dialog';
 import CategoryList from '../../components/CategoryList';
 
-const ViewCategoryScreen = ({navigation, route}) => {
-  const {authUser} = route.params;
+const ViewCategoryScreen = ({ navigation, route }) => {
+  const { authUser } = route.params;
   const [user, setUser] = useState({});
 
   const getToken = obj => {
@@ -160,7 +160,7 @@ const ViewCategoryScreen = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <ProgressDialog visible={isloading} label={label} />
-      <StatusBar></StatusBar>
+      <StatusBar />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -174,7 +174,7 @@ const ViewCategoryScreen = ({navigation, route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('addcategories', {authUser: authUser});
+            navigation.navigate('addcategories', { authUser: authUser });
           }}>
           <AntDesign name="plussquare" size={30} color={colors.muted} />
         </TouchableOpacity>
@@ -195,7 +195,7 @@ const ViewCategoryScreen = ({navigation, route}) => {
         setValue={setFilterItem}
       />
       <ScrollView
-        style={{flex: 1, width: '100%'}}
+        style={{ flex: 1, width: '100%' }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />

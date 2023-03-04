@@ -6,18 +6,18 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import UserProfileCard from '../../components/UserProfileCard/UserProfileCard';
-import {Ionicons} from 'react-native-vector-icons';
-import {MaterialIcons} from 'react-native-vector-icons';
+import { Ionicons } from 'react-native-vector-icons';
+import { MaterialIcons } from 'react-native-vector-icons';
 import OptionList from '../../components/OptionList/OptionList';
-import {network} from '../../constants';
+import { network } from '../../constants';
 
-const MyAccountScreen = ({navigation, route}) => {
+const MyAccountScreen = ({ navigation, route }) => {
   const [showBox, setShowBox] = useState(true);
   const [error, setError] = useState('');
-  const {user} = route.params;
-  const userID = user['_id'];
+  const { user } = route.params;
+  const userID = user._id;
 
   //method for alert
   const showConfirmDialog = id => {
@@ -62,7 +62,7 @@ const MyAccountScreen = ({navigation, route}) => {
   };
   return (
     <View style={styles.container}>
-      <StatusBar style="auto"></StatusBar>
+      <StatusBar style="auto" />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -79,11 +79,7 @@ const MyAccountScreen = ({navigation, route}) => {
         <Text style={styles.screenNameText}>My Account</Text>
       </View>
       <View style={styles.UserProfileCardContianer}>
-        <UserProfileCard
-          Icon={Ionicons}
-          name={user['name']}
-          email={user['email']}
-        />
+        <UserProfileCard Icon={Ionicons} name={user.name} email={user.email} />
       </View>
       <View style={styles.OptionsContainer}>
         <OptionList

@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import {colors} from '../../constants';
+import { colors } from '../../constants';
 
-const UserProfileCard = ({Icon, name, email}) => {
+const UserProfileCard = ({ Icon, name, email }) => {
   return (
     <View style={styles.Container}>
       <View style={styles.avatarContainer}>

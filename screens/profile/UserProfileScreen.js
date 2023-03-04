@@ -5,16 +5,16 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import UserProfileCard from '../../components/UserProfileCard/UserProfileCard';
-import {Ionicons} from 'react-native-vector-icons';
+import { Ionicons } from 'react-native-vector-icons';
 import OptionList from '../../components/OptionList/OptionList';
-import {colors} from '../../constants';
+import { colors } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const UserProfileScreen = ({navigation, route}) => {
+const UserProfileScreen = ({ navigation, route }) => {
   const [userInfo, setUserInfo] = useState({});
-  const {user} = route.params;
+  const { user } = route.params;
 
   const convertToJSON = obj => {
     try {
@@ -30,7 +30,7 @@ const UserProfileScreen = ({navigation, route}) => {
   }, []);
   return (
     <View style={styles.container}>
-      <StatusBar style="auto"></StatusBar>
+      <StatusBar style="auto" />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity>
           <Ionicons name="menu-sharp" size={30} color={colors.primary} />
@@ -51,13 +51,13 @@ const UserProfileScreen = ({navigation, route}) => {
           text={'My Account'}
           Icon={Ionicons}
           iconName={'person'}
-          onPress={() => navigation.navigate('myaccount', {user: userInfo})}
+          onPress={() => navigation.navigate('myaccount', { user: userInfo })}
         />
         <OptionList
           text={'Wishlist'}
           Icon={Ionicons}
           iconName={'heart'}
-          onPress={() => navigation.navigate('mywishlist', {user: userInfo})}
+          onPress={() => navigation.navigate('mywishlist', { user: userInfo })}
         />
 
         {/* !For future use --- */}

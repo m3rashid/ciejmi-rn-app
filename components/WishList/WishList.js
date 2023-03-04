@@ -1,7 +1,7 @@
-import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import {Ionicons} from 'react-native-vector-icons';
-import {colors} from '../../constants';
+import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { Ionicons } from 'react-native-vector-icons';
+import { colors } from '../../constants';
 
 const WishList = ({
   image = '',
@@ -19,8 +19,8 @@ const WishList = ({
       <View style={styles.detailContainer}>
         <View style={styles.imageContainer}>
           <Image
-            source={{uri: image}}
-            style={{height: 40, width: 'auto', resizeMode: 'contain'}}
+            source={{ uri: image }}
+            style={{ height: 40, width: 'auto', resizeMode: 'contain' }}
           />
         </View>
         <View style={styles.categoryInfo}>

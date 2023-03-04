@@ -7,24 +7,24 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
-import {Ionicons} from 'react-native-vector-icons';
-import React, {useState, useEffect} from 'react';
+import { Ionicons } from 'react-native-vector-icons';
+import React, { useState, useEffect } from 'react';
 import BasicProductList from '../../components/BasicProductList/BasicProductList';
-import {colors, network} from '../../constants';
+import { colors, network } from '../../constants';
 import CustomButton from '../../components/CustomButton';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomInput from '../../components/CustomInput';
 import ProgressDialog from 'react-native-progress-dialog';
 
-const CheckoutScreen = ({navigation, route}) => {
+const CheckoutScreen = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isloading, setIsloading] = useState(false);
   const cartproduct = useSelector(state => state.product);
   const dispatch = useDispatch();
-  const {emptyCart} = bindActionCreators(actionCreaters, dispatch);
+  const { emptyCart } = bindActionCreators(actionCreaters, dispatch);
 
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
@@ -120,7 +120,7 @@ const CheckoutScreen = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar></StatusBar>
+      <StatusBar />
       <ProgressDialog visible={isloading} label={'Placing Order...'} />
       <View style={styles.topBarContainer}>
         <TouchableOpacity
@@ -133,8 +133,8 @@ const CheckoutScreen = ({navigation, route}) => {
             color={colors.muted}
           />
         </TouchableOpacity>
-        <View></View>
-        <View></View>
+        <View />
+        <View />
       </View>
       <ScrollView style={styles.bodyContainer} nestedScrollEnabled={true}>
         <Text style={styles.primaryText}>Order Summary</Text>
@@ -210,7 +210,7 @@ const CheckoutScreen = ({navigation, route}) => {
           </View>
         </View>
 
-        <View style={styles.emptyView}></View>
+        <View style={styles.emptyView} />
       </ScrollView>
       <View style={styles.buttomContainer}>
         {country && city && streetAddress != '' ? (

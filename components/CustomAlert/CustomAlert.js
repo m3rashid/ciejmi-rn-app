@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import {colors} from '../../constants';
+import { colors } from '../../constants';
 
-const CustomAlert = ({message, type}) => {
+const CustomAlert = ({ message, type }) => {
   return (
-    <View style={{width: '100%'}}>
+    <View style={{ width: '100%' }}>
       {message != '' ? (
         <View style={[styles.alertContainer, styles[`alertContainer_${type}`]]}>
           <Text>{message}</Text>
