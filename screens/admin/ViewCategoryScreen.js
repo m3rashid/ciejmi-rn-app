@@ -35,7 +35,7 @@ const ViewCategoryScreen = ({ navigation, route }) => {
   const [refeshing, setRefreshing] = useState(false);
   const [alertType, setAlertType] = useState('error');
 
-  const [label, setLabel] = useState('Loading...');
+  const [label, setLabel] = useState('Loading . . .');
   const [error, setError] = useState('');
   const [categories, setCategories] = useState([]);
   const [foundItems, setFoundItems] = useState([]);
@@ -147,12 +147,10 @@ const ViewCategoryScreen = ({ navigation, route }) => {
     }
   };
 
-  //filter the data whenever filteritem value change
   useEffect(() => {
     filter();
   }, [filterItem]);
 
-  //fetch the categories on initial render
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -169,33 +167,32 @@ const ViewCategoryScreen = ({ navigation, route }) => {
           <Ionicons
             name="arrow-back-circle-outline"
             size={30}
-            color={colors.muted}
+            color={colors.primary}
           />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('addcategories', { authUser: authUser });
           }}>
-          <AntDesign name="plussquare" size={30} color={colors.muted} />
+          <AntDesign name="plussquare" size={30} color={colors.primary} />
         </TouchableOpacity>
       </View>
+
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>View Categories</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>View all Categories</Text>
-        </View>
+        <Text style={styles.screenNameText}>Categories</Text>
       </View>
       <CustomAlert message={error} type={alertType} />
+
       <CustomInput
+        ioniconName='search'
         radius={5}
-        placeholder={'Search...'}
+        placeholder='Search . . .'
         value={filterItem}
         setValue={setFilterItem}
       />
+
       <ScrollView
-        style={{ flex: 1, width: '100%' }}
+        style={{ flex: 1, width: '100%', marginTop: 10 }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />
@@ -231,7 +228,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -262,6 +259,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -270,7 +269,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

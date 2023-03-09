@@ -52,8 +52,7 @@ const LoginScreen = ({ navigation }) => {
   //method to validate the user credentials and navigate to Home Screen / Dashboard
   const loginHandle = () => {
     setIsloading(true);
-    //[check validation] -- Start
-    // if email does not contain @ sign
+
     if (email == '') {
       setIsloading(false);
       return setError('Please enter your email');
@@ -66,17 +65,10 @@ const LoginScreen = ({ navigation }) => {
       setIsloading(false);
       return setError('Email is not valid');
     }
-    // length of email must be greater than 5 characters
     if (email.length < 6) {
       setIsloading(false);
       return setError('Email is too short');
     }
-    // length of password must be greater than 5 characters
-    // if (password.length < 6) {
-    // setIsloading(false);
-    // return setError("Password must be 6 characters long");
-    // }
-    //[check validation] -- End
 
     fetch(network.serverip + '/login', requestOptions) // API call
       .then(response => response.json())
@@ -107,7 +99,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <InternetConnectionAlert onChange={connectionState => {}}>
+    <InternetConnectionAlert>
       <KeyboardAvoidingView
         // behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}>
@@ -117,10 +109,8 @@ const LoginScreen = ({ navigation }) => {
           <View style={styles.welconeContainer}>
             <View>
               <Text style={styles.welcomeText}>Welcome to CIE-JMI</Text>
-              {/* <Text style={styles.welcomeParagraph}>
-                make your ecommerce easy
-              </Text> */}
             </View>
+
             <View>
               <Image style={styles.logo} source={header_logo} />
             </View>
@@ -131,17 +121,19 @@ const LoginScreen = ({ navigation }) => {
           <View style={styles.formContainer}>
             <CustomAlert message={error} type={'error'} />
             <CustomInput
+              ioniconName="ios-at-outline"
               value={email}
               setValue={setEmail}
-              placeholder={'Username'}
+              placeholder='Email'
               placeholderTextColor={colors.muted}
               radius={5}
             />
             <CustomInput
+              ioniconName="ios-lock-closed-outline"
               value={password}
               setValue={setPassword}
               secureTextEntry={true}
-              placeholder={'Password'}
+              placeholder='Password'
               placeholderTextColor={colors.muted}
               radius={5}
             />
@@ -149,20 +141,20 @@ const LoginScreen = ({ navigation }) => {
               <Text
                 onPress={() => navigation.navigate('forgetpassword')}
                 style={styles.ForgetText}>
-                Forget Password?
+                Forgot Password ?
               </Text>
             </View>
           </View>
         </ScrollView>
         <View style={styles.buttomContainer}>
-          <CustomButton text={'Login'} onPress={loginHandle} />
+          <CustomButton text='Login' onPress={loginHandle} />
         </View>
         <View style={styles.bottomContainer}>
-          <Text>Don't have an account?</Text>
+          <Text>Don't have an account? </Text>
           <Text
             onPress={() => navigation.navigate('signup')}
             style={styles.signupText}>
-            signup
+            Signup
           </Text>
         </View>
       </KeyboardAvoidingView>
@@ -179,7 +171,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   welconeContainer: {
@@ -188,8 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: '30%',
-    // padding:15
+    height: '30%'
   },
   formContainer: {
     flex: 3,
@@ -205,7 +196,7 @@ const styles = StyleSheet.create({
     width: 80,
   },
   welcomeText: {
-    fontSize: 42,
+    fontSize: 30,
     fontWeight: 'bold',
     color: colors.muted,
   },
@@ -245,6 +236,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -252,7 +245,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: '800',
     color: colors.muted,
   },

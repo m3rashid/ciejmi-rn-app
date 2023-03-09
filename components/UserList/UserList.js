@@ -31,10 +31,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.white,
     height: 70,
-    borderRadius: 10,
+    borderRadius: 5,
     elevation: 2,
-    marginLeft: 10,
-    marginRight: 10,
     margin: 5,
   },
   profileContainer: {

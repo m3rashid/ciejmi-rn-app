@@ -14,7 +14,6 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import * as ImagePicker from 'react-native-image-picker';
 import ProgressDialog from 'react-native-progress-dialog';
 import { useEffect } from 'react';
@@ -168,7 +167,6 @@ const AddProductScreen = ({ navigation, route }) => {
       setError('Please upload the product image');
       setIsloading(false);
     } else {
-      //[check validation] -- End
       fetch(network.serverip + '/product', requestOptions)
         .then(response => response.json())
         .then(result => {
@@ -188,7 +186,6 @@ const AddProductScreen = ({ navigation, route }) => {
     }
   };
 
-  //call the fetch functions initial render
   useEffect(() => {
     fetchCategories();
     console.log(categories);
@@ -197,7 +194,7 @@ const AddProductScreen = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar />
-      <ProgressDialog visible={isloading} label={'Adding ...'} />
+      <ProgressDialog visible={isloading} label={'Adding . . .'} />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -211,15 +208,12 @@ const AddProductScreen = ({ navigation, route }) => {
           />
         </TouchableOpacity>
       </View>
+
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>Add Product</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>Add product details</Text>
-        </View>
+        <Text style={styles.screenNameText}>Add Product</Text>
       </View>
-      <CustomAlert message={error} type={alertType} />
+
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ flex: 1, width: '100%' }}>
@@ -295,7 +289,7 @@ const AddProductScreen = ({ navigation, route }) => {
         style={{ borderColor: '#fff', elevation: 5 }}
       />
       <View style={styles.buttomContainer}>
-        <CustomButton text={'Add Product'} onPress={addProductHandle} />
+        <CustomButton text='Add Product' onPress={addProductHandle} />
       </View>
     </KeyboardAvoidingView>
   );
@@ -309,7 +303,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -341,6 +335,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -348,7 +344,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

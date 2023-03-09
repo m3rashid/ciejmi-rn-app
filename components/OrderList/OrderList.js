@@ -8,6 +8,7 @@ function getTime(date) {
   const minutes = ('0' + t.getMinutes()).slice(-2);
   const seconds = ('0' + t.getSeconds()).slice(-2);
   let time = `${hours}:${minutes}:${seconds}`;
+
   // Check correct time format and split into components
   time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [
     time,
@@ -77,7 +78,7 @@ const OrderList = ({ item, onPress }) => {
       )}
       <View style={styles.innerRow}>
         <Text style={styles.secondaryText}>Quantity : {quantity}</Text>
-        <Text style={styles.secondaryText}>Total Amount : {totalCost}$</Text>
+        <Text style={styles.secondaryText}>Total Amount : ₹ {totalCost}</Text>
       </View>
       <View style={styles.innerRow}>
         <TouchableOpacity style={styles.detailButton} onPress={onPress}>
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 'auto',
     backgroundColor: colors.white,
-    borderRadius: 10,
+    borderRadius: 5,
     padding: 10,
     marginBottom: 10,
     elevation: 1,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 5,
     borderWidth: 1,
     padding: 5,
     borderColor: colors.muted,

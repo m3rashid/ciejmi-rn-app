@@ -104,13 +104,11 @@ const MyWishlistScreen = ({ navigation, route }) => {
       });
   };
 
-  //fetch the wishlist on initial render
   useEffect(() => {
     setError('');
     fetchWishlist();
   }, []);
 
-  //fetch the wishlist data from server whenever the value of onWishList change
   useEffect(() => {
     fetchWishlist();
   }, [onWishlist]);
@@ -135,16 +133,11 @@ const MyWishlistScreen = ({ navigation, route }) => {
           <Ionicons name="heart-outline" size={30} color={colors.primary} />
         </TouchableOpacity>
       </View>
+
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>My Wishlist</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>
-            View , add or remove products from wishlist for later purchase
-          </Text>
-        </View>
+        <Text style={styles.screenNameText}>My Wishlist</Text>
       </View>
+
       <CustomAlert message={error} type={alertType} />
       {wishlist.length == 0 ? (
         <View style={styles.ListContiainerEmpty}>
@@ -207,7 +200,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   screenNameContainer: {
-    padding: 20,
+    padding: 12,
     paddingTop: 0,
     paddingBottom: 0,
     width: '100%',
@@ -217,7 +210,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

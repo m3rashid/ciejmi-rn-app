@@ -154,16 +154,16 @@ const CheckoutScreen = ({ navigation, route }) => {
         <View style={styles.totalOrderInfoContainer}>
           <View style={styles.list}>
             <Text>Order</Text>
-            <Text>{totalCost}$</Text>
+            <Text>₹ {totalCost}</Text>
           </View>
           <View style={styles.list}>
             <Text>Delivery</Text>
-            <Text>{deliveryCost}$</Text>
+            <Text>₹ {deliveryCost}</Text>
           </View>
           <View style={styles.list}>
             <Text style={styles.primaryTextSm}>Total</Text>
             <Text style={styles.secondaryTextSm}>
-              {totalCost + deliveryCost}$
+              ₹ {totalCost + deliveryCost}
             </Text>
           </View>
         </View>
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
     width: 320,
     height: 400,
     backgroundColor: colors.white,
-    borderRadius: 20,
+    borderRadius: 10,
     elevation: 3,
   },
 });

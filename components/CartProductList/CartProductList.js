@@ -40,7 +40,7 @@ const CartProductList = ({
               <Text style={styles.productTitle}>{title}</Text>
               <Text style={styles.productQuantitySm}>x{quantity}</Text>
               <View style={styles.productListBottomContainer}>
-                <Text style={styles.productPrice}>{price * quantity} $</Text>
+                <Text style={styles.productPrice}>₹ {price * quantity}</Text>
 
                 <View style={styles.counter}>
                   <TouchableOpacity
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.white,
     height: 120,
-    borderRadius: 15,
+    borderRadius: 5,
     width: '100%',
     padding: 10,
     marginBottom: 10,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   containerOuter: {
     backgroundColor: colors.primary_light,
     height: 120,
-    borderRadius: 15,
+    borderRadius: 5,
     width: '100%',
     marginBottom: 10,
   },
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     backgroundColor: colors.light,
-    borderRadius: 10,
+    borderRadius: 5,
   },
   productInfoContainer: {
     padding: 10,
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.muted,
-    borderRadius: 15,
+    borderRadius: 5,
     elevation: 2,
   },
   counterButtonText: {

@@ -4,6 +4,7 @@ import {
   View,
   StatusBar,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import UserProfileCard from '../../components/UserProfileCard/UserProfileCard';
@@ -16,6 +17,25 @@ const UserProfileScreen = ({ navigation, route }) => {
   const [userInfo, setUserInfo] = useState({});
   const { user } = route.params;
 
+  const handleLogout = async () => {
+    return Alert.alert(
+      'Logout from CIE-JMI ?',
+      'Are you sure you want to logout ?',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Logout',
+          onPress: async () => {
+            await AsyncStorage.removeItem('authUser');
+            navigation.replace('login');
+          },
+        },
+      ],
+    );
+  }
+
   const convertToJSON = obj => {
     try {
       setUserInfo(JSON.parse(obj));
@@ -24,21 +44,17 @@ const UserProfileScreen = ({ navigation, route }) => {
     }
   };
 
-  // covert  the user to Json object on initial render
   useEffect(() => {
     convertToJSON(user);
   }, []);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <View style={styles.TopBarContainer}>
-        <TouchableOpacity>
-          <Ionicons name="menu-sharp" size={30} color={colors.primary} />
-        </TouchableOpacity>
-      </View>
       <View style={styles.screenNameContainer}>
         <Text style={styles.screenNameText}>Profile</Text>
       </View>
+
       <View style={styles.UserProfileCardContianer}>
         <UserProfileCard
           Icon={Ionicons}
@@ -46,43 +62,27 @@ const UserProfileScreen = ({ navigation, route }) => {
           email={userInfo?.email}
         />
       </View>
+
       <View style={styles.OptionsContainer}>
         <OptionList
-          text={'My Account'}
+          text='My Account'
           Icon={Ionicons}
-          iconName={'person'}
+          iconName='person'
           onPress={() => navigation.navigate('myaccount', { user: userInfo })}
         />
+
         <OptionList
-          text={'Wishlist'}
+          text='Wishlist'
           Icon={Ionicons}
-          iconName={'heart'}
+          iconName='heart'
           onPress={() => navigation.navigate('mywishlist', { user: userInfo })}
         />
 
-        {/* !For future use --- */}
-        {/* <OptionList
-          text={"Settings"}
-          Icon={Ionicons}
-          iconName={"settings-sharp"}
-          onPress={() => console.log("working....")}
-        />
         <OptionList
-          text={"Help Center"}
+          text='Logout'
           Icon={Ionicons}
-          iconName={"help-circle"}
-          onPress={() => console.log("working....")}
-        /> */}
-        {/* !For future use ---- End */}
-
-        <OptionList
-          text={'Logout'}
-          Icon={Ionicons}
-          iconName={'log-out'}
-          onPress={async () => {
-            await AsyncStorage.removeItem('authUser');
-            navigation.replace('login');
-          }}
+          iconName='log-out'
+          onPress={handleLogout}
         />
       </View>
     </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -114,17 +114,20 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
+    paddingLeft: 3,
   },
   OptionsContainer: {
     width: '100%',

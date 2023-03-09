@@ -5,23 +5,22 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  FlatList,
-  RefreshControl,
+  Alert,
+  Image,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../constants';
-import CustomCard from '../../components/CustomCard/CustomCard';
 import OptionList from '../../components/OptionList/OptionList';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProgressDialog from 'react-native-progress-dialog';
+import easybuylogo from '../../assets/logo/logo.png';
 
 const DashboardScreen = ({ navigation, route }) => {
   const { authUser } = route.params;
   const [user, setUser] = useState(authUser);
-  const [label, setLabel] = useState('Loading...');
+  const [label, setLabel] = useState('Loading . . .');
   const [error, setError] = useState('');
   const [isloading, setIsloading] = useState(false);
   const [data, setData] = useState([]);
@@ -101,52 +100,63 @@ const DashboardScreen = ({ navigation, route }) => {
       });
   };
 
-  //method call on Pull refresh
   const handleOnRefresh = () => {
     setRefreshing(true);
     fetchStats();
     setRefreshing(false);
   };
 
-  //call the fetch function initial render
+  const handleLogout = async () => {
+    return Alert.alert(
+      'Logout from CIE-JMI ?',
+      'Are you sure you want to logout ?',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Logout',
+          onPress: async () => {
+            await AsyncStorage.removeItem('authUser');
+            navigation.replace('login');
+          },
+        },
+      ],
+    );
+  }
+
   useEffect(() => {
     fetchStats();
   }, []);
 
   return (
-    <InternetConnectionAlert onChange={connectionState => { }}>
+    <InternetConnectionAlert>
       <View style={styles.container}>
         <StatusBar />
         <ProgressDialog visible={isloading} label={label} />
         <View style={styles.topBarContainer}>
           <TouchableOpacity
-            onPress={async () => {
-              await AsyncStorage.removeItem('authUser');
-              navigation.replace('login');
-            }}>
+            onPress={handleLogout}>
             <Ionicons name="log-out" size={30} color={colors.muted} />
           </TouchableOpacity>
-          <View>
-            <Text style={styles.toBarText}>Dashboard</Text>
+
+          <View style={styles.topbarlogoContainer}>
+            <Image source={easybuylogo} style={styles.logo} />
+            <Text style={styles.toBarText}>CIE-JMI</Text>
           </View>
-          <TouchableOpacity>
-            {/* <Ionicons
-              name="person-circle-outline"
-              size={30}
-              color={colors.muted}
-            /> */}
-          </TouchableOpacity>
         </View>
+
+
         <View style={styles.headingContainer}>
-          <MaterialCommunityIcons name="menu-right" size={30} color="black" />
           <Text style={styles.headingText}>Welcome, Admin</Text>
         </View>
-        <View style={{ flex: 1, width: '100%' }}>
+
+        <View style={{ flex: 1, width: '103%' }}>
           <ScrollView style={styles.actionContainer}>
             <OptionList
-              text={'Products'}
+              text='Products'
               Icon={Ionicons}
-              iconName={'md-square'}
+              iconName='md-square'
               onPress={() =>
                 navigation.navigate('viewproduct', { authUser: user })
               }
@@ -156,9 +166,9 @@ const DashboardScreen = ({ navigation, route }) => {
               type="morden"
             />
             <OptionList
-              text={'Categories'}
+              text='Categories'
               Icon={Ionicons}
-              iconName={'menu'}
+              iconName='menu'
               onPress={() =>
                 navigation.navigate('viewcategories', { authUser: user })
               }
@@ -168,18 +178,18 @@ const DashboardScreen = ({ navigation, route }) => {
               type="morden"
             />
             <OptionList
-              text={'Orders'}
+              text='Orders'
               Icon={Ionicons}
-              iconName={'cart'}
+              iconName='cart'
               onPress={() =>
                 navigation.navigate('vieworder', { authUser: user })
               }
               type="morden"
             />
             <OptionList
-              text={'Users'}
+              text='Users'
               Icon={Ionicons}
-              iconName={'person'}
+              iconName='person'
               onPress={() =>
                 navigation.navigate('viewusers', { authUser: user })
               }
@@ -197,6 +207,23 @@ const DashboardScreen = ({ navigation, route }) => {
 export default DashboardScreen;
 
 const styles = StyleSheet.create({
+  topbarlogoContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 40,
+  },
+  logo: {
+    height: 40,
+    width: 40,
+    resizeMode: 'contain',
+  },
+  toBarText: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
   container: {
     width: '100%',
     flexDirecion: 'row',
@@ -209,7 +236,7 @@ const styles = StyleSheet.create({
   topBarContainer: {
     width: '100%',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
@@ -239,6 +266,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.muted,
     fontWeight: '800',
+    paddingLeft: 10,
   },
   actionContainer: { padding: 20, width: '100%', flex: 1 },
 });

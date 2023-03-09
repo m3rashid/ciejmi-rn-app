@@ -248,7 +248,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
               </View>
               <View style={styles.productPriceContainer}>
                 <Text style={styles.secondaryTextSm}>Price:</Text>
-                <Text style={styles.primaryTextSm}>{product?.price}$</Text>
+                <Text style={styles.primaryTextSm}>₹ {product?.price}</Text>
               </View>
             </View>
             <View style={styles.productDescriptionContainer}>

@@ -78,9 +78,11 @@ const MyAccountScreen = ({ navigation, route }) => {
       <View style={styles.screenNameContainer}>
         <Text style={styles.screenNameText}>My Account</Text>
       </View>
+
       <View style={styles.UserProfileCardContianer}>
         <UserProfileCard Icon={Ionicons} name={user.name} email={user.email} />
       </View>
+
       <View style={styles.OptionsContainer}>
         <OptionList
           text={'Change Password'}
@@ -94,9 +96,9 @@ const MyAccountScreen = ({ navigation, route }) => {
           }
         />
         <OptionList
-          text={'Delete My Account'}
+          text='Delete My Account'
           Icon={MaterialIcons}
-          iconName={'delete'}
+          iconName='delete'
           type={'danger'}
           onPress={() => showConfirmDialog(userID)}
         />
@@ -130,6 +132,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

@@ -23,7 +23,7 @@ const ViewProductScreen = ({ navigation, route }) => {
   const [refeshing, setRefreshing] = useState(false);
   const [alertType, setAlertType] = useState('error');
 
-  const [label, setLabel] = useState('Loading...');
+  const [label, setLabel] = useState('Loading . . .');
   const [error, setError] = useState('');
   const [products, setProducts] = useState([]);
   const [foundItems, setFoundItems] = useState([]);
@@ -129,12 +129,10 @@ const ViewProductScreen = ({ navigation, route }) => {
     }
   };
 
-  //filter the data whenever filteritem value change
   useEffect(() => {
     filter();
   }, [filterItem]);
 
-  //fetch the categories on initial render
   useEffect(() => {
     fetchProduct();
   }, []);
@@ -151,31 +149,30 @@ const ViewProductScreen = ({ navigation, route }) => {
           <Ionicons
             name="arrow-back-circle-outline"
             size={30}
-            color={colors.muted}
+            color={colors.primary}
           />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('addproduct', { authUser: authUser });
           }}>
-          <AntDesign name="plussquare" size={30} color={colors.muted} />
+          <AntDesign name="plussquare" size={30} color={colors.primary} />
         </TouchableOpacity>
       </View>
+
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>View Product</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>View all products</Text>
-        </View>
+        <Text style={styles.screenNameText}>Products</Text>
       </View>
       <CustomAlert message={error} type={alertType} />
+
       <CustomInput
         radius={5}
-        placeholder={'Search...'}
+        ioniconName='search'
+        placeholder='Search . . .'
         value={filterItem}
         setValue={setFilterItem}
       />
+
       <ScrollView
         style={{ flex: 1, width: '100%' }}
         showsVerticalScrollIndicator={false}
@@ -223,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -261,7 +258,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

@@ -136,12 +136,7 @@ const EditProductScreen = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>Edit Product</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>Edit product details</Text>
-        </View>
+        <Text style={styles.screenNameText}>Edit Product</Text>
       </View>
       <CustomAlert message={error} type={'error'} />
       <ScrollView style={{ flex: 1, width: '100%' }}>
@@ -214,7 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -245,6 +240,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -252,7 +249,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

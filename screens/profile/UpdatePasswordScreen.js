@@ -69,15 +69,9 @@ const UpdatePasswordScreen = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>Update Password</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>
-            Your new password must be different from previous used password
-          </Text>
-        </View>
+        <Text style={styles.screenNameText}>Update Password</Text>
       </View>
+
       <View style={styles.formContainer}>
         <CustomAlert message={error} type={alertType} />
         <CustomInput
@@ -127,6 +121,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -134,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

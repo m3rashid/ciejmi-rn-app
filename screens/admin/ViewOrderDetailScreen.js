@@ -137,9 +137,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>Order Details</Text>
-        </View>
+        <Text style={styles.screenNameText}>Order Details</Text>
         <View>
           <Text style={styles.screenNameParagraph}>
             View all detail about order
@@ -216,7 +214,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
           </ScrollView>
           <View style={styles.orderItemContainer}>
             <Text style={styles.orderItemText}>Total</Text>
-            <Text>{totalCost}$</Text>
+            <Text>₹ {totalCost}</Text>
           </View>
         </View>
         <View style={styles.emptyView} />
@@ -276,6 +274,8 @@ const styles = StyleSheet.create({
 
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

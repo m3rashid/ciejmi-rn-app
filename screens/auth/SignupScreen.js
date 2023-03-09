@@ -75,10 +75,7 @@ const SignupScreen = ({ navigation }) => {
       .catch(error => console.log('error', setError(error.message)));
   };
   return (
-    <InternetConnectionAlert
-      onChange={connectionState => {
-        console.log('Connection State: ', connectionState);
-      }}>
+    <InternetConnectionAlert>
       <KeyboardAvoidingView style={styles.container}>
         <StatusBar />
         <View style={styles.TopBarContainer}>
@@ -111,6 +108,7 @@ const SignupScreen = ({ navigation }) => {
           <View style={styles.formContainer}>
             <CustomAlert message={error} type={'error'} />
             <CustomInput
+              ioniconName="person-outline"
               value={name}
               setValue={setName}
               placeholder={'Name'}
@@ -118,6 +116,7 @@ const SignupScreen = ({ navigation }) => {
               radius={5}
             />
             <CustomInput
+              ioniconName='ios-at-outline'
               value={email}
               setValue={setEmail}
               placeholder={'Email'}
@@ -125,6 +124,7 @@ const SignupScreen = ({ navigation }) => {
               radius={5}
             />
             <CustomInput
+              ioniconName='ios-lock-closed-outline'
               value={password}
               setValue={setPassword}
               secureTextEntry={true}
@@ -133,6 +133,7 @@ const SignupScreen = ({ navigation }) => {
               radius={5}
             />
             <CustomInput
+              ioniconName="ios-lock-closed-outline"
               value={confirmPassword}
               setValue={setConfirmPassword}
               secureTextEntry={true}
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -226,6 +227,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -233,7 +236,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

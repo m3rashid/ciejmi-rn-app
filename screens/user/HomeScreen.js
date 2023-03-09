@@ -9,10 +9,8 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
 import React, { useEffect, useState } from 'react';
 import cartIcon from '../../assets/icons/cart_beg.png';
-import scanIcon from '../../assets/icons/scan_icons.png';
 import easybuylogo from '../../assets/logo/logo.png';
 import { colors } from '../../constants';
 import CustomIconButton from '../../components/CustomIconButton/CustomIconButton';
@@ -23,6 +21,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { SliderBox } from 'react-native-image-slider-box';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const category = [
   {
@@ -104,7 +103,6 @@ const HomeScreen = ({ navigation, route }) => {
     setRefreshing(false);
   };
 
-  //convert user to json and fetch products in initial render
   useEffect(() => {
     convertToJSON(user);
     fetchProduct();
@@ -114,13 +112,12 @@ const HomeScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <StatusBar />
       <View style={styles.topBarContainer}>
-        <TouchableOpacity disabled>
-          {/* <Ionicons name="menu" size={30} color={colors.muted} /> */}
-        </TouchableOpacity>
+
         <View style={styles.topbarlogoContainer}>
           <Image source={easybuylogo} style={styles.logo} />
           <Text style={styles.toBarText}>CIE-JMI</Text>
         </View>
+
         <TouchableOpacity
           style={styles.cartIconContainer}
           onPress={() => navigation.navigate('cart')}>
@@ -134,25 +131,23 @@ const HomeScreen = ({ navigation, route }) => {
           <Image source={cartIcon} />
         </TouchableOpacity>
       </View>
+
       <View style={styles.bodyContainer}>
         <View style={styles.searchContainer}>
           <View style={styles.inputContainer}>
+            <Ionicons name="search" size={24} />
+
             <SearchableDropdown
-              onTextChange={text => console.log(text)}
-              onItemSelect={item => handleProductPress(item)}
+              onTextChange={(text) => console.log(text)}
+              onItemSelect={(item) => handleProductPress(item)}
               defaultIndex={0}
               containerStyle={{
-                borderRadius: 5,
-                width: '100%',
-                elevation: 5,
-                position: 'absolute',
-                zIndex: 20,
-                top: -20,
+                width: '90%',
                 maxHeight: 300,
                 backgroundColor: colors.light,
               }}
               textInputStyle={{
-                borderRadius: 10,
+                borderRadius: 5,
                 padding: 6,
                 paddingLeft: 10,
                 borderWidth: 0,
@@ -160,7 +155,6 @@ const HomeScreen = ({ navigation, route }) => {
               }}
               itemStyle={{
                 padding: 10,
-                marginTop: 2,
                 backgroundColor: colors.white,
                 borderColor: colors.muted,
               }}
@@ -171,17 +165,12 @@ const HomeScreen = ({ navigation, route }) => {
                 maxHeight: '100%',
               }}
               items={searchItems}
-              placeholder="Search..."
+              placeholder="Search . . ."
               resetValue={false}
               underlineColorAndroid="transparent"
             />
           </View>
-          {/* <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.scanButton}>
-              <Text style={styles.scanButtonText}>Scan</Text>
-              <Image source={scanIcon} style={{ width: 20, height: 20 }} />
-            </TouchableOpacity>
-          </View> */}
+
         </View>
         <ScrollView nestedScrollEnabled={true}>
           <View style={styles.promotiomSliderContainer}>
@@ -194,9 +183,11 @@ const HomeScreen = ({ navigation, route }) => {
               autoplayInterval={6000}
             />
           </View>
+
           <View style={styles.primaryTextContainer}>
             <Text style={styles.primaryText}>Categories</Text>
           </View>
+
           <View style={styles.categoryContainer}>
             <FlatList
               showsHorizontalScrollIndicator={false}
@@ -284,22 +275,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    padding: 15,
   },
   toBarText: {
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: '600',
   },
   topbarlogoContainer: {
     display: 'flex',
+    flexDirection: 'row',
+    gap: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 20,
+    height: 40,
   },
   bodyContainer: {
     width: '100%',
     flexDirecion: 'row',
-
     paddingBottom: 0,
     flex: 1,
   },
@@ -311,8 +303,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   logo: {
-    height: 30,
-    width: 30,
+    height: 40,
+    width: 40,
     resizeMode: 'contain',
   },
   secondaryText: {
@@ -329,10 +321,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   inputContainer: {
-    width: '70%',
+    width: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: colors.white,
+    height: '100%',
+    borderRadius: 5,
+    height: 40,
+    elevation: 5
   },
   buttonContainer: {
     width: '20%',
@@ -345,7 +343,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: 10,
+    borderRadius: 5,
     height: 40,
     width: '100%',
   },
@@ -355,14 +353,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   primaryTextContainer: {
-    padding: 20,
+    paddingLeft: 12,
+    paddingTop: 20,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     width: '100%',
-    paddingTop: 10,
-    paddingBottom: 10,
   },
   primaryText: {
     fontSize: 20,
@@ -375,7 +372,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   promotiomSliderContainer: {
-    margin: 5,
     height: 140,
     backgroundColor: colors.light,
   },
@@ -386,9 +382,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 60,
-    marginLeft: 10,
   },
-  emptyView: { width: 30 },
+  emptyView: {
+    // width: 30
+  },
   productCardContainer: {
     paddingLeft: 10,
     display: 'flex',
@@ -397,8 +394,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 240,
-    marginLeft: 10,
-    paddingTop: 0,
   },
   productCardContainerEmpty: {
     padding: 10,

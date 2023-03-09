@@ -28,23 +28,21 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     display: 'flex',
-    width: '40%',
-
+    width: 120,
+    height: 120,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.primary_light,
-    borderRadius: 20,
-    padding: 10,
+    borderRadius: 15,
+    padding: 15,
   },
   infoContainer: {
     display: 'flex',
     width: '50%',
-
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     backgroundColor: colors.light,
-
-    paddingLeft: 10,
+    paddingLeft: 20,
   },
   usernameText: {
     fontWeight: 'bold',

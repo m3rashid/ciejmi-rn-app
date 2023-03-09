@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: colors.white,
     height: 80,
-    borderRadius: 10,
+    borderRadius: 5,
     elevation: 5,
     margin: 5,
   },
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: colors.white,
     height: 80,
-    borderRadius: 10,
+    borderRadius: 5,
     margin: 5,
   },
   imageContainer: {

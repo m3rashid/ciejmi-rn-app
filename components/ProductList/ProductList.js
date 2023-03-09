@@ -39,6 +39,7 @@ const ProductList = ({
           </View>
         </View>
       </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={[styles.actionButton, { backgroundColor: colors.primary }]}
@@ -67,6 +68,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     marginTop: 10,
+    elevation: 5
   },
   innerContainer: {
     display: 'flex',
@@ -77,11 +79,11 @@ const styles = StyleSheet.create({
   productImage: {
     height: 100,
     width: 100,
-    borderRadius: 10,
+    borderRadius: 5,
   },
   ImageContainer: {
     backgroundColor: colors.light,
-    borderRadius: 10,
+    borderRadius: 5,
     height: 100,
     width: 100,
   },

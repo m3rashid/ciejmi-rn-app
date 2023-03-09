@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import { colors, network } from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';;
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
@@ -97,12 +97,6 @@ const MyOrderScreen = ({ navigation, route }) => {
       });
   };
 
-  //convert authUser to Json object and fetch orders on initial render
-  // useEffect(() => {
-  //   convertToJSON(user);
-  //   fetchOrders();
-  // }, []);
-
   return (
     <View style={styles.container}>
       <StatusBar />
@@ -123,16 +117,11 @@ const MyOrderScreen = ({ navigation, route }) => {
           <Ionicons name="cart-outline" size={30} color={colors.primary} />
         </TouchableOpacity>
       </View>
+
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>My Orders</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>
-            Your order and your order status
-          </Text>
-        </View>
+        <Text style={styles.screenNameText}>My Orders</Text>
       </View>
+
       <CustomAlert message={error} type={alertType} />
       {orders.length == 0 ? (
         <View style={styles.ListContiainerEmpty}>
@@ -190,7 +179,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   screenNameContainer: {
-    padding: 20,
+    padding: 12,
+    marginBottom: 10,
+    marginLeft: 10,
     paddingTop: 0,
     paddingBottom: 0,
     width: '100%',
@@ -200,7 +191,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

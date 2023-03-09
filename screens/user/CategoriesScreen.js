@@ -28,7 +28,7 @@ const CategoriesScreen = ({ navigation, route }) => {
   const [isLoading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [refeshing, setRefreshing] = useState(false);
-  const [label, setLabel] = useState('Loading...');
+  const [label, setLabel] = useState('Loading . . .');
   const [error, setError] = useState('');
   const [foundItems, setFoundItems] = useState([]);
   const [filterItem, setFilterItem] = useState('');
@@ -119,12 +119,10 @@ const CategoriesScreen = ({ navigation, route }) => {
     }
   };
 
-  //render whenever the value of filterItem change
   useEffect(() => {
     filter();
   }, [filterItem]);
 
-  //fetch the product on initial render
   useEffect(() => {
     fetchProduct();
   }, []);
@@ -159,20 +157,22 @@ const CategoriesScreen = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.bodyContainer}>
-        <View style={{ padding: 0, paddingLeft: 20, paddingRight: 20 }}>
+        <View style={{ padding: 0, paddingLeft: 12, paddingRight: 12 }}>
           <CustomInput
             radius={5}
-            placeholder={'Search...'}
+            ioniconName="search"
+            placeholder='Search . . .'
             value={filterItem}
             setValue={setFilterItem}
           />
         </View>
+
         <FlatList
           data={category}
           keyExtractor={(index, item) => `${index}-${item}`}
           horizontal
           style={{ flexGrow: 0 }}
-          contentContainerStyle={{ padding: 10 }}
+          contentContainerStyle={{ paddingLeft: 10 }}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item: tab }) => (
             <CustomIconButton
@@ -199,7 +199,7 @@ const CategoriesScreen = ({ navigation, route }) => {
                 backgroundColor: colors.white,
                 height: 150,
                 width: 150,
-                borderRadius: 10,
+                borderRadius: 5,
               }}>
               <Image
                 source={emptyBox}
@@ -222,7 +222,7 @@ const CategoriesScreen = ({ navigation, route }) => {
               />
             }
             keyExtractor={(index, item) => `${index}-${item}`}
-            contentContainerStyle={{ margin: 10 }}
+            contentContainerStyle={{ margin: 3, marginTop: 10 }}
             numColumns={2}
             renderItem={({ item: product }) => (
               <View
@@ -231,7 +231,7 @@ const CategoriesScreen = ({ navigation, route }) => {
                   { width: (windowWidth - windowWidth * 0.1) / 2 },
                 ]}>
                 <ProductCard
-                  cardSize={'large'}
+                  cardSize='large'
                   name={product.title}
                   image={`${network.serverip}/uploads/${product.image}`}
                   price={product.price}

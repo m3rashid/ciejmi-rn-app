@@ -21,7 +21,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
   const [isloading, setIsloading] = useState(false);
   const [refeshing, setRefreshing] = useState(false);
   const [alertType, setAlertType] = useState('error');
-  const [label, setLabel] = useState('Loading...');
+  const [label, setLabel] = useState('Loading . . .');
   const [error, setError] = useState('');
   const [orders, setOrders] = useState([]);
   const [foundItems, setFoundItems] = useState([]);
@@ -95,12 +95,10 @@ const ViewOrdersScreen = ({ navigation, route }) => {
       setFoundItems(orders);
     }
   };
-  //filter the data whenever filteritem value change
   useEffect(() => {
     filter();
   }, [filterItem]);
 
-  //fetch the orders on initial render
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -117,22 +115,18 @@ const ViewOrdersScreen = ({ navigation, route }) => {
           <Ionicons
             name="arrow-back-circle-outline"
             size={30}
-            color={colors.muted}
+            color={colors.primary}
           />
         </TouchableOpacity>
       </View>
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>View Order</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>View all orders</Text>
-        </View>
+        <Text style={styles.screenNameText}>Orders</Text>
       </View>
       <CustomAlert message={error} type={alertType} />
       <CustomInput
         radius={5}
-        placeholder={'Search...'}
+        ioniconName="search"
+        placeholder='Search . . .'
         value={filterItem}
         setValue={setFilterItem}
       />
@@ -143,7 +137,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
           <RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />
         }>
         {foundItems && foundItems.length == 0 ? (
-          <Text>{`No order found with the order # ${filterItem}!`}</Text>
+          <Text>{`No order found with the order ${filterItem}!`}</Text>
         ) : (
           foundItems.map((order, index) => {
             return (
@@ -168,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -199,6 +193,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -206,7 +202,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

@@ -25,9 +25,7 @@ const ForgetPasswordScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>Reset Password</Text>
-        </View>
+        <Text style={styles.screenNameText}>Reset Password</Text>
         <View>
           <Text style={styles.screenNameParagraph}>
             Enter the email associated with your account and we'll send an email
@@ -66,6 +64,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

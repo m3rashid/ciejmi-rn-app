@@ -90,7 +90,7 @@ const EditCategoryScreen = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar />
-      <ProgressDialog visible={isloading} label={'Adding ...'} />
+      <ProgressDialog visible={isloading} label={'Adding . . .'} />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -100,17 +100,12 @@ const EditCategoryScreen = ({ navigation, route }) => {
           <Ionicons
             name="arrow-back-circle-outline"
             size={30}
-            color={colors.muted}
+            color={colors.primary}
           />
         </TouchableOpacity>
       </View>
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>Edit Category</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>Add Edit details</Text>
-        </View>
+        <Text style={styles.screenNameText}>Edit Category</Text>
       </View>
       <CustomAlert message={error} type={alertType} />
       <ScrollView
@@ -137,7 +132,7 @@ const EditCategoryScreen = ({ navigation, route }) => {
 
       <View style={styles.buttomContainer}>
         <CustomButton
-          text={'Edit Category'}
+          text='Edit Category'
           onPress={() => {
             editCategoryHandle(category?._id);
           }}
@@ -155,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -187,6 +182,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -194,7 +191,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

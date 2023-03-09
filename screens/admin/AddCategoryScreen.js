@@ -95,7 +95,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar />
-      <ProgressDialog visible={isloading} label={'Adding ...'} />
+      <ProgressDialog visible={isloading} label={'Adding . . .'} />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -109,14 +109,11 @@ const AddCategoryScreen = ({ navigation, route }) => {
           />
         </TouchableOpacity>
       </View>
+
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>Add Category</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>Add category details</Text>
-        </View>
+        <Text style={styles.screenNameText}>Add Category</Text>
       </View>
+
       <CustomAlert message={error} type={alertType} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -155,7 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -187,6 +184,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -194,7 +193,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

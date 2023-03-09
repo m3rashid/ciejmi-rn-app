@@ -10,7 +10,6 @@ import {
 import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CustomInput from '../../components/CustomInput/';
 import ProgressDialog from 'react-native-progress-dialog';
@@ -23,7 +22,7 @@ const ViewUsersScreen = ({ navigation, route }) => {
   const [isloading, setIsloading] = useState(false);
   const [refeshing, setRefreshing] = useState(false);
   const [alertType, setAlertType] = useState('error');
-  const [label, setLabel] = useState('Loading...');
+  const [label, setLabel] = useState('Loading . . .');
   const [error, setError] = useState('');
   const [users, setUsers] = useState([]);
   const [foundItems, setFoundItems] = useState([]);
@@ -117,27 +116,23 @@ const ViewUsersScreen = ({ navigation, route }) => {
             color={colors.muted}
           />
         </TouchableOpacity>
-        <TouchableOpacity disabled>
-          <AntDesign name="user" size={25} color={colors.primary} />
-        </TouchableOpacity>
       </View>
+
       <View style={styles.screenNameContainer}>
-        <View>
-          <Text style={styles.screenNameText}>View Users</Text>
-        </View>
-        <View>
-          <Text style={styles.screenNameParagraph}>View all Users</Text>
-        </View>
+        <Text style={styles.screenNameText}>Users</Text>
       </View>
       <CustomAlert message={error} type={alertType} />
+
       <CustomInput
         radius={5}
-        placeholder={'Search...'}
+        ioniconName="search"
+        placeholder='Search . . .'
         value={filterItem}
         setValue={setFilterItem}
       />
+
       <ScrollView
-        style={{ flex: 1, width: '100%' }}
+        style={{ flex: 1, width: '100%', marginTop: 10 }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />
@@ -167,7 +162,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 12,
     flex: 1,
   },
   TopBarContainer: {
@@ -198,6 +193,8 @@ const styles = StyleSheet.create({
   },
   screenNameContainer: {
     marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -206,7 +203,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   screenNameText: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: '800',
     color: colors.muted,
   },

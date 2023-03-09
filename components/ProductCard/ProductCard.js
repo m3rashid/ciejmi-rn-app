@@ -25,7 +25,7 @@ const ProductCard = ({
             0,
             10,
           )}..`}</Text>
-          <Text style={styles.primaryTextSm}>{price}$</Text>
+          <Text style={styles.primaryTextSm}>₹ {price}</Text>
         </View>
         <View>
           {quantity > 0 ? (
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     width: 150,
     height: 200,
-    borderRadius: 10,
+    borderRadius: 5,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     width: '100%',
     height: 140,
-    borderRadius: 10,
+    borderRadius: 5,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',

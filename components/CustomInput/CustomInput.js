@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { colors } from '../../constants';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const CustomInput = ({
   value,
@@ -13,9 +14,14 @@ const CustomInput = ({
   width = '100%',
   keyboardType,
   maxLength,
+  ioniconName,
 }) => {
   return (
-    <View style={{ width: width }}>
+    <View style={[styles.rootContainer, { width: width }]}>
+      {ioniconName &&
+        <Icon name={ioniconName} size={24} color={colors.primary} />
+      }
+
       <TextInput
         placeholder={placeholder}
         onChangeText={setValue}
@@ -35,14 +41,23 @@ const CustomInput = ({
 export default CustomInput;
 
 const styles = StyleSheet.create({
-  CustomInput: {
-    height: 40,
+  rootContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: colors.white,
+    height: 45,
     marginBottom: 10,
     marginTop: 10,
-    width: '100%',
-    padding: 5,
-    backgroundColor: colors.white,
     elevation: 5,
     paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  CustomInput: {
+    width: '100%',
+    padding: 5,
+    paddingLeft: 10,
+    backgroundColor: colors.white,
   },
 });
