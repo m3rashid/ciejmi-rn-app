@@ -9,7 +9,8 @@ import {
   RefreshControl,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { Ionicons, MaterialCommunityIcons } from 'react-native-vector-icons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../constants';
 import CustomCard from '../../components/CustomCard/CustomCard';
 import OptionList from '../../components/OptionList/OptionList';
@@ -113,7 +114,7 @@ const DashboardScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <InternetConnectionAlert onChange={connectionState => {}}>
+    <InternetConnectionAlert onChange={connectionState => { }}>
       <View style={styles.container}>
         <StatusBar />
         <ProgressDialog visible={isloading} label={label} />

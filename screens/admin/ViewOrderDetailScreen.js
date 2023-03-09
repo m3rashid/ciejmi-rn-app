@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
 import BasicProductList from '../../components/BasicProductList/BasicProductList';
@@ -109,10 +109,10 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
     setValue(orderDetail?.status);
     setAddress(
       orderDetail?.country +
-        ', ' +
-        orderDetail?.city +
-        ', ' +
-        orderDetail?.shippingAddress,
+      ', ' +
+      orderDetail?.city +
+      ', ' +
+      orderDetail?.shippingAddress,
     );
     setTotalCost(
       orderDetail?.items.reduce((accumulator, object) => {

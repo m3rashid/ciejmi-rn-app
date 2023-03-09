@@ -1,7 +1,7 @@
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../../screens/user/HomeScreen';
 import { colors } from '../../constants';
 import UserProfileScreen from '../../screens/profile/UserProfileScreen';

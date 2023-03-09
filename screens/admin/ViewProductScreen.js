@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
-import { Ionicons } from 'react-native-vector-icons';
-import { AntDesign } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import ProductList from '../../components/ProductList/ProductList';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import CustomInput from '../../components/CustomInput/';

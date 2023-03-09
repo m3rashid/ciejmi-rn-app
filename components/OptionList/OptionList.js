@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-
-import { MaterialIcons, Ionicons } from 'react-native-vector-icons';
+import MaterialIcons from "react-native-vector-icons/MaterialIcons"
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../constants';
 
 const OptionList = ({

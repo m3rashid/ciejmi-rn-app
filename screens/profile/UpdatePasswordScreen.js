@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';

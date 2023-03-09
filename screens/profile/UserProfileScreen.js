@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import UserProfileCard from '../../components/UserProfileCard/UserProfileCard';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';;
 import OptionList from '../../components/OptionList/OptionList';
 import { colors } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';

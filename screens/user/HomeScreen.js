@@ -9,7 +9,7 @@ import {
   RefreshControl,
   ScrollView,
 } from 'react-native';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';;
 import React, { useEffect, useState } from 'react';
 import cartIcon from '../../assets/icons/cart_beg.png';
 import scanIcon from '../../assets/icons/scan_icons.png';

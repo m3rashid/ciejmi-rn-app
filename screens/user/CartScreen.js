@@ -8,12 +8,12 @@ import {
   ScrollView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';;
 import cartIcon from '../../assets/icons/cart_beg_active.png';
 import { colors, network } from '../../constants';
 import CartProductList from '../../components/CartProductList/CartProductList';
 import CustomButton from '../../components/CustomButton';
-import { MaterialIcons } from 'react-native-vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import { bindActionCreators } from 'redux';

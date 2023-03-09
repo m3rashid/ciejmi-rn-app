@@ -7,7 +7,7 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';;
 import React, { useState, useEffect } from 'react';
 import BasicProductList from '../../components/BasicProductList/BasicProductList';
 import { colors, network } from '../../constants';

@@ -12,11 +12,11 @@ import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import { Ionicons } from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import * as ImagePicker from 'react-native-image-picker';
 import ProgressDialog from 'react-native-progress-dialog';
-import { AntDesign } from 'react-native-vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const EditCategoryScreen = ({ navigation, route }) => {
   const { category, authUser } = route.params;
