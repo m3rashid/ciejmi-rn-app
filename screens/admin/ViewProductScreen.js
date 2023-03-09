@@ -102,6 +102,7 @@ const ViewProductScreen = ({ navigation, route }) => {
         if (result.success) {
           setProducts(result.data);
           setFoundItems(result.data);
+          console.log(result.data)
           setError('');
           setIsloading(false);
         } else {

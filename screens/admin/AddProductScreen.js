@@ -14,7 +14,7 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import Ionicons from "react-native-vector-icons/Ionicons"
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import * as ImagePicker from 'react-native-image-picker';
+import { launchImageLibrary, } from 'react-native-image-picker';
 import ProgressDialog from 'react-native-progress-dialog';
 import { useEffect } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -107,6 +107,7 @@ const AddProductScreen = ({ navigation, route }) => {
       redirect: 'follow',
     };
 
+    // TODO: local url
     fetch('http://192.168.1.100:3000/photos/upload', ImageRequestOptions)
       .then(response => response.json())
       .then(result => {
@@ -135,8 +136,7 @@ const AddProductScreen = ({ navigation, route }) => {
   //Method for selecting the image from device gallery
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    let result = await launchImageLibrary({
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.5,
@@ -194,13 +194,10 @@ const AddProductScreen = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar />
-      <ProgressDialog visible={isloading} label={'Adding . . .'} />
+      <ProgressDialog visible={isloading} label='Adding . . .' />
       <View style={styles.TopBarContainer}>
         <TouchableOpacity
-          onPress={() => {
-            // navigation.replace("viewproduct", { authUser: authUser });
-            navigation.goBack();
-          }}>
+          onPress={() => { navigation.goBack() }}>
           <Ionicons
             name="arrow-back-circle-outline"
             size={30}
@@ -236,14 +233,14 @@ const AddProductScreen = ({ navigation, route }) => {
           <CustomInput
             value={sku}
             setValue={setSku}
-            placeholder={'SKU'}
+            placeholder='SKU (Stock Keeping Unit)'
             placeholderTextColor={colors.muted}
             radius={5}
           />
           <CustomInput
             value={title}
             setValue={setTitle}
-            placeholder={'Title'}
+            placeholder='Title'
             placeholderTextColor={colors.muted}
             radius={5}
           />
