@@ -147,7 +147,7 @@ const SignupScreen = ({ navigation }) => {
           <CustomButton text={'Sign up'} onPress={signUpHandle} />
         </View>
         <View style={styles.bottomContainer}>
-          <Text>Already have an account?</Text>
+          <Text>Already have an account? </Text>
           <Text
             onPress={() => navigation.navigate('login')}
             style={styles.signupText}>
