@@ -88,10 +88,9 @@ const UserProfileScreen = ({ navigation, route }) => {
 				/>
 
 				<OptionList
-					// TODO: add good icon
 					text="My Addresses"
 					Icon={Ionicons}
-					iconName="heart"
+					iconName="md-navigate-circle-outline"
 					onPress={() => navigation.navigate('myaddress', { user: userInfo })}
 				/>
 			</View>

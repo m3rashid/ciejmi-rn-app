@@ -146,8 +146,7 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
-							// TODO: add good icon
-							ioniconName="ios-at-outline"
+							ioniconName="md-reader-outline"
 							value={department}
 							setValue={setDepartment}
 							placeholder='Department'
@@ -155,8 +154,7 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
-							// TODO: add good icon
-							ioniconName="person-outline"
+							ioniconName="md-newspaper-outline"
 							value={faculty}
 							setValue={setFaculty}
 							placeholder='Faculty'
