@@ -7,93 +7,68 @@ import {
 	TouchableOpacity,
 	RefreshControl,
 } from 'react-native';
-import React, { useState, } from 'react';
+import React, { useEffect, useState, } from 'react';
 import { colors, network } from '../../constants';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
 import OrderList from '../../components/OrderList/OrderList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AddresssList from '../../components/addressList';
 
-const MyOrderScreen = ({ navigation, route }) => {
+const defaultDemoAddresses = [
+	{
+		localAddressOne: "aksjdhfasds faksjdf asdfk",
+		localAddressTwo: "ksdjf asdkfjhsdk fasd",
+		city: "okhla",
+		state: "delhi",
+		postalCode: "110025",
+	},
+	{
+		localAddressOne: "aksjdhfasds faksjdf asdfk",
+		localAddressTwo: "ksdjf asdkfjhsdk fasd",
+		city: "okhla",
+		state: "delhi",
+		postalCode: "110025",
+	},
+	{
+		localAddressOne: "aksjdhfasds faksjdf asdfk",
+		localAddressTwo: "ksdjf asdkfjhsdk fasd",
+		city: "okhla",
+		state: "delhi",
+		postalCode: "110025",
+	}
+]
+
+const MyAddressScreen = ({ navigation, route }) => {
 	const { user } = route.params;
 	const [isloading, setIsloading] = useState(false);
 	const [label, setLabel] = useState('Please wait...');
+	const [error, setError] = useState('');
 	const [refeshing, setRefreshing] = useState(false);
 	const [alertType, setAlertType] = useState('error');
-	const [error, setError] = useState('');
-	const [orders, setOrders] = useState([]);
-	const [UserInfo, setUserInfo] = useState({});
+	const [addresses, setAddresses] = useState([])
 
-	//method to remove the authUser from aysnc storage and navigate to login
-	const logout = async () => {
-		await AsyncStorage.removeItem('authUser');
-		navigation.replace('login');
-	};
+	const fetchAddresses = async () => {
+		setAddresses(defaultDemoAddresses)
+	}
 
-	//method to convert the authUser to json object
-	const convertToJSON = obj => {
-		try {
-			setUserInfo(JSON.parse(obj));
-		} catch (e) {
-			setUserInfo(obj);
-		}
-	};
+	useEffect(() => {
+		fetchAddresses().then().catch(console.log)
+	}, [])
 
-	//method to convert the authUser to json object and return token
-	const getToken = obj => {
-		try {
-			setUserInfo(JSON.parse(obj));
-		} catch (e) {
-			setUserInfo(obj);
-			return user.token;
-		}
-		return UserInfo.token;
-	};
-
-	//method call on pull refresh
 	const handleOnRefresh = () => {
 		setRefreshing(true);
-		fetchOrders();
+		fetchAddresses();
 		setRefreshing(false);
 	};
 
-	//method to navigate to order detail screen of a specific order
-	const handleOrderDetail = item => {
-		navigation.navigate('myorderdetail', {
-			orderDetail: item,
-			Token: UserInfo.token,
-		});
-	};
+	const handleAddAddress = () => { }
 
-	//fetch order from server using API call
-	const fetchOrders = () => {
-		const myHeaders = new Headers();
-		const token = getToken(user);
-		myHeaders.append('x-auth-token', token);
-
-		setIsloading(true);
-		fetch(`${network.serverip}/orders`, {
-			method: 'GET',
-			headers: myHeaders,
-			redirect: 'follow',
-		})
-			.then(response => response.json())
-			.then(result => {
-				if (result?.err === 'jwt expired') {
-					logout();
-				}
-				else if (result.success) {
-					setOrders(result.data);
-					setError('');
-				}
-				setIsloading(false);
-			})
-			.catch(error => {
-				setIsloading(false);
-				setError(error.message);
-				console.log('error', error);
-			});
+	const logout = async () => {
+		await AsyncStorage.removeItem('authUser');
+		navigation.replace('login');
 	};
 
 	return (
@@ -112,20 +87,20 @@ const MyOrderScreen = ({ navigation, route }) => {
 					/>
 				</TouchableOpacity>
 				<View />
-				<TouchableOpacity onPress={() => handleOnRefresh()}>
-					<Ionicons name="cart-outline" size={30} color={colors.primary} />
+				<TouchableOpacity onPress={handleAddAddress}>
+					<AntDesign name="plussquare" size={30} color={colors.primary} />
 				</TouchableOpacity>
 			</View>
 
 			<View style={styles.screenNameContainer}>
-				<Text style={styles.screenNameText}>My Orders</Text>
+				<Text style={styles.screenNameText}>My Addresses</Text>
 			</View>
 
 			<CustomAlert message={error} type={alertType} />
-			{orders.length == 0 ? (
+			{addresses.length == 0 ? (
 				<View style={styles.ListContiainerEmpty}>
 					<Text style={styles.secondaryTextSmItalic}>
-						"There are no orders placed yet."
+						"There are no addresses added yet."
 					</Text>
 				</View>
 			) : (
@@ -138,23 +113,23 @@ const MyOrderScreen = ({ navigation, route }) => {
 							onRefresh={handleOnRefresh}
 						/>
 					}>
-					{orders.map((order, index) => {
+					{addresses.map((address, index) => {
 						return (
-							<OrderList
-								item={order}
+							<AddresssList
+								address={address}
+								index={index}
 								key={index}
-								onPress={() => handleOrderDetail(order)}
 							/>
-						);
+						)
 					})}
 					<View style={styles.emptyView} />
 				</ScrollView>
 			)}
 		</View>
-	);
-};
+	)
+}
 
-export default MyOrderScreen;
+export default MyAddressScreen
 
 const styles = StyleSheet.create({
 	container: {
