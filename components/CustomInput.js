@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import { colors } from '../../constants';
+import { colors } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const CustomInput = ({

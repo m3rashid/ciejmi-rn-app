@@ -10,9 +10,9 @@ import {
 import React, { useState, } from 'react';
 import { colors, network } from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';;
-import CustomAlert from '../../components/CustomAlert/CustomAlert';
+import CustomAlert from '../../components/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
-import OrderList from '../../components/OrderList/OrderList';
+import OrderList from '../../components/OrderList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MyOrderScreen = ({ navigation, route }) => {

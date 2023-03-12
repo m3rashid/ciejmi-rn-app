@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { colors } from '../../constants';
+import { colors } from '../constants';
 
 export const getTime = (date) => {
 	let t = new Date(date);

@@ -41,6 +41,7 @@ const AddProductScreen = ({ navigation, route }) => {
 		{ label: 'Shipped', value: 'shipped' },
 		{ label: 'Delivered', value: 'delivered' },
 	]);
+
 	var payload = [];
 
 	//method to convert the authUser to json object.
@@ -219,7 +220,7 @@ const AddProductScreen = ({ navigation, route }) => {
 						{image ? (
 							<TouchableOpacity style={styles.imageHolder} onPress={pickImage}>
 								<Image
-									source={{ uri: image }}
+									source={{ uri: image.uri }}
 									style={{ width: 200, height: 200 }}
 								/>
 							</TouchableOpacity>
@@ -268,23 +269,26 @@ const AddProductScreen = ({ navigation, route }) => {
 						radius={5}
 					/>
 				</View>
+
+				<DropDownPicker
+					placeholder='Select Product Category'
+					placeholderStyle={{ color: colors.muted }}
+					open={open}
+					value={category}
+					items={items}
+					setOpen={setOpen}
+					setValue={setCategory}
+					setItems={setItems}
+					disabled={statusDisable}
+					disabledStyle={{
+						backgroundColor: colors.light,
+						borderColor: colors.white,
+					}}
+					containerStyle={{ borderWidth: 0, borderColor: '#fff' }}
+					labelStyle={{ color: colors.muted }}
+					style={{ borderColor: '#fff', elevation: 5, margin: 5, marginBottom: 100, }}
+				/>
 			</ScrollView>
-			<DropDownPicker
-				placeholder={'Select Product Category'}
-				open={open}
-				value={category}
-				items={items}
-				setOpen={setOpen}
-				setValue={setCategory}
-				setItems={setItems}
-				disabled={statusDisable}
-				disabledStyle={{
-					backgroundColor: colors.light,
-					borderColor: colors.white,
-				}}
-				labelStyle={{ color: colors.muted }}
-				style={{ borderColor: '#fff', elevation: 5 }}
-			/>
 			<View style={styles.buttomContainer}>
 				<CustomButton text='Add Product' onPress={addProductHandle} />
 			</View>

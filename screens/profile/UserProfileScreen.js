@@ -7,9 +7,9 @@ import {
 	Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import UserProfileCard from '../../components/UserProfileCard/UserProfileCard';
+import UserProfileCard from '../../components/UserProfileCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';;
-import OptionList from '../../components/OptionList/OptionList';
+import OptionList from '../../components/OptionList';
 import { colors } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

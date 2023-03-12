@@ -10,7 +10,7 @@ import MyAccountScreen from '../screens/profile/MyAccountScreen';
 import AddProductScreen from '../screens/admin/AddProductScreen';
 import DashboardScreen from '../screens/admin/DashboardScreen';
 import ViewProductScreen from '../screens/admin/ViewProductScreen';
-import Tabs from './tabs/Tabs';
+import Tabs from './Tabs';
 import CartScreen from '../screens/user/CartScreen';
 import CheckoutScreen from '../screens/user/CheckoutScreen.js';
 import OrderConfirmScreen from '../screens/user/OrderConfirmScreen';

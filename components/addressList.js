@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { colors } from '../constants';
-import { dateFormat, getTime } from './OrderList/OrderList';
+import { dateFormat, getTime } from './OrderList';
 
 const AddresssList = ({ address, index = 0 }) => {
 	// localAddressOne, localAddressTwo, city, state, postalCode
