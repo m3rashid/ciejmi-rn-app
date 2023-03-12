@@ -27,6 +27,7 @@ import CategoriesScreen from '../screens/user/CategoriesScreen';
 import EditCategoryScreen from '../screens/admin/EditCategoryScreen';
 import MyWishlistScreen from '../screens/profile/MyWishlistScreen';
 import MyAddressScreen from '../screens/user/myAddresses';
+import AddAdressScreen from "../screens/user/AddAddressScreen"
 
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +60,7 @@ const Routes = () => {
 				/>
 				<Stack.Screen name="myorder" component={MyOrderScreen} />
 				<Stack.Screen name="myaddress" component={MyAddressScreen} />
+				<Stack.Screen name="addAddress" component={AddAdressScreen} />
 				<Stack.Screen name="myorderdetail" component={MyOrderDetailScreen} />
 				<Stack.Screen name="viewcategories" component={ViewCategoryScreen} />
 				<Stack.Screen name="addcategories" component={AddCategoryScreen} />

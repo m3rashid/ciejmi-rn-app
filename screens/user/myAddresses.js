@@ -13,7 +13,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomAlert from '../../components/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
-import OrderList from '../../components/OrderList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddresssList from '../../components/addressList';
 
@@ -44,7 +43,7 @@ const defaultDemoAddresses = [
 const MyAddressScreen = ({ navigation, route }) => {
 	const { user } = route.params;
 	const [isloading, setIsloading] = useState(false);
-	const [label, setLabel] = useState('Please wait...');
+	const [label, setLabel] = useState('Please wait . . .');
 	const [error, setError] = useState('');
 	const [refeshing, setRefreshing] = useState(false);
 	const [alertType, setAlertType] = useState('error');
@@ -64,7 +63,9 @@ const MyAddressScreen = ({ navigation, route }) => {
 		setRefreshing(false);
 	};
 
-	const handleAddAddress = () => { }
+	const handleAddAddress = () => {
+		navigation.navigate('addAddress', { authUser: user })
+	}
 
 	const logout = async () => {
 		await AsyncStorage.removeItem('authUser');
