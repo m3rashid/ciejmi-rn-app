@@ -42,6 +42,10 @@ const AddProductScreen = ({ navigation, route }) => {
 		{ label: 'Delivered', value: 'delivered' },
 	]);
 
+	const myHeaders = new Headers();
+	myHeaders.append('x-auth-token', authUser.token);
+	myHeaders.append('Content-Type', 'application/json');
+
 	var payload = [];
 
 	//method to convert the authUser to json object.
@@ -60,7 +64,7 @@ const AddProductScreen = ({ navigation, route }) => {
 		var myHeaders = new Headers();
 		myHeaders.append('x-auth-token', getToken(authUser));
 
-		var requestOptions = {
+		const requestOptions = {
 			method: 'GET',
 			headers: myHeaders,
 			redirect: 'follow',
@@ -92,46 +96,27 @@ const AddProductScreen = ({ navigation, route }) => {
 			});
 	};
 
-	var myHeaders = new Headers();
-	myHeaders.append('x-auth-token', authUser.token);
-	myHeaders.append('Content-Type', 'application/json');
+	const upload = async (file) => {
+		console.log({ file })
+		const formdata = new FormData();
+		formdata.append('file', file);
 
-	const upload = async () => {
-		console.log('upload-F:', image);
+		const reqHeaders = new Headers();
+		reqHeaders.append('x-auth-token', authUser.token);
+		reqHeaders.append('Content-Type', 'multipart/form-data');
 
-		var formdata = new FormData();
-		formdata.append('photos', image, 'product.png');
-
-		var ImageRequestOptions = {
+		const response = await fetch(`${network.serverip}/upload`, {
 			method: 'POST',
 			body: formdata,
 			redirect: 'follow',
-		};
-
-		// TODO: local url
-		fetch(`${network.serverip}/photos/upload`, ImageRequestOptions)
-			.then(response => response.json())
-			.then(result => {
-				console.log(result);
-			})
-			.catch(error => console.log('error', error));
-	};
-
-	var raw = JSON.stringify({
-		title: title,
-		sku: sku,
-		price: price,
-		image: image,
-		description: description,
-		category: category,
-		quantity: quantity,
-	});
-
-	var requestOptions = {
-		method: 'POST',
-		headers: myHeaders,
-		body: raw,
-		redirect: 'follow',
+			headers: reqHeaders,
+		});
+		const result = await response.json();
+		console.log(result);
+		if (result.success) {
+			console.log(result);
+			setImage(result.data);
+		}
 	};
 
 	//Method for selecting the image from device gallery
@@ -144,9 +129,7 @@ const AddProductScreen = ({ navigation, route }) => {
 		});
 
 		if (!result.cancelled) {
-			console.log(result);
-			setImage(result);
-			upload();
+			upload(result.assets[0]).then().catch(console.log)
 		}
 	};
 
@@ -168,6 +151,21 @@ const AddProductScreen = ({ navigation, route }) => {
 			setError('Please upload the product image');
 			setIsloading(false);
 		} else {
+			const requestOptions = {
+				method: 'POST',
+				headers: myHeaders,
+				body: JSON.stringify({
+					title: title,
+					sku: sku,
+					price: price,
+					image: image,
+					description: description,
+					category: category,
+					quantity: quantity,
+				}),
+				redirect: 'follow',
+			};
+
 			fetch(network.serverip + '/product', requestOptions)
 				.then(response => response.json())
 				.then(result => {

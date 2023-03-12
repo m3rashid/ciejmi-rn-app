@@ -64,7 +64,6 @@ const SignupScreen = ({ navigation }) => {
 				name,
 				department,
 				faculty,
-				userType: 'USER',
 			}),
 			redirect: 'follow',
 		};

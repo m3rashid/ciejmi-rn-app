@@ -12,7 +12,7 @@ const Splash = ({ navigation }) => {
 			const value = await AsyncStorage.getItem('authUser');
 			if (value !== null) {
 				let user = JSON.parse(value); // covert the authUser value to json
-				if (user.userType === 'ADMIN') {
+				if (user.authType === 'ADMIN') {
 					setTimeout(() => {
 						navigation.replace('dashboard', { authUser: JSON.parse(value) }); // navigate to Admin dashboard
 					}, 2000);
