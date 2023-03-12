@@ -32,7 +32,7 @@ const AddAdressScreen = ({ navigation, route }) => {
 			return
 		}
 		try {
-			fetch(network.serverip + '/address/add', {
+			fetch(network.serverip + '/add-address', {
 				method: 'POST',
 				headers: {
 					'x-auth-token': authUser.token,

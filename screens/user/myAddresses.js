@@ -16,30 +16,6 @@ import ProgressDialog from 'react-native-progress-dialog';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddresssList from '../../components/addressList';
 
-const defaultDemoAddresses = [
-	{
-		localAddressOne: "aksjdhfasds faksjdf asdfk",
-		localAddressTwo: "ksdjf asdkfjhsdk fasd",
-		city: "okhla",
-		state: "delhi",
-		postalCode: "110025",
-	},
-	{
-		localAddressOne: "aksjdhfasds faksjdf asdfk",
-		localAddressTwo: "ksdjf asdkfjhsdk fasd",
-		city: "okhla",
-		state: "delhi",
-		postalCode: "110025",
-	},
-	{
-		localAddressOne: "aksjdhfasds faksjdf asdfk",
-		localAddressTwo: "ksdjf asdkfjhsdk fasd",
-		city: "okhla",
-		state: "delhi",
-		postalCode: "110025",
-	}
-]
-
 const MyAddressScreen = ({ navigation, route }) => {
 	const { user } = route.params;
 	const [isloading, setIsloading] = useState(false);
@@ -50,7 +26,34 @@ const MyAddressScreen = ({ navigation, route }) => {
 	const [addresses, setAddresses] = useState([])
 
 	const fetchAddresses = async () => {
-		setAddresses(defaultDemoAddresses)
+		setIsloading(true);
+		try {
+			fetch(network.serverip + '/get-all-address', {
+				method: 'GET',
+				headers: {
+					'x-auth-token': user.token,
+					'Content-Type': 'application/json'
+				},
+				redirect: 'follow'
+			})
+				.then((response) => response.json())
+				.then((result) => {
+					console.log(result.data.addresses)
+					if (result.success) {
+						setAddresses(result.data.addresses)
+					} else {
+						setError(result.message || "Something went wrong")
+					}
+				})
+				.catch((error) => {
+					setError(error.message || "Something went wrong")
+				})
+				.finally(() => {
+					setIsloading(false)
+				})
+		} catch (err) {
+			setError(err.message || "Something went wrong")
+		}
 	}
 
 	useEffect(() => {
@@ -117,8 +120,11 @@ const MyAddressScreen = ({ navigation, route }) => {
 					{addresses.map((address, index) => {
 						return (
 							<AddresssList
-								address={address}
 								index={index}
+								address={address}
+								refresh={handleOnRefresh}
+								authUser={user}
+								setIsloading={setIsloading}
 								key={index}
 							/>
 						)

@@ -1,10 +1,50 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { colors } from '../constants';
+import { colors, network } from '../constants';
 import { dateFormat, getTime } from './OrderList';
+import AntDesign from "react-native-vector-icons/AntDesign"
 
-const AddresssList = ({ address, index = 0 }) => {
+const AddresssList = ({ address, index = 0, setIsloading, refresh, authUser }) => {
 	// localAddressOne, localAddressTwo, city, state, postalCode
+
+	const removeAddress = async () => {
+		if (!address._id) return
+		setIsloading(true);
+		try {
+			fetch(network.serverip + '/remove-address', {
+				method: 'POST',
+				headers: {
+					'x-auth-token': authUser.token,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ _id: address._id }),
+				redirect: 'follow'
+			}).then((res) => res.json()).then((result) => {
+				console.log(result)
+				refresh()
+			})
+				.catch((error) => {
+					console.log(error)
+				})
+				.finally(() => {
+					setIsloading(false)
+				})
+		} catch (err) {
+			setIsloading(false)
+		}
+	}
+
+	const handleRemoveAddress = async () => {
+		return Alert.alert(
+			'Delete address ?',
+			'Are you sure you want to delete this address ?',
+			[
+				{ text: 'Cancel' },
+				{ text: 'Delete', onPress: removeAddress },
+			],
+		);
+	}
+
 
 	if (!address) return null
 
@@ -19,12 +59,20 @@ const AddresssList = ({ address, index = 0 }) => {
 				</View>
 			</View>
 
-			<View style={styles.innerRow}>
-				<Text style={styles.secondaryText}>Address Line One : {address.localAddressOne}</Text>
-				<Text style={styles.secondaryText}>Address Line two : {address.localAddressTwo}</Text>
-				<Text style={styles.secondaryText}>City : {address.city}</Text>
-				<Text style={styles.secondaryText}>State : {address.state}</Text>
-				<Text style={styles.secondaryText}>Postal Code : {address.postalCode}</Text>
+			<View style={styles.innerRowUpper}>
+				<View style={[styles.innerRow, { width: '70%' }]}>
+					<Text style={styles.secondaryText}>Address Line One : {address.localAddressOne}</Text>
+					<Text style={styles.secondaryText}>Address Line two : {address.localAddressTwo}</Text>
+					<Text style={styles.secondaryText}>City : {address.city}</Text>
+					<Text style={styles.secondaryText}>State : {address.state}</Text>
+					<Text style={styles.secondaryText}>Postal Code : {address.postalCode}</Text>
+				</View>
+
+				<View style={styles.timeDateContainer}>
+					<TouchableOpacity onPress={handleRemoveAddress}>
+						<AntDesign name="closecircle" size={30} color={colors.danger} />
+					</TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	)
