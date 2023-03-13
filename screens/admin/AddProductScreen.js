@@ -97,19 +97,25 @@ const AddProductScreen = ({ navigation, route }) => {
 	};
 
 	const upload = async (file) => {
+		if (!file) return
 		console.log({ file })
-		const formdata = new FormData();
-		formdata.append('file', file);
-
-		const reqHeaders = new Headers();
-		reqHeaders.append('x-auth-token', authUser.token);
-		reqHeaders.append('Content-Type', 'multipart/form-data');
+		const formData = new FormData();
+		formData.append('image', {
+			name: file.name,
+			type: file.type,
+			uri: Platform.OS === 'ios' ?
+				file.uri.replace('file://', '')
+				: file.uri,
+		});
 
 		const response = await fetch(`${network.serverip}/upload`, {
 			method: 'POST',
-			body: formdata,
+			body: formData,
 			redirect: 'follow',
-			headers: reqHeaders,
+			headers: {
+				'x-auth-token': authUser.token,
+				'Content-Type': 'multipart/form-data'
+			},
 		});
 		const result = await response.json();
 		console.log(result);
