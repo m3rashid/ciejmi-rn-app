@@ -11,7 +11,7 @@ import {
 import React, { useState } from 'react';
 import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
-import header_logo from '../../assets/logo/logo.png';
+import header_logo from '../../assets/logo/logo.jpg';
 import CustomButton from '../../components/CustomButton';
 import CustomAlert from '../../components/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';

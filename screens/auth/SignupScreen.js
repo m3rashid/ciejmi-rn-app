@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
-import header_logo from '../../assets/logo/logo.png';
+import header_logo from '../../assets/logo/logo.jpg';
 import CustomButton from '../../components/CustomButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';;
-import cartIcon from '../../assets/icons/cart_beg_active.png';
+import cartIcon from '../../assets/icons/cart_beg_active.jpg';
 import { colors, network } from '../../constants';
 import CartProductList from '../../components/CartProductList';
 import CustomButton from '../../components/CustomButton';

@@ -10,8 +10,8 @@ import {
 	ScrollView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import cartIcon from '../../assets/icons/cart_beg.png';
-import easybuylogo from '../../assets/logo/logo.png';
+import cartIcon from '../../assets/icons/cart_beg.jpg';
+import easybuylogo from '../../assets/logo/logo.jpg';
 import { colors } from '../../constants';
 import CustomIconButton from '../../components/CustomIconButton';
 import ProductCard from '../../components/ProductCard';
@@ -23,8 +23,8 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 import { SliderBox } from 'react-native-image-slider-box';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 const slides = [
-	require('../../assets/image/banners/banner.png'),
-	require('../../assets/image/banners/banner.png'),
+	require('../../assets/image/banners/banner.jpg'),
+	require('../../assets/image/banners/banner.jpg'),
 ];
 
 const HomeScreen = ({ navigation, route }) => {

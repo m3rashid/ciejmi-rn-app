@@ -15,7 +15,7 @@ import OptionList from '../../components/OptionList';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProgressDialog from 'react-native-progress-dialog';
-import easybuylogo from '../../assets/logo/logo.png';
+import easybuylogo from '../../assets/logo/logo.jpg';
 
 const DashboardScreen = ({ navigation, route }) => {
 	const { authUser } = route.params;

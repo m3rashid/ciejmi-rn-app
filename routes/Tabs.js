@@ -5,10 +5,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/user/HomeScreen';
 import { colors } from '../constants';
 import UserProfileScreen from '../screens/profile/UserProfileScreen';
-import HomeIconActive from '../assets/icons/bar_home_icon_active.png';
-import HomeIcon from '../assets/icons/bar_home_icon.png';
-import userIcon from '../assets/icons/bar_profile_icon.png';
-import userIconActive from '../assets/icons/bar_profile_icon_active.png';
+import HomeIconActive from '../assets/icons/bar_home_icon_active.jpg';
+import HomeIcon from '../assets/icons/bar_home_icon.jpg';
+import userIcon from '../assets/icons/bar_profile_icon.jpg';
+import userIconActive from '../assets/icons/bar_profile_icon_active.jpg';
 import MyOrderScreen from '../screens/user/MyOrderScreen';
 import CategoriesScreen from '../screens/user/CategoriesScreen';
 

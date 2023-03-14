@@ -12,8 +12,8 @@ import {
 import React, { useState, useEffect } from 'react';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import cartIcon from '../../assets/icons/cart_beg.png';
-import emptyBox from '../../assets/image/emptybox.png';
+import cartIcon from '../../assets/icons/cart_beg.jpg';
+import emptyBox from '../../assets/image/emptybox.jpg';
 import { colors, network } from '../../constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
