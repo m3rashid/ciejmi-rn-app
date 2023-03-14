@@ -97,7 +97,7 @@ const CartScreen = ({ navigation }) => {
 						<CartProductList
 							key={index}
 							index={index}
-							image={`${network.serverip}/uploads/${item.image}`}
+							image={item.image}
 							title={item.title}
 							price={item.price}
 							quantity={item.quantity}
@@ -136,12 +136,12 @@ const CartScreen = ({ navigation }) => {
 				<View style={styles.cartBottomRightContainer}>
 					{cartproduct.length > 0 ? (
 						<CustomButton
-							text={'Checkout'}
+							text='Checkout'
 							onPress={() => navigation.navigate('checkout')}
 						/>
 					) : (
 						<CustomButton
-							text={'Checkout'}
+							text='Checkout'
 							disabled={true}
 							onPress={() => navigation.navigate('checkout')}
 						/>

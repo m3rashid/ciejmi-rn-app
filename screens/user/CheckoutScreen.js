@@ -18,6 +18,7 @@ import { bindActionCreators } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomInput from '../../components/CustomInput';
 import ProgressDialog from 'react-native-progress-dialog';
+import CustomAlert from '../../components/CustomAlert';
 
 const CheckoutScreen = ({ navigation, route }) => {
 	const [modalVisible, setModalVisible] = useState(false);
@@ -26,6 +27,7 @@ const CheckoutScreen = ({ navigation, route }) => {
 	const dispatch = useDispatch();
 	const { emptyCart } = bindActionCreators(actionCreaters, dispatch);
 
+	const [user, setUser] = useState({});
 	const [deliveryCost, setDeliveryCost] = useState(0);
 	const [totalCost, setTotalCost] = useState(0);
 	const [address, setAddress] = useState('');
@@ -33,6 +35,8 @@ const CheckoutScreen = ({ navigation, route }) => {
 	const [city, setCity] = useState('');
 	const [streetAddress, setStreetAddress] = useState('');
 	const [zipcode, setZipcode] = useState('');
+	const [error, setError] = useState('')
+	const [alertType, setAlertType] = useState('error')
 
 	//method to remove the authUser from aysnc storage and navigate to login
 	const logout = async () => {
@@ -40,18 +44,30 @@ const CheckoutScreen = ({ navigation, route }) => {
 		navigation.replace('login');
 	};
 
+	useEffect(() => {
+		//fetch the authUser from async storage
+		const fetchUser = async () => {
+			const value = await AsyncStorage.getItem('authUser');
+			let user = JSON.parse(value);
+			setUser(user);
+		};
+		fetchUser();
+	}, []);
+
 	//method to handle checkout
 	const handleCheckout = async () => {
+		if (!user || user.addresses.length === 0) {
+			setError('Please add an address to proceed');
+			setAlertType('error');
+			return
+		}
 		setIsloading(true);
 		var myHeaders = new Headers();
-		const value = await AsyncStorage.getItem('authUser');
-		let user = JSON.parse(value);
-
 		myHeaders.append('x-auth-token', user.token);
 		myHeaders.append('Content-Type', 'application/json');
 
-		var payload = [];
-		var totalamount = 0;
+		const payload = [];
+		let totalamount = 0;
 
 		// fetch the cart items from redux and set the total cost
 		cartproduct.forEach((product) => {
@@ -64,26 +80,22 @@ const CheckoutScreen = ({ navigation, route }) => {
 			payload.push(obj);
 		});
 
-		var raw = JSON.stringify({
-			items: payload,
-			amount: totalamount,
-			discount: 0,
-			payment_type: 'cod',
-			country: country,
-			status: 'pending',
-			city: city,
-			zipcode: zipcode,
-			shippingAddress: streetAddress,
-		});
-
-		var requestOptions = {
+		fetch(network.serverip + '/checkout', {
 			method: 'POST',
 			headers: myHeaders,
-			body: raw,
+			body: JSON.stringify({
+				items: payload,
+				amount: totalamount,
+				discount: 0,
+				payment_type: 'cod',
+				country: country,
+				status: 'pending',
+				city: city,
+				zipcode: zipcode,
+				shippingAddress: streetAddress,
+			}),
 			redirect: 'follow',
-		};
-
-		fetch(network.serverip + '/checkout', requestOptions) //API call
+		}) //API call
 			.then((response) => response.json())
 			.then((result) => {
 				if (result.err === 'jwt expired') {
@@ -103,11 +115,11 @@ const CheckoutScreen = ({ navigation, route }) => {
 
 	// set the address and total cost on initital render
 	useEffect(() => {
-		if (streetAddress && city && country != '') {
-			setAddress(`${streetAddress}, ${city},${country}`);
-		} else {
-			setAddress('');
-		}
+		// if (streetAddress && city && country != '') {
+		// 	setAddress(`${streetAddress}, ${city},${country}`);
+		// } else {
+		// 	setAddress('');
+		// }
 		setTotalCost(
 			cartproduct.reduce((accumulator, object) => {
 				return accumulator + object.price * object.quantity;
@@ -134,8 +146,11 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<View />
 				<View />
 			</View>
+
+			<CustomAlert message={error} type={alertType} />
+
 			<ScrollView style={styles.bodyContainer} nestedScrollEnabled={true}>
-				<Text style={styles.primaryText}>Order Summary</Text>
+				<Text style={[styles.primaryText, { fontSize: 20, marginBottom: 10 }]}>Order Summary</Text>
 				<ScrollView
 					style={styles.orderSummaryContainer}
 					nestedScrollEnabled={true}
@@ -143,12 +158,14 @@ const CheckoutScreen = ({ navigation, route }) => {
 					{cartproduct.map((product, index) => (
 						<BasicProductList
 							key={index}
+							image={product.image}
 							title={product.title}
 							price={product.price}
 							quantity={product.quantity}
 						/>
 					))}
 				</ScrollView>
+
 				<Text style={styles.primaryText}>Total</Text>
 				<View style={styles.totalOrderInfoContainer}>
 					<View style={styles.list}>
@@ -171,14 +188,11 @@ const CheckoutScreen = ({ navigation, route }) => {
 					<View style={styles.list}>
 						<Text style={styles.secondaryTextSm}>Email</Text>
 						<Text style={styles.secondaryTextSm}>
-							bukhtyar.haider1@gmail.com
+							{user.email}
 						</Text>
 					</View>
-					<View style={styles.list}>
-						<Text style={styles.secondaryTextSm}>Phone</Text>
-						<Text style={styles.secondaryTextSm}>+92 3410988683</Text>
-					</View>
 				</View>
+
 				<Text style={styles.primaryText}>Address</Text>
 				<View style={styles.listContainer}>
 					<TouchableOpacity
@@ -306,8 +320,8 @@ const styles = StyleSheet.create({
 	},
 	bodyContainer: {
 		flex: 1,
-		paddingLeft: 20,
-		paddingRight: 20,
+		paddingLeft: 12,
+		paddingRight: 12,
 	},
 	orderSummaryContainer: {
 		backgroundColor: colors.white,
@@ -322,8 +336,9 @@ const styles = StyleSheet.create({
 	},
 	primaryText: {
 		marginBottom: 5,
-		marginTop: 5,
-		fontSize: 20,
+		marginTop: 12,
+		marginLeft: 5,
+		fontSize: 18,
 		fontWeight: 'bold',
 	},
 	list: {
@@ -331,12 +346,11 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-
 		backgroundColor: colors.white,
-		height: 50,
+		height: 35,
 		borderBottomWidth: 1,
 		borderBottomColor: colors.light,
-		padding: 10,
+		padding: 5,
 	},
 	primaryTextSm: {
 		fontSize: 15,
@@ -350,7 +364,7 @@ const styles = StyleSheet.create({
 	listContainer: {
 		backgroundColor: colors.white,
 		borderRadius: 10,
-		padding: 10,
+		padding: 5,
 	},
 	buttomContainer: {
 		width: '100%',

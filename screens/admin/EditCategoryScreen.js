@@ -22,7 +22,7 @@ const EditCategoryScreen = ({ navigation, route }) => {
 	const { category, authUser } = route.params;
 	const [isloading, setIsloading] = useState(false);
 	const [title, setTitle] = useState('');
-	const [image, setImage] = useState('easybuycat.png');
+	const [image, setImage] = useState('');
 	const [description, setDescription] = useState('');
 	const [error, setError] = useState('');
 	const [alertType, setAlertType] = useState('error');
@@ -68,6 +68,7 @@ const EditCategoryScreen = ({ navigation, route }) => {
 						setAlertType('success');
 						setError(result.message);
 						setTitle(result.data.title);
+						setImage(result.data.image);
 						setDescription(result.data.description);
 					}
 				})

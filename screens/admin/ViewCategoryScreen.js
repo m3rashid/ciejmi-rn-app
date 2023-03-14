@@ -201,7 +201,7 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 				) : (
 					foundItems.map((item, index) => (
 						<CategoryList
-							icon={`${network.serverip}/uploads/${item?.icon}`}
+							icon={item.image}
 							key={index}
 							title={item?.title}
 							description={item?.description}

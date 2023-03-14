@@ -27,6 +27,8 @@ const ProductDetailScreen = ({ navigation, route }) => {
 	//method to add item to cart(redux)
 	const handleAddToCat = (item) => {
 		addCartItem(item);
+		setAlertType('success');
+		setError('Item added to cart');
 	};
 
 	//remove the authUser from async storage and navigate to login
@@ -36,9 +38,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 	};
 
 	const [onWishlist, setOnWishlist] = useState(false);
-	const [avaiableQuantity, setAvaiableQuantity] = useState(0);
 	const [quantity, setQuantity] = useState(0);
-	const [productImage, SetProductImage] = useState(' ');
 	const [wishlistItems, setWishlistItems] = useState([]);
 	const [error, setError] = useState('');
 	const [isDisable, setIsDisbale] = useState(true);
@@ -83,7 +83,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 
 	//method to increase the product quantity
 	const handleIncreaseButton = (quantity) => {
-		if (avaiableQuantity > quantity) {
+		if (product.quantity > quantity) {
 			setQuantity(quantity + 1);
 		}
 	};
@@ -174,9 +174,6 @@ const ProductDetailScreen = ({ navigation, route }) => {
 
 	//set quantity, avaiableQuantity, product image and fetch wishlist on initial render
 	useEffect(() => {
-		setQuantity(0);
-		setAvaiableQuantity(product.quantity);
-		SetProductImage(`${network.serverip}/uploads/${product?.image}`);
 		fetchWishlist();
 	}, []);
 
@@ -216,9 +213,11 @@ const ProductDetailScreen = ({ navigation, route }) => {
 			</View>
 			<View style={styles.bodyContainer}>
 				<View style={styles.productImageContainer}>
-					<Image source={{ uri: productImage }} style={styles.productImage} />
+					<Image source={{ uri: product?.image }} style={styles.productImage} />
 				</View>
-				<CustomAlert message={error} type={alertType} />
+
+				{error && <CustomAlert message={error} type={alertType} />}
+
 				<View style={styles.productInfoContainer}>
 					<View style={styles.productInfoTopContainer}>
 						<View style={styles.productNameContaier}>
@@ -276,7 +275,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 							</View>
 						</View>
 						<View style={styles.productButtonContainer}>
-							{avaiableQuantity > 0 ? (
+							{product.quantity > 0 ? (
 								<CustomButton
 									text={'Add to Cart'}
 									onPress={() => {

@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import { colors } from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const BasicProductList = ({ title, price, quantity }) => {
+const BasicProductList = ({ title, price, quantity, image }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.innerContainer}>
 				<View style={styles.IconContainer}>
-					<Ionicons name="square" size={30} color={colors.muted} />
+					<Image source={{ uri: image }} style={{ height: 30, width: 30 }} />
 				</View>
 				<View style={styles.productInfoContainer}>
 					<Text style={styles.secondaryText}>{title}</Text>

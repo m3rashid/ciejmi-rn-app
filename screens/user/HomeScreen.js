@@ -238,7 +238,7 @@ const HomeScreen = ({ navigation, route }) => {
 									>
 										<ProductCard
 											name={item.title}
-											image={`${network.serverip}/uploads/${item.image}`}
+											image={item.image}
 											price={item.price}
 											quantity={item.quantity}
 											onPress={() => handleProductPress(item)}
