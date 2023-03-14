@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { colors } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -15,25 +15,31 @@ const CustomInput = ({
 	keyboardType,
 	maxLength,
 	ioniconName,
+	showTitle = true,
 }) => {
 	return (
-		<View style={[styles.rootContainer, { width: width }]}>
-			{ioniconName &&
-				<Icon name={ioniconName} size={24} color={colors.primary} />
-			}
+		<View style={{ marginTop: 12 }}>
+			{showTitle && (
+				<Text style={{ textAlign: 'left', marginLeft: 5 }}>{placeholder}</Text>
+			)}
+			<View style={[styles.rootContainer, { width: width }]}>
+				{ioniconName && (
+					<Icon name={ioniconName} size={24} color={colors.primary} />
+				)}
 
-			<TextInput
-				placeholder={placeholder}
-				onChangeText={setValue}
-				value={value}
-				secureTextEntry={secureTextEntry}
-				style={styles.CustomInput}
-				placeholderTextColor={placeholderTextColor}
-				onFocus={onFocus}
-				borderRadius={radius}
-				maxLength={maxLength}
-				keyboardType={keyboardType}
-			/>
+				<TextInput
+					placeholder={placeholder}
+					onChangeText={setValue}
+					value={value}
+					secureTextEntry={secureTextEntry}
+					style={styles.CustomInput}
+					placeholderTextColor={placeholderTextColor}
+					onFocus={onFocus}
+					borderRadius={radius}
+					maxLength={maxLength}
+					keyboardType={keyboardType}
+				/>
+			</View>
 		</View>
 	);
 };
@@ -48,8 +54,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		backgroundColor: colors.white,
 		height: 45,
-		marginBottom: 10,
-		marginTop: 10,
+		marginTop: 2,
 		elevation: 5,
 		paddingHorizontal: 20,
 		borderRadius: 5,

@@ -28,7 +28,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 	const [filterItem, setFilterItem] = useState('');
 
 	//method to convert the authUser to json object
-	const getToken = obj => {
+	const getToken = (obj) => {
 		try {
 			setUser(JSON.parse(obj));
 		} catch (e) {
@@ -46,7 +46,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 	};
 
 	//method to navigate to order detail screen of specific order
-	const handleOrderDetail = item => {
+	const handleOrderDetail = (item) => {
 		navigation.navigate('vieworderdetails', {
 			orderDetail: item,
 			Token: getToken(authUser),
@@ -65,8 +65,8 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 		};
 		setIsloading(true);
 		fetch(`${network.serverip}/admin/orders`, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					setOrders(result.data);
 					setFoundItems(result.data);
@@ -76,10 +76,9 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 				}
 				setIsloading(false);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
@@ -87,7 +86,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = orders?.filter(item => {
+			const results = orders?.filter((item) => {
 				return item?.orderId.toLowerCase().includes(keyword.toLowerCase());
 			});
 			setFoundItems(results);
@@ -111,9 +110,10 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.primary}
 					/>
@@ -125,17 +125,19 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 			<CustomAlert message={error} type={alertType} />
 			<CustomInput
 				radius={5}
-				ioniconName="search"
+				ioniconName='search'
 				placeholder='Search . . .'
 				value={filterItem}
 				setValue={setFilterItem}
+				showTitle={false}
 			/>
 			<ScrollView
 				style={{ flex: 1, width: '100%', padding: 2 }}
 				showsVerticalScrollIndicator={false}
 				refreshControl={
 					<RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />
-				}>
+				}
+			>
 				{foundItems && foundItems.length == 0 ? (
 					<Text>{`No order found with the order ${filterItem}!`}</Text>
 				) : (

@@ -81,7 +81,6 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 			.catch(error => {
 				setIsloading(false);
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
@@ -130,7 +129,6 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 			.catch(error => {
 				setIsloading(false);
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
@@ -189,6 +187,7 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 				placeholder='Search . . .'
 				value={filterItem}
 				setValue={setFilterItem}
+				showTitle={false}
 			/>
 
 			<ScrollView

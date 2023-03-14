@@ -51,12 +51,11 @@ const ViewProductScreen = ({ navigation, route }) => {
 	};
 
 	//method to delete the specific order
-	const handleDelete = id => {
+	const handleDelete = (id) => {
 		setIsloading(true);
-		console.log(`${network.serverip}/delete-product?id=${id}`);
 		fetch(`${network.serverip}/delete-product?id=${id}`, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					fetchProduct();
 					setError(result.message);
@@ -67,15 +66,14 @@ const ViewProductScreen = ({ navigation, route }) => {
 				}
 				setIsloading(false);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
 	//method for alert
-	const showConfirmDialog = id => {
+	const showConfirmDialog = (id) => {
 		return Alert.alert(
 			'Are your sure?',
 			'Are you sure you want to delete the category?',
@@ -89,7 +87,7 @@ const ViewProductScreen = ({ navigation, route }) => {
 				{
 					text: 'No',
 				},
-			],
+			]
 		);
 	};
 
@@ -97,12 +95,11 @@ const ViewProductScreen = ({ navigation, route }) => {
 	const fetchProduct = () => {
 		setIsloading(true);
 		fetch(`${network.serverip}/products`, ProductListRequestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					setProducts(result.data);
 					setFoundItems(result.data);
-					console.log(result.data)
 					setError('');
 					setIsloading(false);
 				} else {
@@ -110,9 +107,8 @@ const ViewProductScreen = ({ navigation, route }) => {
 					setIsloading(false);
 				}
 			})
-			.catch(error => {
+			.catch((error) => {
 				setError(error.message);
-				console.log('error', error);
 				setIsloading(false);
 			});
 	};
@@ -121,7 +117,7 @@ const ViewProductScreen = ({ navigation, route }) => {
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = products?.filter(product => {
+			const results = products?.filter((product) => {
 				return product?.title.toLowerCase().includes(keyword.toLowerCase());
 			});
 			setFoundItems(results);
@@ -146,9 +142,10 @@ const ViewProductScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.primary}
 					/>
@@ -156,8 +153,9 @@ const ViewProductScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.navigate('addproduct', { authUser: authUser });
-					}}>
-					<AntDesign name="plussquare" size={30} color={colors.primary} />
+					}}
+				>
+					<AntDesign name='plussquare' size={30} color={colors.primary} />
 				</TouchableOpacity>
 			</View>
 
@@ -172,6 +170,7 @@ const ViewProductScreen = ({ navigation, route }) => {
 				placeholder='Search . . .'
 				value={filterItem}
 				setValue={setFilterItem}
+				showTitle={false}
 			/>
 
 			<ScrollView
@@ -179,7 +178,8 @@ const ViewProductScreen = ({ navigation, route }) => {
 				showsVerticalScrollIndicator={false}
 				refreshControl={
 					<RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />
-				}>
+				}
+			>
 				{foundItems && foundItems.length == 0 ? (
 					<Text>{`No product found with the name of ${filterItem}!`}</Text>
 				) : (
@@ -187,14 +187,12 @@ const ViewProductScreen = ({ navigation, route }) => {
 						return (
 							<ProductList
 								key={index}
-								image={`${network.serverip}/uploads/${product?.image}`}
+								image={product?.image}
 								title={product?.title}
 								category={product?.category?.title}
 								price={product?.price}
 								qantity={product?.sku}
-								onPressView={() => {
-									console.log('view is working ' + product._id);
-								}}
+								onPressView={() => { }}
 								onPressEdit={() => {
 									navigation.navigate('editproduct', {
 										product: product,

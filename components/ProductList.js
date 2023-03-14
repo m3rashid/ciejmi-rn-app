@@ -17,7 +17,7 @@ const ProductList = ({
 		<TouchableOpacity style={styles.container} onPress={onPressView}>
 			<View style={styles.innerContainer}>
 				<View>
-					{image != null ? (
+					{image ? (
 						<Image source={{ uri: image }} style={styles.productImage} />
 					) : (
 						<View style={styles.ImageContainer} />

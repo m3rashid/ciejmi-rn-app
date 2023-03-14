@@ -7,7 +7,7 @@ import {
 	TouchableOpacity,
 	RefreshControl,
 } from 'react-native';
-import React, { useEffect, useState, } from 'react';
+import React, { useEffect, useState } from 'react';
 import { colors, network } from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -23,7 +23,7 @@ const MyAddressScreen = ({ navigation, route }) => {
 	const [error, setError] = useState('');
 	const [refeshing, setRefreshing] = useState(false);
 	const [alertType, setAlertType] = useState('error');
-	const [addresses, setAddresses] = useState([])
+	const [addresses, setAddresses] = useState([]);
 
 	const fetchAddresses = async () => {
 		setIsloading(true);
@@ -32,33 +32,32 @@ const MyAddressScreen = ({ navigation, route }) => {
 				method: 'GET',
 				headers: {
 					'x-auth-token': user.token,
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
 				},
-				redirect: 'follow'
+				redirect: 'follow',
 			})
 				.then((response) => response.json())
 				.then((result) => {
-					console.log(result.data.addresses)
 					if (result.success) {
-						setAddresses(result.data.addresses)
+						setAddresses(result.data.addresses);
 					} else {
-						setError(result.message || "Something went wrong")
+						setError(result.message || 'Something went wrong');
 					}
 				})
 				.catch((error) => {
-					setError(error.message || "Something went wrong")
+					setError(error.message || 'Something went wrong');
 				})
 				.finally(() => {
-					setIsloading(false)
-				})
+					setIsloading(false);
+				});
 		} catch (err) {
-			setError(err.message || "Something went wrong")
+			setError(err.message || 'Something went wrong');
 		}
-	}
+	};
 
 	useEffect(() => {
-		fetchAddresses().then().catch(console.log)
-	}, [])
+		fetchAddresses().then().catch(console.log);
+	}, []);
 
 	const handleOnRefresh = () => {
 		setRefreshing(true);
@@ -67,8 +66,8 @@ const MyAddressScreen = ({ navigation, route }) => {
 	};
 
 	const handleAddAddress = () => {
-		navigation.navigate('addAddress', { authUser: user })
-	}
+		navigation.navigate('addAddress', { authUser: user });
+	};
 
 	const logout = async () => {
 		await AsyncStorage.removeItem('authUser');
@@ -83,16 +82,17 @@ const MyAddressScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
 				</TouchableOpacity>
 				<View />
 				<TouchableOpacity onPress={handleAddAddress}>
-					<AntDesign name="plussquare" size={30} color={colors.primary} />
+					<AntDesign name='plussquare' size={30} color={colors.primary} />
 				</TouchableOpacity>
 			</View>
 
@@ -116,7 +116,8 @@ const MyAddressScreen = ({ navigation, route }) => {
 							refreshing={refeshing}
 							onRefresh={handleOnRefresh}
 						/>
-					}>
+					}
+				>
 					{addresses.map((address, index) => {
 						return (
 							<AddresssList
@@ -127,16 +128,16 @@ const MyAddressScreen = ({ navigation, route }) => {
 								setIsloading={setIsloading}
 								key={index}
 							/>
-						)
+						);
 					})}
 					<View style={styles.emptyView} />
 				</ScrollView>
 			)}
 		</View>
-	)
-}
+	);
+};
 
-export default MyAddressScreen
+export default MyAddressScreen;
 
 const styles = StyleSheet.create({
 	container: {

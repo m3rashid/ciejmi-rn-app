@@ -2,51 +2,50 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import { colors, network } from '../constants';
 import { dateFormat, getTime } from './OrderList';
-import AntDesign from "react-native-vector-icons/AntDesign"
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const AddresssList = ({ address, index = 0, setIsloading, refresh, authUser }) => {
+const AddresssList = ({
+	address,
+	index = 0,
+	setIsloading,
+	refresh,
+	authUser,
+}) => {
 	// localAddressOne, localAddressTwo, city, state, postalCode
 
 	const removeAddress = async () => {
-		if (!address._id) return
+		if (!address._id) return;
 		setIsloading(true);
 		try {
 			fetch(network.serverip + '/remove-address', {
 				method: 'POST',
 				headers: {
 					'x-auth-token': authUser.token,
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({ _id: address._id }),
-				redirect: 'follow'
-			}).then((res) => res.json()).then((result) => {
-				console.log(result)
-				refresh()
+				redirect: 'follow',
 			})
-				.catch((error) => {
-					console.log(error)
-				})
+				.then((res) => res.json())
+				.then(refresh)
+				.catch(console.log)
 				.finally(() => {
-					setIsloading(false)
-				})
+					setIsloading(false);
+				});
 		} catch (err) {
-			setIsloading(false)
+			setIsloading(false);
 		}
-	}
+	};
 
 	const handleRemoveAddress = async () => {
 		return Alert.alert(
 			'Delete address ?',
 			'Are you sure you want to delete this address ?',
-			[
-				{ text: 'Cancel' },
-				{ text: 'Delete', onPress: removeAddress },
-			],
+			[{ text: 'Cancel' }, { text: 'Delete', onPress: removeAddress }]
 		);
-	}
+	};
 
-
-	if (!address) return null
+	if (!address) return null;
 
 	return (
 		<View style={styles.container}>
@@ -55,28 +54,36 @@ const AddresssList = ({ address, index = 0, setIsloading, refresh, authUser }) =
 
 				<View style={styles.timeDateContainer}>
 					<Text style={styles.secondaryTextSm}>Added On</Text>
-					<Text style={styles.secondaryTextSm}>{dateFormat(address.createdAt)} - {getTime(address.createdAt)}</Text>
+					<Text style={styles.secondaryTextSm}>
+						{dateFormat(address.createdAt)} - {getTime(address.createdAt)}
+					</Text>
 				</View>
 			</View>
 
 			<View style={styles.innerRowUpper}>
 				<View style={[styles.innerRow, { width: '70%' }]}>
-					<Text style={styles.secondaryText}>Address Line One : {address.localAddressOne}</Text>
-					<Text style={styles.secondaryText}>Address Line two : {address.localAddressTwo}</Text>
+					<Text style={styles.secondaryText}>
+						Address Line One : {address.localAddressOne}
+					</Text>
+					<Text style={styles.secondaryText}>
+						Address Line two : {address.localAddressTwo}
+					</Text>
 					<Text style={styles.secondaryText}>City : {address.city}</Text>
 					<Text style={styles.secondaryText}>State : {address.state}</Text>
-					<Text style={styles.secondaryText}>Postal Code : {address.postalCode}</Text>
+					<Text style={styles.secondaryText}>
+						Postal Code : {address.postalCode}
+					</Text>
 				</View>
 
 				<View style={styles.timeDateContainer}>
 					<TouchableOpacity onPress={handleRemoveAddress}>
-						<AntDesign name="closecircle" size={30} color={colors.danger} />
+						<AntDesign name='closecircle' size={30} color={colors.danger} />
 					</TouchableOpacity>
 				</View>
 			</View>
 		</View>
-	)
-}
+	);
+};
 
 export default AddresssList;
 
@@ -96,7 +103,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		alignItems: 'center',
 		flexDirection: 'row',
-		marginBottom: 15
+		marginBottom: 15,
 	},
 	innerRow: {
 		display: 'flex',

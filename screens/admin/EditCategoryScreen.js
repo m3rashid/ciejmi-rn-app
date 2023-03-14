@@ -63,7 +63,6 @@ const EditCategoryScreen = ({ navigation, route }) => {
 			fetch(`${network.serverip}/update-category?id=${id}`, requestOptions)
 				.then(response => response.json())
 				.then(result => {
-					console.log(result);
 					if (result.success == true) {
 						setIsloading(false);
 						setAlertType('success');
@@ -76,7 +75,6 @@ const EditCategoryScreen = ({ navigation, route }) => {
 					setIsloading(false);
 					setError(error.message);
 					setAlertType('error');
-					console.log('error', error);
 				});
 		}
 	};

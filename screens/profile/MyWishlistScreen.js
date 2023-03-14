@@ -26,7 +26,7 @@ const MyWishlistScreen = ({ navigation, route }) => {
 	const [onWishlist, setOnWishlist] = useState(true);
 
 	//method to navigate to the product detail screen of the specific product
-	const handleView = product => {
+	const handleView = (product) => {
 		navigation.navigate('productdetail', { product: product });
 	};
 
@@ -55,8 +55,8 @@ const MyWishlistScreen = ({ navigation, route }) => {
 		};
 		setIsloading(true);
 		fetch(`${network.serverip}/wishlist`, requestOptions) // API call
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				//check if the token is expired
 				if (result?.err === 'jwt expired') {
 					logout();
@@ -67,15 +67,14 @@ const MyWishlistScreen = ({ navigation, route }) => {
 				}
 				setIsloading(false);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
 	//method to remove the item from wishlist using API call
-	const handleRemoveFromWishlist = id => {
+	const handleRemoveFromWishlist = (id) => {
 		var myHeaders = new Headers();
 		myHeaders.append('x-auth-token', user.token);
 
@@ -86,8 +85,8 @@ const MyWishlistScreen = ({ navigation, route }) => {
 		};
 
 		fetch(`${network.serverip}/remove-from-wishlist?id=${id}`, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					setError(result.message);
 					setAlertType('success');
@@ -97,10 +96,9 @@ const MyWishlistScreen = ({ navigation, route }) => {
 				}
 				setOnWishlist(!onWishlist);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setError(result.message);
 				setAlertType('error');
-				console.log('error', error);
 			});
 	};
 
@@ -121,16 +119,17 @@ const MyWishlistScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
 				</TouchableOpacity>
 				<View />
 				<TouchableOpacity onPress={() => handleOnRefresh()}>
-					<Ionicons name="heart-outline" size={30} color={colors.primary} />
+					<Ionicons name='heart-outline' size={30} color={colors.primary} />
 				</TouchableOpacity>
 			</View>
 
@@ -154,7 +153,8 @@ const MyWishlistScreen = ({ navigation, route }) => {
 							refreshing={refeshing}
 							onRefresh={handleOnRefresh}
 						/>
-					}>
+					}
+				>
 					{wishlist.map((list, index) => {
 						return (
 							<WishList

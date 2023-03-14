@@ -62,7 +62,6 @@ const EditProductScreen = ({ navigation, route }) => {
 			aspect: [1, 1],
 			quality: 0.5,
 		});
-		console.log(result);
 		if (!result.cancelled) {
 			setImage(result.uri);
 		}
@@ -84,7 +83,6 @@ const EditProductScreen = ({ navigation, route }) => {
 			setError('Please upload the product image');
 			setIsloading(false);
 		} else {
-			console.log(`${network.serverip}"/update-product?id=${product._id}"`);
 			fetch(
 				`${network.serverip}/update-product?id=${product._id}`,
 				requestOptions,
@@ -103,7 +101,6 @@ const EditProductScreen = ({ navigation, route }) => {
 				.catch(error => {
 					setIsloading(false);
 					setError(error.message);
-					console.log('error', error);
 				});
 		}
 	};

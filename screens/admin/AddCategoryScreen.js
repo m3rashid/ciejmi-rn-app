@@ -14,34 +14,23 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';
-import * as ImagePicker from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import ProgressDialog from 'react-native-progress-dialog';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import RNFS from 'react-native-fs';
 
 const AddCategoryScreen = ({ navigation, route }) => {
 	const { authUser } = route.params; //authUser data
 	const [isloading, setIsloading] = useState(false);
 	const [title, setTitle] = useState('');
-	const [image, setImage] = useState('easybuycat.png');
+	const [image, setImage] = useState('');
 	const [description, setDescription] = useState('');
 	const [error, setError] = useState('');
 	const [alertType, setAlertType] = useState('error');
-	const [user, setUser] = useState({});
 
-	//method to convert the authUser to json object.
-	const getToken = obj => {
-		try {
-			setUser(JSON.parse(obj));
-		} catch (e) {
-			setUser(obj);
-			return obj.token;
-		}
-		return JSON.parse(obj).token;
-	};
-
-	//Method for imput validation post data to server to insert category using API call
+	// Method for imput validation post data to server to insert category using API call
 	const addCategoryHandle = () => {
-		var myHeaders = new Headers();
+		const myHeaders = new Headers();
 		myHeaders.append('x-auth-token', authUser.token);
 		myHeaders.append('Content-Type', 'application/json');
 
@@ -59,36 +48,77 @@ const AddCategoryScreen = ({ navigation, route }) => {
 		};
 
 		setIsloading(true);
-		//[check validation] -- Start
 		if (title == '') {
 			setError('Please enter the product title');
 			setIsloading(false);
 		} else if (description == '') {
 			setError('Please upload the product image');
 			setIsloading(false);
-		} else if (image == null) {
+		} else if (!image) {
 			setError('Please upload the Catergory image');
 			setIsloading(false);
 		} else {
-			//[check validation] -- End
 			fetch(network.serverip + '/category', requestOptions) //API call
 				.then(response => response.json())
 				.then(result => {
-					console.log(result);
 					if (result.success == true) {
 						setIsloading(false);
 						setAlertType('success');
 						setError(result.message);
 						setTitle('');
 						setDescription('');
+						setImage('');
 					}
 				})
 				.catch(error => {
 					setIsloading(false);
 					setError(error.message);
 					setAlertType('error');
-					console.log('error', error);
 				});
+		}
+	};
+
+	const upload = async (file) => {
+		if (!file) return;
+		setIsloading(true)
+		const fileToUpload = {
+			name: 'images',
+			filetype: 'image/jpeg',
+			filename: file.name || file.fileName,
+			filepath: file.uri.replace('file://', ''),
+		};
+
+		RNFS.uploadFiles({
+			toUrl: network.serverip + '/upload',
+			files: [fileToUpload],
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				Authorization: authUser.token,
+				'x-auth-token': authUser.token,
+			},
+		}).promise.then((response) => {
+			if (response.statusCode === 200) {
+				// request successfully completed
+				const data = JSON.parse(response.body);
+				setImage(data.data)
+			} else {
+				// server error
+			}
+			setIsloading(false)
+		})
+	};
+
+	const pickImage = async () => {
+		// No permissions request is necessary for launching the image library
+		let result = await launchImageLibrary({
+			allowsEditing: true,
+			aspect: [1, 1],
+			quality: 0.5,
+		});
+
+		if (!result.cancelled) {
+			upload(result.assets[0]).then().catch(console.log);
 		}
 	};
 
@@ -119,10 +149,25 @@ const AddCategoryScreen = ({ navigation, route }) => {
 				showsVerticalScrollIndicator={false}
 				style={{ flex: 1, width: '100%' }}>
 				<View style={styles.formContainer}>
+					<View style={styles.imageContainer}>
+						{image ? (
+							<TouchableOpacity style={styles.imageHolder} onPress={pickImage}>
+								<Image
+									source={{ uri: image }}
+									style={{ width: 200, height: 200 }}
+								/>
+							</TouchableOpacity>
+						) : (
+							<TouchableOpacity style={styles.imageHolder} onPress={pickImage}>
+								<AntDesign name='pluscircle' size={50} color={colors.muted} />
+							</TouchableOpacity>
+						)}
+					</View>
+
 					<CustomInput
 						value={title}
 						setValue={setTitle}
-						placeholder={'Title'}
+						placeholder='Title'
 						placeholderTextColor={colors.muted}
 						radius={5}
 					/>
@@ -130,7 +175,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
 					<CustomInput
 						value={description}
 						setValue={setDescription}
-						placeholder={'Description'}
+						placeholder='Description'
 						placeholderTextColor={colors.muted}
 						radius={5}
 					/>

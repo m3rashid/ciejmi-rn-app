@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import cartIcon from '../../assets/icons/cart_beg.png';
 import emptyBox from '../../assets/image/emptybox.png';
 import { colors, network } from '../../constants';
@@ -35,23 +35,23 @@ const CategoriesScreen = ({ navigation, route }) => {
 
 	//get the dimenssions of active window
 	const [windowWidth, setWindowWidth] = useState(
-		Dimensions.get('window').width,
+		Dimensions.get('window').width
 	);
 	const windowHeight = Dimensions.get('window').height;
 
 	//initialize the cartproduct with redux data
-	const cartproduct = useSelector(state => state.product);
+	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 
 	const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
 
 	//method to navigate to product detail screen of specific product
-	const handleProductPress = product => {
+	const handleProductPress = (product) => {
 		navigation.navigate('productdetail', { product: product });
 	};
 
 	//method to add the product to cart (redux)
-	const handleAddToCat = product => {
+	const handleAddToCat = (product) => {
 		addCartItem(product);
 	};
 
@@ -82,8 +82,8 @@ const CategoriesScreen = ({ navigation, route }) => {
 			redirect: 'follow',
 		};
 		fetch(`${network.serverip}/products`, headerOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					setProducts(result.data);
 					setFoundItems(result.data);
@@ -92,9 +92,8 @@ const CategoriesScreen = ({ navigation, route }) => {
 					setError(result.message);
 				}
 			})
-			.catch(error => {
+			.catch((error) => {
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
@@ -109,7 +108,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = products.filter(product => {
+			const results = products.filter((product) => {
 				return product?.title.toLowerCase().includes(keyword.toLowerCase());
 			});
 
@@ -134,9 +133,10 @@ const CategoriesScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.jumpTo('home');
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
@@ -145,7 +145,8 @@ const CategoriesScreen = ({ navigation, route }) => {
 				<View />
 				<TouchableOpacity
 					style={styles.cartIconContainer}
-					onPress={() => navigation.navigate('cart')}>
+					onPress={() => navigation.navigate('cart')}
+				>
 					{cartproduct?.length > 0 ? (
 						<View style={styles.cartItemCountContainer}>
 							<Text style={styles.cartItemCountText}>{cartproduct.length}</Text>
@@ -160,10 +161,11 @@ const CategoriesScreen = ({ navigation, route }) => {
 				<View style={{ padding: 0, paddingLeft: 12, paddingRight: 12 }}>
 					<CustomInput
 						radius={5}
-						ioniconName="search"
+						ioniconName='search'
 						placeholder='Search . . .'
 						value={filterItem}
 						setValue={setFilterItem}
+						showTitle={false}
 					/>
 				</View>
 
@@ -188,7 +190,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 				/>
 
 				{foundItems.filter(
-					product => product?.category?._id === selectedTab?._id,
+					(product) => product?.category?._id === selectedTab?._id
 				).length === 0 ? (
 					<View style={styles.noItemContainer}>
 						<View
@@ -200,7 +202,8 @@ const CategoriesScreen = ({ navigation, route }) => {
 								height: 150,
 								width: 150,
 								borderRadius: 5,
-							}}>
+							}}
+						>
 							<Image
 								source={emptyBox}
 								style={{ height: 80, width: 80, resizeMode: 'contain' }}
@@ -213,7 +216,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 				) : (
 					<FlatList
 						data={foundItems.filter(
-							product => product?.category?._id === selectedTab?._id,
+							(product) => product?.category?._id === selectedTab?._id
 						)}
 						refreshControl={
 							<RefreshControl
@@ -229,7 +232,8 @@ const CategoriesScreen = ({ navigation, route }) => {
 								style={[
 									styles.productCartContainer,
 									{ width: (windowWidth - windowWidth * 0.1) / 2 },
-								]}>
+								]}
+							>
 								<ProductCard
 									cardSize='large'
 									name={product.title}

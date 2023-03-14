@@ -7,7 +7,7 @@ import {
 	Text,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import cartIcon from '../../assets/icons/cart_beg.png';
 import { colors, network } from '../../constants';
 import CustomButton from '../../components/CustomButton';
@@ -19,13 +19,13 @@ import CustomAlert from '../../components/CustomAlert';
 
 const ProductDetailScreen = ({ navigation, route }) => {
 	const { product } = route.params;
-	const cartproduct = useSelector(state => state.product);
+	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 
 	const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
 
 	//method to add item to cart(redux)
-	const handleAddToCat = item => {
+	const handleAddToCat = (item) => {
 		addCartItem(item);
 	};
 
@@ -57,8 +57,8 @@ const ProductDetailScreen = ({ navigation, route }) => {
 			redirect: 'follow',
 		};
 		fetch(`${network.serverip}/wishlist`, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result?.err === 'jwt expired') {
 					logout();
 				}
@@ -67,7 +67,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 					setIsDisbale(false);
 
 					//check if the current active product is already in wishlish or not
-					result.data[0].wishlist.map(item => {
+					result.data[0].wishlist.map((item) => {
 						if (item?.productId?._id === product?._id) {
 							setOnWishlist(true);
 						}
@@ -76,21 +76,20 @@ const ProductDetailScreen = ({ navigation, route }) => {
 					setError('');
 				}
 			})
-			.catch(error => {
+			.catch((error) => {
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
 	//method to increase the product quantity
-	const handleIncreaseButton = quantity => {
+	const handleIncreaseButton = (quantity) => {
 		if (avaiableQuantity > quantity) {
 			setQuantity(quantity + 1);
 		}
 	};
 
 	//method to decrease the product quantity
-	const handleDecreaseButton = quantity => {
+	const handleDecreaseButton = (quantity) => {
 		if (quantity > 0) {
 			setQuantity(quantity - 1);
 		}
@@ -115,10 +114,10 @@ const ProductDetailScreen = ({ navigation, route }) => {
 			//API call to remove a item in wishlish
 			fetch(
 				`${network.serverip}/remove-from-wishlist?id=${product?._id}`,
-				requestOptions,
+				requestOptions
 			)
-				.then(response => response.json())
-				.then(result => {
+				.then((response) => response.json())
+				.then((result) => {
 					if (result.success) {
 						setError(result.message);
 						setAlertType('success');
@@ -129,10 +128,9 @@ const ProductDetailScreen = ({ navigation, route }) => {
 					}
 					setOnWishlist(!onWishlist);
 				})
-				.catch(error => {
+				.catch((error) => {
 					setError(result.message);
 					setAlertType('error');
-					console.log('error', error);
 				});
 			setIsDisbale(false);
 		} else {
@@ -152,13 +150,10 @@ const ProductDetailScreen = ({ navigation, route }) => {
 				redirect: 'follow',
 			};
 
-			console.log(addrequestOptions);
-
 			//API call to add a item in wishlish
 			fetch(`${network.serverip}/add-to-wishlist`, addrequestOptions)
-				.then(response => response.json())
-				.then(result => {
-					console.log(result);
+				.then((response) => response.json())
+				.then((result) => {
 					if (result.success) {
 						setError(result.message);
 						setAlertType('success');
@@ -169,10 +164,9 @@ const ProductDetailScreen = ({ navigation, route }) => {
 					}
 					setOnWishlist(!onWishlist);
 				})
-				.catch(error => {
+				.catch((error) => {
 					setError(result.message);
 					setAlertType('error');
-					console.log('error', error);
 				});
 			setIsDisbale(false);
 		}
@@ -196,9 +190,10 @@ const ProductDetailScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
@@ -207,7 +202,8 @@ const ProductDetailScreen = ({ navigation, route }) => {
 				<View />
 				<TouchableOpacity
 					style={styles.cartIconContainer}
-					onPress={() => navigation.navigate('cart')}>
+					onPress={() => navigation.navigate('cart')}
+				>
 					{cartproduct.length > 0 ? (
 						<View style={styles.cartItemCountContainer}>
 							<Text style={styles.cartItemCountText}>{cartproduct.length}</Text>
@@ -233,11 +229,12 @@ const ProductDetailScreen = ({ navigation, route }) => {
 								<TouchableOpacity
 									disabled={isDisable}
 									style={styles.iconContainer}
-									onPress={() => handleWishlistBtn()}>
+									onPress={() => handleWishlistBtn()}
+								>
 									{onWishlist == false ? (
-										<Ionicons name="heart" size={25} color={colors.muted} />
+										<Ionicons name='heart' size={25} color={colors.muted} />
 									) : (
-										<Ionicons name="heart" size={25} color={colors.danger} />
+										<Ionicons name='heart' size={25} color={colors.danger} />
 									)}
 								</TouchableOpacity>
 							</View>
@@ -263,7 +260,8 @@ const ProductDetailScreen = ({ navigation, route }) => {
 									style={styles.counterButtonContainer}
 									onPress={() => {
 										handleDecreaseButton(quantity);
-									}}>
+									}}
+								>
 									<Text style={styles.counterButtonText}>-</Text>
 								</TouchableOpacity>
 								<Text style={styles.counterCountText}>{quantity}</Text>
@@ -271,7 +269,8 @@ const ProductDetailScreen = ({ navigation, route }) => {
 									style={styles.counterButtonContainer}
 									onPress={() => {
 										handleIncreaseButton(quantity);
-									}}>
+									}}
+								>
 									<Text style={styles.counterButtonText}>+</Text>
 								</TouchableOpacity>
 							</View>

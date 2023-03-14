@@ -12,12 +12,14 @@ import React, { useState } from 'react';
 import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import Ionicons from "react-native-vector-icons/Ionicons"
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { launchImageLibrary, } from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import ProgressDialog from 'react-native-progress-dialog';
 import { useEffect } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
+import RNFS from 'react-native-fs';
+import CustomAlert from '../../components/CustomAlert';
 
 const AddProductScreen = ({ navigation, route }) => {
 	const { authUser } = route.params;
@@ -49,7 +51,7 @@ const AddProductScreen = ({ navigation, route }) => {
 	var payload = [];
 
 	//method to convert the authUser to json object.
-	const getToken = obj => {
+	const getToken = (obj) => {
 		try {
 			setUser(JSON.parse(obj));
 		} catch (e) {
@@ -59,7 +61,6 @@ const AddProductScreen = ({ navigation, route }) => {
 		return JSON.parse(obj).token;
 	};
 
-	//Method : Fetch category data from using API call and store for later you in code
 	const fetchCategories = () => {
 		var myHeaders = new Headers();
 		myHeaders.append('x-auth-token', getToken(authUser));
@@ -71,11 +72,11 @@ const AddProductScreen = ({ navigation, route }) => {
 		};
 		setIsloading(true);
 		fetch(`${network.serverip}/categories`, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					setCategories(result.categories);
-					result.categories.forEach(cat => {
+					result.categories.forEach((cat) => {
 						let obj = {
 							label: cat.title,
 							value: cat._id,
@@ -89,43 +90,43 @@ const AddProductScreen = ({ navigation, route }) => {
 				}
 				setIsloading(false);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
 	const upload = async (file) => {
-		if (!file) return
-		console.log({ file })
-		const formData = new FormData();
-		formData.append('image', {
-			name: file.name,
-			type: file.type,
-			uri: Platform.OS === 'ios' ?
-				file.uri.replace('file://', '')
-				: file.uri,
-		});
+		if (!file) return;
+		setIsloading(true)
+		const fileToUpload = {
+			name: 'images',
+			filetype: 'image/jpeg',
+			filename: file.name || file.fileName,
+			filepath: file.uri.replace('file://', ''),
+		};
 
-		const response = await fetch(`${network.serverip}/upload`, {
+		RNFS.uploadFiles({
+			toUrl: network.serverip + '/upload',
+			files: [fileToUpload],
 			method: 'POST',
-			body: formData,
-			redirect: 'follow',
 			headers: {
+				Accept: 'application/json',
+				Authorization: authUser.token,
 				'x-auth-token': authUser.token,
-				'Content-Type': 'multipart/form-data'
 			},
-		});
-		const result = await response.json();
-		console.log(result);
-		if (result.success) {
-			console.log(result);
-			setImage(result.data);
-		}
+		}).promise.then((response) => {
+			if (response.statusCode === 200) {
+				// request successfully completed
+				const data = JSON.parse(response.body);
+				setImage(data.data)
+			} else {
+				// server error
+			}
+			setIsloading(false)
+		})
 	};
 
-	//Method for selecting the image from device gallery
 	const pickImage = async () => {
 		// No permissions request is necessary for launching the image library
 		let result = await launchImageLibrary({
@@ -135,7 +136,7 @@ const AddProductScreen = ({ navigation, route }) => {
 		});
 
 		if (!result.cancelled) {
-			upload(result.assets[0]).then().catch(console.log)
+			upload(result.assets[0]).then().catch(console.log);
 		}
 	};
 
@@ -153,7 +154,7 @@ const AddProductScreen = ({ navigation, route }) => {
 		} else if (quantity <= 0) {
 			setError('Quantity must be greater then 1');
 			setIsloading(false);
-		} else if (image == null) {
+		} else if (!image) {
 			setError('Please upload the product image');
 			setIsloading(false);
 		} else {
@@ -173,27 +174,31 @@ const AddProductScreen = ({ navigation, route }) => {
 			};
 
 			fetch(network.serverip + '/product', requestOptions)
-				.then(response => response.json())
-				.then(result => {
-					console.log(result);
+				.then((response) => response.json())
+				.then((result) => {
 					if (result.success == true) {
 						setIsloading(false);
 						setAlertType('success');
 						setError(result.message);
+						setTitle('');
+						setSku('');
+						setPrice(0);
+						setImage('');
+						setDescription('');
+						setCategory('');
+						setQuantity(0);
 					}
 				})
-				.catch(error => {
+				.catch((error) => {
 					setIsloading(false);
 					setError(error.message);
 					setAlertType('error');
-					console.log('error', error);
 				});
 		}
 	};
 
 	useEffect(() => {
 		fetchCategories();
-		console.log(categories);
 	}, []);
 
 	return (
@@ -202,9 +207,12 @@ const AddProductScreen = ({ navigation, route }) => {
 			<ProgressDialog visible={isloading} label='Adding . . .' />
 			<View style={styles.TopBarContainer}>
 				<TouchableOpacity
-					onPress={() => { navigation.goBack() }}>
+					onPress={() => {
+						navigation.goBack();
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
@@ -215,22 +223,23 @@ const AddProductScreen = ({ navigation, route }) => {
 				<Text style={styles.screenNameText}>Add Product</Text>
 			</View>
 
-
+			<CustomAlert message={error} type={alertType} />
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				style={{ flex: 1, width: '100%' }}>
+				style={{ flex: 1, width: '100%' }}
+			>
 				<View style={styles.formContainer}>
 					<View style={styles.imageContainer}>
 						{image ? (
 							<TouchableOpacity style={styles.imageHolder} onPress={pickImage}>
 								<Image
-									source={{ uri: image.uri }}
+									source={{ uri: image }}
 									style={{ width: 200, height: 200 }}
 								/>
 							</TouchableOpacity>
 						) : (
 							<TouchableOpacity style={styles.imageHolder} onPress={pickImage}>
-								<AntDesign name="pluscircle" size={50} color={colors.muted} />
+								<AntDesign name='pluscircle' size={50} color={colors.muted} />
 							</TouchableOpacity>
 						)}
 					</View>
@@ -290,7 +299,12 @@ const AddProductScreen = ({ navigation, route }) => {
 					}}
 					containerStyle={{ borderWidth: 0, borderColor: '#fff' }}
 					labelStyle={{ color: colors.muted }}
-					style={{ borderColor: '#fff', elevation: 5, margin: 5, marginBottom: 100, }}
+					style={{
+						borderColor: '#fff',
+						elevation: 5,
+						margin: 5,
+						marginBottom: 100,
+					}}
 				/>
 			</ScrollView>
 			<View style={styles.buttomContainer}>

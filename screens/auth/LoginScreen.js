@@ -25,11 +25,10 @@ const LoginScreen = ({ navigation }) => {
 	const [isloading, setIsloading] = useState(false);
 
 	//method to store the authUser to aync storage
-	_storeData = async user => {
+	_storeData = async (user) => {
 		try {
 			AsyncStorage.setItem('authUser', JSON.stringify(user));
 		} catch (error) {
-			console.log(error);
 			setError(error);
 		}
 	};
@@ -71,8 +70,8 @@ const LoginScreen = ({ navigation }) => {
 		}
 
 		fetch(network.serverip + '/login', requestOptions) // API call
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (
 					result.status == 200 ||
 					(result.status == 1 && result.success != false)
@@ -92,9 +91,8 @@ const LoginScreen = ({ navigation }) => {
 					return setError(result.message);
 				}
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
-				console.log('error', setError(error.message));
 			});
 	};
 
@@ -102,7 +100,8 @@ const LoginScreen = ({ navigation }) => {
 		<InternetConnectionAlert>
 			<KeyboardAvoidingView
 				// behavior={Platform.OS === "ios" ? "padding" : "height"}
-				style={styles.container}>
+				style={styles.container}
+			>
 				<ScrollView style={{ flex: 1, width: '100%' }}>
 					<ProgressDialog visible={isloading} label={'Login ...'} />
 					<StatusBar />
@@ -121,7 +120,7 @@ const LoginScreen = ({ navigation }) => {
 					<View style={styles.formContainer}>
 						<CustomAlert message={error} type={'error'} />
 						<CustomInput
-							ioniconName="ios-at-outline"
+							ioniconName='ios-at-outline'
 							value={email}
 							setValue={setEmail}
 							placeholder='Email'
@@ -129,7 +128,7 @@ const LoginScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
-							ioniconName="ios-lock-closed-outline"
+							ioniconName='ios-lock-closed-outline'
 							value={password}
 							setValue={setPassword}
 							secureTextEntry={true}
@@ -140,7 +139,8 @@ const LoginScreen = ({ navigation }) => {
 						<View style={styles.forgetPasswordContainer}>
 							<Text
 								onPress={() => navigation.navigate('forgetpassword')}
-								style={styles.ForgetText}>
+								style={styles.ForgetText}
+							>
 								Forgot Password ?
 							</Text>
 						</View>
@@ -153,7 +153,8 @@ const LoginScreen = ({ navigation }) => {
 					<Text>Don't have an account? </Text>
 					<Text
 						onPress={() => navigation.navigate('signup')}
-						style={styles.signupText}>
+						style={styles.signupText}
+					>
 						Signup
 					</Text>
 				</View>
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		height: '30%'
+		height: '30%',
 	},
 	formContainer: {
 		flex: 3,

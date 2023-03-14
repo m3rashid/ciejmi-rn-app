@@ -73,9 +73,6 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 			headers: myHeaders,
 			redirect: 'follow',
 		};
-		console.log(
-			`Link:${network.serverip}/admin/order-status?orderId=${id}&status=${value}`,
-		);
 
 		fetch(
 			`${network.serverip}/admin/order-status?orderId=${id}&status=${value}`,
@@ -92,7 +89,6 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 			.catch(error => {
 				setAlertType('error');
 				setError(error);
-				console.log('error', error);
 				setIsloading(false);
 			});
 	};

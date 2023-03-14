@@ -7,7 +7,7 @@ import {
 	ScrollView,
 	Modal,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useState, useEffect } from 'react';
 import BasicProductList from '../../components/BasicProductList';
 import { colors, network } from '../../constants';
@@ -22,7 +22,7 @@ import ProgressDialog from 'react-native-progress-dialog';
 const CheckoutScreen = ({ navigation, route }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isloading, setIsloading] = useState(false);
-	const cartproduct = useSelector(state => state.product);
+	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 	const { emptyCart } = bindActionCreators(actionCreaters, dispatch);
 
@@ -46,7 +46,6 @@ const CheckoutScreen = ({ navigation, route }) => {
 		var myHeaders = new Headers();
 		const value = await AsyncStorage.getItem('authUser');
 		let user = JSON.parse(value);
-		console.log('Checkout:', user.token);
 
 		myHeaders.append('x-auth-token', user.token);
 		myHeaders.append('Content-Type', 'application/json');
@@ -55,7 +54,7 @@ const CheckoutScreen = ({ navigation, route }) => {
 		var totalamount = 0;
 
 		// fetch the cart items from redux and set the total cost
-		cartproduct.forEach(product => {
+		cartproduct.forEach((product) => {
 			let obj = {
 				productId: product._id,
 				price: product.price,
@@ -85,9 +84,8 @@ const CheckoutScreen = ({ navigation, route }) => {
 		};
 
 		fetch(network.serverip + '/checkout', requestOptions) //API call
-			.then(response => response.json())
-			.then(result => {
-				console.log('Checkout=>', result);
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.err === 'jwt expired') {
 					setIsloading(false);
 					logout();
@@ -98,9 +96,8 @@ const CheckoutScreen = ({ navigation, route }) => {
 					navigation.replace('orderconfirm');
 				}
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
-				console.log('error', error);
 			});
 	};
 
@@ -114,7 +111,7 @@ const CheckoutScreen = ({ navigation, route }) => {
 		setTotalCost(
 			cartproduct.reduce((accumulator, object) => {
 				return accumulator + object.price * object.quantity;
-			}, 0),
+			}, 0)
 		);
 	}, []);
 
@@ -126,9 +123,10 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
@@ -140,7 +138,8 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<Text style={styles.primaryText}>Order Summary</Text>
 				<ScrollView
 					style={styles.orderSummaryContainer}
-					nestedScrollEnabled={true}>
+					nestedScrollEnabled={true}
+				>
 					{cartproduct.map((product, index) => (
 						<BasicProductList
 							key={index}
@@ -184,14 +183,16 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<View style={styles.listContainer}>
 					<TouchableOpacity
 						style={styles.list}
-						onPress={() => setModalVisible(true)}>
+						onPress={() => setModalVisible(true)}
+					>
 						<Text style={styles.secondaryTextSm}>Address</Text>
 						<View>
 							{country || city || streetAddress != '' ? (
 								<Text
 									style={styles.secondaryTextSm}
 									numberOfLines={1}
-									ellipsizeMode="tail">
+									ellipsizeMode='tail'
+								>
 									{address.length < 25
 										? `${address}`
 										: `${address.substring(0, 25)}...`}
@@ -226,12 +227,13 @@ const CheckoutScreen = ({ navigation, route }) => {
 				)}
 			</View>
 			<Modal
-				animationType="slide"
+				animationType='slide'
 				transparent={true}
 				visible={modalVisible}
 				onRequestClose={() => {
 					setModalVisible(!modalVisible);
-				}}>
+				}}
+			>
 				<View style={styles.modelBody}>
 					<View style={styles.modelAddressContainer}>
 						<CustomInput

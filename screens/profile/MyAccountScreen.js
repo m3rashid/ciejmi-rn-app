@@ -20,7 +20,7 @@ const MyAccountScreen = ({ navigation, route }) => {
 	const userID = user._id;
 
 	//method for alert
-	const showConfirmDialog = id => {
+	const showConfirmDialog = (id) => {
 		return Alert.alert(
 			'Are your sure?',
 			'Are you sure you want to remove your account?',
@@ -35,7 +35,7 @@ const MyAccountScreen = ({ navigation, route }) => {
 				{
 					text: 'No',
 				},
-			],
+			]
 		);
 	};
 
@@ -45,31 +45,30 @@ const MyAccountScreen = ({ navigation, route }) => {
 	};
 
 	//method to delete the account using API call
-	const DeleteAccontHandle = userID => {
+	const DeleteAccontHandle = (userID) => {
 		let fetchURL = network.serverip + '/delete-user?id=' + String(userID);
-		console.log(fetchURL);
 		fetch(fetchURL, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success == true) {
-					console.log(result.data);
 					navigation.navigate('login');
 				} else {
 					setError(result.message);
 				}
 			})
-			.catch(error => console.log('error', error));
+			.catch(console.log);
 	};
 	return (
 		<View style={styles.container}>
-			<StatusBar style="auto" />
+			<StatusBar style='auto' />
 			<View style={styles.TopBarContainer}>
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>

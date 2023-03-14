@@ -39,17 +39,16 @@ const UpdatePasswordScreen = ({ navigation, route }) => {
 			setError('');
 			fetch(
 				network.serverip + '/reset-password?id=' + String(userID),
-				requestOptions,
+				requestOptions
 			) // API call
-				.then(response => response.json())
-				.then(result => {
+				.then((response) => response.json())
+				.then((result) => {
 					setAlertType('success');
 					setError('Password is updated successfully ');
 				})
-				.catch(error => {
+				.catch((error) => {
 					setAlertType('error');
 					setError(error.message);
-					console.log('error', error.message);
 				});
 		}
 	};
@@ -60,9 +59,10 @@ const UpdatePasswordScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>

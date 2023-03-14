@@ -22,14 +22,12 @@ const SignupScreen = ({ navigation }) => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [name, setName] = useState('');
-	const [department, setDepartment] = useState('')
-	const [faculty, setFaculty] = useState('')
+	const [department, setDepartment] = useState('');
+	const [faculty, setFaculty] = useState('');
 	const [error, setError] = useState('');
 
 	var myHeaders = new Headers();
 	myHeaders.append('Content-Type', 'application/json');
-
-
 
 	//method to post the user data to server for user signup using API call
 	const signUpHandle = () => {
@@ -69,14 +67,15 @@ const SignupScreen = ({ navigation }) => {
 		};
 
 		fetch(network.serverip + '/register', requestOptions) // API call
-			.then(response => response.json())
-			.then(result => {
-				console.log(result);
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.data.email == email) {
 					navigation.navigate('login');
 				}
 			})
-			.catch(error => console.log('error', setError(error.message)));
+			.catch((error) => {
+				setError(error.message);
+			});
 	};
 	return (
 		<InternetConnectionAlert>
@@ -86,9 +85,10 @@ const SignupScreen = ({ navigation }) => {
 					<TouchableOpacity
 						onPress={() => {
 							navigation.goBack();
-						}}>
+						}}
+					>
 						<Ionicons
-							name="arrow-back-circle-outline"
+							name='arrow-back-circle-outline'
 							size={30}
 							color={colors.muted}
 						/>
@@ -111,7 +111,7 @@ const SignupScreen = ({ navigation }) => {
 					<View style={styles.formContainer}>
 						<CustomAlert message={error} type={'error'} />
 						<CustomInput
-							ioniconName="person-outline"
+							ioniconName='person-outline'
 							value={name}
 							setValue={setName}
 							placeholder='Name'
@@ -136,7 +136,7 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
-							ioniconName="ios-lock-closed-outline"
+							ioniconName='ios-lock-closed-outline'
 							value={confirmPassword}
 							setValue={setConfirmPassword}
 							secureTextEntry={true}
@@ -145,7 +145,7 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
-							ioniconName="md-reader-outline"
+							ioniconName='md-reader-outline'
 							value={department}
 							setValue={setDepartment}
 							placeholder='Department'
@@ -153,7 +153,7 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
-							ioniconName="md-newspaper-outline"
+							ioniconName='md-newspaper-outline'
 							value={faculty}
 							setValue={setFaculty}
 							placeholder='Faculty'
@@ -169,7 +169,8 @@ const SignupScreen = ({ navigation }) => {
 					<Text>Already have an account? </Text>
 					<Text
 						onPress={() => navigation.navigate('login')}
-						style={styles.signupText}>
+						style={styles.signupText}
+					>
 						Login
 					</Text>
 				</View>
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 		flexDirecion: 'row',
 		padding: 5,
-		gap: -5
+		gap: -5,
 	},
 	logo: {
 		resizeMode: 'contain',

@@ -7,9 +7,9 @@ import {
 	TouchableOpacity,
 	RefreshControl,
 } from 'react-native';
-import React, { useState, } from 'react';
+import React, { useState } from 'react';
 import { colors, network } from '../../constants';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
 import OrderList from '../../components/OrderList';
@@ -32,7 +32,7 @@ const MyOrderScreen = ({ navigation, route }) => {
 	};
 
 	//method to convert the authUser to json object
-	const convertToJSON = obj => {
+	const convertToJSON = (obj) => {
 		try {
 			setUserInfo(JSON.parse(obj));
 		} catch (e) {
@@ -41,7 +41,7 @@ const MyOrderScreen = ({ navigation, route }) => {
 	};
 
 	//method to convert the authUser to json object and return token
-	const getToken = obj => {
+	const getToken = (obj) => {
 		try {
 			setUserInfo(JSON.parse(obj));
 		} catch (e) {
@@ -59,7 +59,7 @@ const MyOrderScreen = ({ navigation, route }) => {
 	};
 
 	//method to navigate to order detail screen of a specific order
-	const handleOrderDetail = item => {
+	const handleOrderDetail = (item) => {
 		navigation.navigate('myorderdetail', {
 			orderDetail: item,
 			Token: UserInfo.token,
@@ -78,21 +78,19 @@ const MyOrderScreen = ({ navigation, route }) => {
 			headers: myHeaders,
 			redirect: 'follow',
 		})
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result?.err === 'jwt expired') {
 					logout();
-				}
-				else if (result.success) {
+				} else if (result.success) {
 					setOrders(result.data);
 					setError('');
 				}
 				setIsloading(false);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
@@ -104,16 +102,17 @@ const MyOrderScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
 				</TouchableOpacity>
 				<View />
 				<TouchableOpacity onPress={() => handleOnRefresh()}>
-					<Ionicons name="cart-outline" size={30} color={colors.primary} />
+					<Ionicons name='cart-outline' size={30} color={colors.primary} />
 				</TouchableOpacity>
 			</View>
 
@@ -137,7 +136,8 @@ const MyOrderScreen = ({ navigation, route }) => {
 							refreshing={refeshing}
 							onRefresh={handleOnRefresh}
 						/>
-					}>
+					}
+				>
 					{orders.map((order, index) => {
 						return (
 							<OrderList

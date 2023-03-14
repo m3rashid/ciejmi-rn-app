@@ -85,7 +85,6 @@ const DashboardScreen = ({ navigation, route }) => {
 					setError('');
 					setIsloading(false);
 				} else {
-					console.log(result.err);
 					if (result.err == 'jwt expired') {
 						logout();
 					}
@@ -95,7 +94,6 @@ const DashboardScreen = ({ navigation, route }) => {
 			})
 			.catch(error => {
 				setError(error.message);
-				console.log('error', error);
 				setIsloading(false);
 			});
 	};

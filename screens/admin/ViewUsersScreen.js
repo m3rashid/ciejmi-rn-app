@@ -29,7 +29,7 @@ const ViewUsersScreen = ({ navigation, route }) => {
 	const [filterItem, setFilterItem] = useState('');
 
 	//method to convert the authUser to json object
-	const getToken = obj => {
+	const getToken = (obj) => {
 		try {
 			setUser(JSON.parse(obj));
 		} catch (e) {
@@ -51,8 +51,8 @@ const ViewUsersScreen = ({ navigation, route }) => {
 		};
 		setIsloading(true);
 		fetch(`${network.serverip}/admin/users`, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					setUsers(result.data);
 					setFoundItems(result.data);
@@ -62,10 +62,9 @@ const ViewUsersScreen = ({ navigation, route }) => {
 				}
 				setIsloading(false);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
@@ -80,7 +79,7 @@ const ViewUsersScreen = ({ navigation, route }) => {
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = users.filter(user => {
+			const results = users.filter((user) => {
 				return user.name.toLowerCase().includes(keyword.toLowerCase());
 			});
 
@@ -109,9 +108,10 @@ const ViewUsersScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
@@ -125,10 +125,11 @@ const ViewUsersScreen = ({ navigation, route }) => {
 
 			<CustomInput
 				radius={5}
-				ioniconName="search"
+				ioniconName='search'
 				placeholder='Search . . .'
 				value={filterItem}
 				setValue={setFilterItem}
+				showTitle={false}
 			/>
 
 			<ScrollView
@@ -136,7 +137,8 @@ const ViewUsersScreen = ({ navigation, route }) => {
 				showsVerticalScrollIndicator={false}
 				refreshControl={
 					<RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />
-				}>
+				}
+			>
 				{foundItems && foundItems.length == 0 ? (
 					<Text>{`No user found with the name of ${filterItem}!`}</Text>
 				) : (

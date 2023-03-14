@@ -37,7 +37,7 @@ const slides = [
 ];
 
 const HomeScreen = ({ navigation, route }) => {
-	const cartproduct = useSelector(state => state.product);
+	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 
 	const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
@@ -50,7 +50,7 @@ const HomeScreen = ({ navigation, route }) => {
 	const [searchItems, setSearchItems] = useState([]);
 
 	//method to convert the authUser to json object
-	const convertToJSON = obj => {
+	const convertToJSON = (obj) => {
 		try {
 			setUserInfo(JSON.parse(obj));
 		} catch (e) {
@@ -59,12 +59,12 @@ const HomeScreen = ({ navigation, route }) => {
 	};
 
 	//method to navigate to product detail screen of a specific product
-	const handleProductPress = product => {
+	const handleProductPress = (product) => {
 		navigation.navigate('productdetail', { product: product });
 	};
 
 	//method to add to cart (redux)
-	const handleAddToCat = product => {
+	const handleAddToCat = (product) => {
 		addCartItem(product);
 	};
 
@@ -75,8 +75,8 @@ const HomeScreen = ({ navigation, route }) => {
 
 	const fetchProduct = () => {
 		fetch(`${network.serverip}/products`, headerOptions) //API call
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					setProducts(result.data);
 					setError('');
@@ -90,9 +90,8 @@ const HomeScreen = ({ navigation, route }) => {
 					setError(result.message);
 				}
 			})
-			.catch(error => {
+			.catch((error) => {
 				setError(error.message);
-				console.log('error', error);
 			});
 	};
 
@@ -112,7 +111,6 @@ const HomeScreen = ({ navigation, route }) => {
 		<View style={styles.container}>
 			<StatusBar />
 			<View style={styles.topBarContainer}>
-
 				<View style={styles.topbarlogoContainer}>
 					<Image source={easybuylogo} style={styles.logo} />
 					<Text style={styles.toBarText}>CIE-JMI</Text>
@@ -120,7 +118,8 @@ const HomeScreen = ({ navigation, route }) => {
 
 				<TouchableOpacity
 					style={styles.cartIconContainer}
-					onPress={() => navigation.navigate('cart')}>
+					onPress={() => navigation.navigate('cart')}
+				>
 					{cartproduct.length > 0 ? (
 						<View style={styles.cartItemCountContainer}>
 							<Text style={styles.cartItemCountText}>{cartproduct.length}</Text>
@@ -135,10 +134,10 @@ const HomeScreen = ({ navigation, route }) => {
 			<View style={styles.bodyContainer}>
 				<View style={styles.searchContainer}>
 					<View style={styles.inputContainer}>
-						<Ionicons name="search" size={24} />
+						<Ionicons name='search' size={24} />
 
 						<SearchableDropdown
-							onTextChange={(text) => console.log(text)}
+							onTextChange={() => { }}
 							onItemSelect={(item) => handleProductPress(item)}
 							defaultIndex={0}
 							containerStyle={{
@@ -165,12 +164,11 @@ const HomeScreen = ({ navigation, route }) => {
 								maxHeight: '100%',
 							}}
 							items={searchItems}
-							placeholder="Search . . ."
+							placeholder='Search . . .'
 							resetValue={false}
-							underlineColorAndroid="transparent"
+							underlineColorAndroid='transparent'
 						/>
 					</View>
-
 				</View>
 				<ScrollView nestedScrollEnabled={true}>
 					<View style={styles.promotiomSliderContainer}>
@@ -232,11 +230,12 @@ const HomeScreen = ({ navigation, route }) => {
 								initialNumToRender={5}
 								horizontal={true}
 								data={products.slice(0, 4)}
-								keyExtractor={item => item._id}
+								keyExtractor={(item) => item._id}
 								renderItem={({ item, index }) => (
 									<View
 										key={item._id}
-										style={{ marginLeft: 5, marginBottom: 10, marginRight: 5 }}>
+										style={{ marginLeft: 5, marginBottom: 10, marginRight: 5 }}
+									>
 										<ProductCard
 											name={item.title}
 											image={`${network.serverip}/uploads/${item.image}`}
@@ -330,7 +329,7 @@ const styles = StyleSheet.create({
 		height: '100%',
 		borderRadius: 5,
 		height: 40,
-		elevation: 5
+		elevation: 5,
 	},
 	buttonContainer: {
 		width: '20%',

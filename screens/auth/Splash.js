@@ -26,9 +26,7 @@ const Splash = ({ navigation }) => {
 					navigation.replace('login'); // // navigate to login screen if there is no authUser store in aysnc storage
 				}, 2000);
 			}
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) { }
 	};
 
 	// check the authUser and navigate to screens accordingly on initial render
