@@ -21,8 +21,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	const [label, setLabel] = useState('Loading..');
 	const [error, setError] = useState('');
 	const [alertType, setAlertType] = useState('error');
-	const [totalCost, setTotalCost] = useState(0);
-	const [address, setAddress] = useState('');
+	// const [address, setAddress] = useState('');
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState(null);
 	const [statusDisable, setStatusDisable] = useState(false);
@@ -46,7 +45,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	}
 
 	//method to convert the Data into dd-mm-yyyy format
-	const dateFormat = datex => {
+	const dateFormat = (datex) => {
 		let t = new Date(datex);
 		const date = ('0' + t.getDate()).slice(-2);
 		const month = ('0' + (t.getMonth() + 1)).slice(-2);
@@ -61,32 +60,30 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	};
 
 	//method to update the status using API call
-	const handleUpdateStatus = id => {
+	const handleUpdateStatus = (id) => {
 		setIsloading(true);
 		setError('');
 		setAlertType('error');
-		var myHeaders = new Headers();
-		myHeaders.append('x-auth-token', Token);
-
-		var requestOptions = {
-			method: 'GET',
-			headers: myHeaders,
-			redirect: 'follow',
-		};
 
 		fetch(
 			`${network.serverip}/admin/order-status?orderId=${id}&status=${value}`,
-			requestOptions,
+			{
+				method: 'GET',
+				headers: {
+					'x-auth-token': Token,
+				},
+				redirect: 'follow',
+			}
 		) //API call
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success == true) {
 					setError(`Order status is successfully updated to ${value}`);
 					setAlertType('success');
 					setIsloading(false);
 				}
 			})
-			.catch(error => {
+			.catch((error) => {
 				setAlertType('error');
 				setError(error);
 				setIsloading(false);
@@ -97,25 +94,29 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		setError('');
 		setAlertType('error');
-		if (orderDetail?.status == 'delivered') {
+		if (orderDetail?.status == 'DELIVERED') {
 			setStatusDisable(true);
 		} else {
 			setStatusDisable(false);
 		}
 		setValue(orderDetail?.status);
-		setAddress(
-			orderDetail?.country +
-			', ' +
-			orderDetail?.city +
-			', ' +
-			orderDetail?.shippingAddress,
-		);
-		setTotalCost(
-			orderDetail?.items.reduce((accumulator, object) => {
-				return (accumulator + object.price) * object.quantity;
-			}, 0), // calculate the total cost
-		);
 	}, []);
+
+	const handleViewInvoice = () => {
+		if (!orderDetail?.invoiceUrl) return;
+
+		return Linking.canOpenURL(orderDetail?.invoiceUrl)
+			.then(supported => {
+				if (!supported) {
+					console.log("Can't handle url: " + url);
+					// this.showFlashMessage('Not supported in your device');
+				} else {
+					return Linking.openURL(url);
+				}
+			})
+			.catch(err => console.error('An error occurred', err));
+	}
+
 	return (
 		<View style={styles.container}>
 			<ProgressDialog visible={isloading} label={label} />
@@ -124,9 +125,10 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
@@ -143,7 +145,8 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 			<CustomAlert message={error} type={alertType} />
 			<ScrollView
 				style={styles.bodyContainer}
-				showsVerticalScrollIndicator={false}>
+				showsVerticalScrollIndicator={false}
+			>
 				<View style={styles.containerNameContainer}>
 					<View>
 						<Text style={styles.containerNameText}>Ship & Bill to</Text>
@@ -156,15 +159,22 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 					<Text style={styles.secondarytextMedian}>
 						{orderDetail?.user?.email}
 					</Text>
-					<Text style={styles.secondarytextSm}>{address}</Text>
-					<Text style={styles.secondarytextSm}>{orderDetail?.zipcode}</Text>
+					<Text style={styles.secondarytextSm}>
+						{orderDetail?.shippingAddress.localAddressOne},{' '}
+						{orderDetail?.shippingAddress.localAddressTwo},{' '}
+						{orderDetail?.shippingAddress.city},{' '}
+						{orderDetail?.shippingAddress.state},{' '}
+					</Text>
+					<Text style={styles.secondarytextSm}>
+						{orderDetail?.shippingAddress.postalCode}
+					</Text>
 				</View>
 				<View>
 					<Text style={styles.containerNameText}>Order Info</Text>
 				</View>
 				<View style={styles.orderInfoContainer}>
 					<Text style={styles.secondarytextMedian}>
-						Order # {orderDetail?.orderId}
+						Order # {orderDetail?._id}
 					</Text>
 					<Text style={styles.secondarytextSm}>
 						Ordered on {dateFormat(orderDetail?.updatedAt)}
@@ -197,52 +207,58 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 					</View>
 					<ScrollView
 						style={styles.orderSummaryContainer}
-						nestedScrollEnabled={true}>
+						nestedScrollEnabled={true}
+					>
 						{orderDetail?.items.map((product, index) => (
 							<View key={index}>
 								<BasicProductList
 									title={product?.productId?.title}
-									price={product?.price}
+									price={product?.productId?.price}
 									quantity={product?.quantity}
+									image={product?.productId?.image}
 								/>
 							</View>
 						))}
+
+						<CustomButton onPress={handleViewInvoice} text="View Invoice" style={{ marginTop: 15, padding: 8, backgroundColor: colors.primary }} />
 					</ScrollView>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Total</Text>
-						<Text style={{ color: colors.dark }}>₹ {totalCost}</Text>
+						<Text style={{ color: colors.dark }}>₹ {orderDetail.amount}</Text>
 					</View>
 				</View>
 				<View style={styles.emptyView} />
 			</ScrollView>
 			<View style={styles.bottomContainer}>
-				<View>
+				<View style={{ paddingLeft: 12 }}>
 					<DropDownPicker
-						style={{ width: 200 }}
+						style={{ width: 180, borderColor: colors.white }}
 						open={open}
 						value={value}
 						items={items}
 						setOpen={setOpen}
 						setValue={setValue}
+						placeholder='Update Status'
 						setItems={setItems}
 						disabled={statusDisable}
 						disabledStyle={{
 							backgroundColor: colors.light,
 							borderColor: colors.white,
 						}}
+						containerStyle={{ borderColor: colors.white }}
+						dropDownContainerStyle={{ borderColor: colors.white }}
 						labelStyle={{ color: colors.muted }}
 					/>
 				</View>
-				<View>
-					{statusDisable == false ? (
-						<CustomButton
-							text={'Update'}
-							onPress={() => handleUpdateStatus(orderDetail?._id)}
-						/>
-					) : (
-						<CustomButton text={'Update'} disabled />
-					)}
-				</View>
+				{statusDisable == false ? (
+					<CustomButton
+						style={{ width: 200 }}
+						text='Update'
+						onPress={() => handleUpdateStatus(orderDetail?._id)}
+					/>
+				) : (
+					<CustomButton text={'Update'} disabled />
+				)}
 			</View>
 		</View>
 	);
@@ -256,7 +272,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.light,
 		alignItems: 'center',
 		justifyContent: 'center',
-		padding: 20,
+		padding: 10,
 		paddingBottom: 0,
 		flex: 1,
 	},
@@ -285,7 +301,7 @@ const styles = StyleSheet.create({
 		color: colors.muted,
 	},
 	screenNameParagraph: {
-		marginTop: 10,
+		marginTop: 5,
 		fontSize: 15,
 	},
 	bodyContainer: { flex: 1, width: '100%', padding: 5 },
@@ -296,8 +312,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 		backgroundColor: colors.white,
-		padding: 10,
-		borderRadius: 10,
+		padding: 12,
+		borderRadius: 5,
 		borderColor: colors.muted,
 		elevation: 5,
 		marginBottom: 10,
@@ -326,8 +342,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		backgroundColor: colors.white,
 		padding: 10,
-		borderRadius: 10,
-
+		borderRadius: 5,
 		borderColor: colors.muted,
 		elevation: 3,
 		marginBottom: 10,
@@ -345,7 +360,7 @@ const styles = StyleSheet.create({
 	},
 	orderSummaryContainer: {
 		backgroundColor: colors.white,
-		borderRadius: 10,
+		borderRadius: 5,
 		padding: 10,
 		maxHeight: 220,
 		width: '100%',
@@ -353,16 +368,15 @@ const styles = StyleSheet.create({
 	},
 	bottomContainer: {
 		backgroundColor: colors.white,
-		width: '110%',
-		height: 70,
-		borderTopLeftRadius: 10,
-		borderTopEndRadius: 10,
+		width: '103%',
+		height: 100,
+		borderTopLeftRadius: 20,
+		borderTopEndRadius: 20,
 		elevation: 5,
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'space-between',
-
+		justifyContent: 'center',
 		paddingLeft: 10,
 		paddingRight: 10,
 	},
@@ -373,9 +387,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 		backgroundColor: colors.white,
-		padding: 10,
-		borderRadius: 10,
-
+		padding: 12,
+		borderRadius: 5,
 		borderColor: colors.muted,
 		elevation: 1,
 		marginBottom: 10,

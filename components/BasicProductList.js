@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { colors } from '../constants';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Colors from '../constants/Colors';
+import CustomButton from './CustomButton';
 
 const BasicProductList = ({ title, price, quantity, image }) => {
 	return (

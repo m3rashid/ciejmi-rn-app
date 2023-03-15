@@ -76,8 +76,6 @@ const SignupScreen = ({ navigation }) => {
 			redirect: 'follow',
 		};
 
-		console.log(requestOptions.body)
-
 		fetch(network.serverip + '/register', requestOptions) // API call
 			.then((response) => response.json())
 			.then((result) => {
@@ -131,7 +129,6 @@ const SignupScreen = ({ navigation }) => {
 			}
 		}
 
-		console.log({ c: courses })
 		if (!courses || courses.length == 0) {
 			return;
 		}
@@ -169,7 +166,7 @@ const SignupScreen = ({ navigation }) => {
 						/>
 					</TouchableOpacity>
 				</View>
-				<ScrollView style={{ flex: 1, width: '100%' }}>
+				<ScrollView style={{ flex: 1, width: '100%' }} nestedScrollEnabled>
 					<View style={styles.welconeContainer}>
 						<Image style={styles.logo} source={header_logo} />
 					</View>

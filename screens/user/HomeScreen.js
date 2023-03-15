@@ -100,7 +100,6 @@ const HomeScreen = ({ navigation, route }) => {
 		fetch(`${network.serverip}/categories`, headerOptions) //API call
 			.then((response) => response.json())
 			.then((result) => {
-				console.log({ result: result.categories })
 				if (result.success) {
 					setCategories(result.categories);
 					setError('');

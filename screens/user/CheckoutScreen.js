@@ -21,7 +21,6 @@ import ProgressDialog from 'react-native-progress-dialog';
 import CustomAlert from '../../components/CustomAlert';
 
 const CheckoutScreen = ({ navigation, route }) => {
-	const [modalVisible, setModalVisible] = useState(false);
 	const [isloading, setIsloading] = useState(false);
 	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
@@ -45,9 +44,17 @@ const CheckoutScreen = ({ navigation, route }) => {
 		const fetchUser = async () => {
 			const value = await AsyncStorage.getItem('authUser');
 			let user = JSON.parse(value);
-			setUser(user);
+			// setUser(user);
+			// console.log({ user })
+			const dd = await fetch(network.serverip + '/get-all-address', {
+				method: 'GET',
+				headers: {
+					'x-auth-token': user.token,
+				}
+			})
+			return dd.json();
 		};
-		fetchUser();
+		fetchUser().then((d) => setUser(d.data)).catch(console.log);
 	}, []);
 
 	//method to handle checkout
@@ -91,18 +98,19 @@ const CheckoutScreen = ({ navigation, route }) => {
 			.then((response) => response.json())
 			.then((result) => {
 				if (result.err === 'jwt expired') {
-					setIsloading(false);
 					logout();
 				}
 				if (result.success == true) {
-					setIsloading(false);
 					emptyCart('empty');
 					navigation.replace('orderconfirm');
 				}
 			})
 			.catch((error) => {
+				console.log(error)
 				setIsloading(false);
-			});
+			}).finally(() => {
+				setIsloading(false);
+			})
 	};
 
 	// set the address and total cost on initital render
@@ -117,7 +125,7 @@ const CheckoutScreen = ({ navigation, route }) => {
 	return (
 		<View style={styles.container}>
 			<StatusBar />
-			<ProgressDialog visible={isloading} label={'Placing Order...'} />
+			<ProgressDialog visible={isloading} label='Placing Order . . .' />
 			<View style={styles.topBarContainer}>
 				<TouchableOpacity
 					onPress={() => {

@@ -24,7 +24,7 @@ const OrderConfirmScreen = ({ navigation }) => {
 			<View style={styles.imageConatiner}>
 				<Image source={SuccessImage} style={styles.Image} />
 			</View>
-			<Text style={styles.secondaryText}>Order has be confirmed</Text>
+			<Text style={styles.secondaryText}>Order has been Confirmed</Text>
 			<View>
 				<CustomButton
 					text='Back to Home'

@@ -3,11 +3,11 @@ import React from 'react';
 import { colors } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const CustomButton = ({ text, onPress, ioniconName, disabled = false }) => {
+const CustomButton = ({ text, onPress, ioniconName, disabled = false, style = {} }) => {
 	return (
 		<TouchableOpacity
 			disabled={disabled}
-			style={disabled ? styles.containerDisabled : styles.container}
+			style={[disabled ? styles.containerDisabled : styles.container, style]}
 			onPress={onPress}>
 			{ioniconName &&
 				<Icon name={ioniconName} size={24} color={colors.white} />

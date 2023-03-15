@@ -37,20 +37,16 @@ export const dateFormat = datex => {
 };
 
 const OrderList = ({ item, onPress }) => {
-	const [totalCost, setTotalCost] = useState(0);
+	// const [totalCost, setTotalCost] = useState(0);
 	const [quantity, setQuantity] = useState(0);
 
 	useEffect(() => {
-		// let packageItems = 0;
-		// item?.items.forEach(() => {
-		// 	packageItems += 1;
-		// });
 		setQuantity(item.items.length);
-		setTotalCost(
-			item?.items.reduce((acc, it) => {
-				return (acc + (it.price * it.quantity));
-			}, 0),
-		);
+		// setTotalCost(
+		// 	item?.items.reduce((acc, it) => {
+		// 		return (acc + (it.price * it.quantity));
+		// 	}, 0),
+		// );
 	}, []);
 
 	return (
@@ -78,7 +74,7 @@ const OrderList = ({ item, onPress }) => {
 			)}
 			<View style={styles.innerRow}>
 				<Text style={styles.secondaryText}>Quantity : {quantity}</Text>
-				<Text style={styles.secondaryText}>Total Amount : ₹ {totalCost}</Text>
+				<Text style={styles.secondaryText}>Total Amount : ₹ {item?.amount}</Text>
 			</View>
 			<View style={styles.innerRow}>
 				<TouchableOpacity style={styles.detailButton} onPress={onPress}>
