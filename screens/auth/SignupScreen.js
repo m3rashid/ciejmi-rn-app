@@ -8,7 +8,7 @@ import {
 	ScrollView,
 	TouchableOpacity,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import header_logo from '../../assets/logo/logo.png';
@@ -16,6 +16,16 @@ import CustomButton from '../../components/CustomButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
+import SearchableDropDown from 'react-native-searchable-dropdown';
+import {
+	doctoralProgrammes,
+	mastersProgrammes,
+	postgraduateDiplomaProgrammes,
+	undergraduateProgrammes,
+	advancedDiplomaProgrammes,
+	diplomaProgrammes,
+} from 'jamia-all-courses';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const SignupScreen = ({ navigation }) => {
 	const [email, setEmail] = useState('');
@@ -23,8 +33,9 @@ const SignupScreen = ({ navigation }) => {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [name, setName] = useState('');
 	const [department, setDepartment] = useState('');
-	const [faculty, setFaculty] = useState('');
 	const [error, setError] = useState('');
+	const [programmeOpen, setProgramOpen] = useState(false);
+	const [courseOpen, setCourseOpen] = useState(false);
 
 	var myHeaders = new Headers();
 	myHeaders.append('Content-Type', 'application/json');
@@ -61,10 +72,11 @@ const SignupScreen = ({ navigation }) => {
 				password,
 				name,
 				department,
-				faculty,
 			}),
 			redirect: 'follow',
 		};
+
+		console.log(requestOptions.body)
 
 		fetch(network.serverip + '/register', requestOptions) // API call
 			.then((response) => response.json())
@@ -77,6 +89,69 @@ const SignupScreen = ({ navigation }) => {
 				setError(error.message);
 			});
 	};
+
+	const programmes = [
+		{ label: 'Doctoral', value: 'doctoral' },
+		{ label: 'Masters', value: 'masters' },
+		{ label: 'PG Diploma', value: 'postGraduateDiploma' },
+		{ label: 'Undergraduate', value: 'undergraduate' },
+		{ label: 'Advanced Diploma', value: 'advancedDiploma' },
+		{ label: 'Diploma', value: 'diploma' },
+	];
+
+	const [programme, setProgramme] = useState('doctoral');
+	const [courses, setCourses] = useState([]);
+
+	const getCourses = (programme) => {
+		let courses = [];
+		switch (programme) {
+			case 'doctoral': {
+				courses = doctoralProgrammes;
+				break;
+			}
+			case 'masters': {
+				courses = mastersProgrammes;
+				break;
+			}
+			case 'postGraduateDiploma': {
+				courses = postgraduateDiplomaProgrammes;
+				break;
+			}
+			case 'undergraduate': {
+				courses = undergraduateProgrammes;
+				break;
+			}
+			case 'advancedDiploma': {
+				courses = advancedDiplomaProgrammes;
+				break;
+			}
+			case 'diploma': {
+				courses = diplomaProgrammes;
+				beak;
+			}
+		}
+
+		console.log({ c: courses })
+		if (!courses || courses.length == 0) {
+			return;
+		}
+
+		const actualCourses = courses.courses.reduce((acc, c) => {
+			return [
+				...acc,
+				...c.specializations.map((sp) => ({
+					label: `${courses.name} in ${sp.name}`,
+					value: `${courses.name} in ${sp.name}`,
+				})),
+			];
+		}, []);
+		setCourses(actualCourses);
+	};
+
+	useEffect(() => {
+		getCourses(programme);
+	}, [programme]);
+
 	return (
 		<InternetConnectionAlert>
 			<KeyboardAvoidingView style={styles.container}>
@@ -99,9 +174,7 @@ const SignupScreen = ({ navigation }) => {
 						<Image style={styles.logo} source={header_logo} />
 					</View>
 					<View style={styles.screenNameContainer}>
-						<View>
-							<Text style={styles.screenNameText}>Sign up</Text>
-						</View>
+						<Text style={styles.screenNameText}>Sign up</Text>
 						<View>
 							<Text style={styles.screenNameParagraph}>
 								Create your account on CIE-JMI to get an access all its products
@@ -144,29 +217,61 @@ const SignupScreen = ({ navigation }) => {
 							placeholderTextColor={colors.muted}
 							radius={5}
 						/>
-						<CustomInput
-							ioniconName='md-reader-outline'
-							value={department}
-							setValue={setDepartment}
-							placeholder='Department'
-							placeholderTextColor={colors.muted}
-							radius={5}
-						/>
-						<CustomInput
-							ioniconName='md-newspaper-outline'
-							value={faculty}
-							setValue={setFaculty}
-							placeholder='Faculty'
-							placeholderTextColor={colors.muted}
-							radius={5}
-						/>
+
+						<View style={{ marginTop: 15, width: '103%', zIndex: 0 }}>
+							<Text style={{ color: colors.primary, marginBottom: 5 }}>Programme Name</Text>
+
+							<DropDownPicker
+								style={{ borderColor: colors.white, elevation: 5 }}
+								open={programmeOpen}
+								value={programme}
+								items={programmes}
+								setOpen={setProgramOpen}
+								placeholderStyle={{ color: colors.muted }}
+								setValue={setProgramme}
+								placeholder='Select Programme'
+								labelStyle={{ color: colors.muted }}
+								containerStyle={{
+									borderColor: colors.white,
+								}}
+								dropDownContainerStyle={{
+									borderColor: colors.white,
+								}}
+							/>
+						</View>
+
+						<View style={{ marginTop: 15, width: '103%', ...(programmeOpen ? { display: 'none' } : {}) }}>
+							<Text style={{ color: colors.primary, marginBottom: 5 }}>Course Name</Text>
+
+							<DropDownPicker
+								style={{ borderColor: colors.white, elevation: 5 }}
+								open={courseOpen}
+								value={department}
+								items={courses}
+								placeholder='Select Course'
+								placeholderStyle={{ color: colors.muted }}
+								setOpen={setCourseOpen}
+								setValue={setDepartment}
+								labelStyle={{ color: colors.muted }}
+								containerStyle={{
+									borderColor: colors.white,
+								}}
+								dropDownContainerStyle={{
+									borderColor: colors.white,
+									zIndex: 1000
+								}}
+								onChangeValue={(value) => {
+									setDepartment(value);
+								}}
+							/>
+						</View>
 					</View>
 				</ScrollView>
 				<View style={styles.buttomContainer}>
-					<CustomButton text='Sign up' onPress={signUpHandle} />
+					<CustomButton text='Sign Up' onPress={signUpHandle} />
 				</View>
 				<View style={styles.bottomContainer}>
-					<Text>Already have an account? </Text>
+					<Text style={{ color: colors.muted }}>Already have an account? </Text>
 					<Text
 						onPress={() => navigation.navigate('login')}
 						style={styles.signupText}
@@ -264,5 +369,6 @@ const styles = StyleSheet.create({
 	screenNameParagraph: {
 		marginTop: 5,
 		fontSize: 15,
+		color: colors.muted,
 	},
 });

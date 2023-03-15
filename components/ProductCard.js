@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		padding: 5,
-		paddingBottom: 0,
+		paddingBottom: 10,
 	},
 	productImage: {
 		height: 120,
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
 	secondaryTextSm: {
 		fontSize: 16,
 		fontWeight: 'bold',
+		color: colors.dark
 	},
 	primaryTextSm: {
 		fontSize: 15,

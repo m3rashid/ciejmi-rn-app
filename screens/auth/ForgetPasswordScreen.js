@@ -27,7 +27,7 @@ const ForgetPasswordScreen = ({ navigation }) => {
 			<View style={styles.screenNameContainer}>
 				<Text style={styles.screenNameText}>Reset Password</Text>
 				<View>
-					<Text style={styles.screenNameParagraph}>
+					<Text style={[styles.screenNameParagraph, { color: colors.muted }]}>
 						Enter the email associated with your account and we'll send an email
 						with instruction to reset the password.
 					</Text>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 		flexDirecion: 'row',
 		backgroundColor: colors.light,
 		alignItems: 'center',
-		padding: 20,
+		padding: 12,
 		flex: 1,
 	},
 	TopBarContainer: {

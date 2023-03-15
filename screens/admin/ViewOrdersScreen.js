@@ -67,6 +67,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 		fetch(`${network.serverip}/admin/orders`, requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
+				console.log({ result })
 				if (result.success) {
 					setOrders(result.data);
 					setFoundItems(result.data);
@@ -94,6 +95,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 			setFoundItems(orders);
 		}
 	};
+
 	useEffect(() => {
 		filter();
 	}, [filterItem]);
@@ -139,7 +141,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 				}
 			>
 				{foundItems && foundItems.length == 0 ? (
-					<Text>{`No order found with the order ${filterItem}!`}</Text>
+					<Text style={{ color: colors.dark }}>{`No order found with the order ${filterItem}!`}</Text>
 				) : (
 					foundItems.map((order, index) => {
 						return (

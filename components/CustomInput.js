@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native';
 import { colors } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -8,23 +8,40 @@ const CustomInput = ({
 	setValue,
 	placeholder,
 	secureTextEntry,
-	placeholderTextColor,
+	placeholderTextColor = colors.muted,
 	onFocus,
 	radius,
-	width = '100%',
+	width,
 	keyboardType,
 	maxLength,
 	ioniconName,
 	showTitle = true,
 }) => {
+	const windowWidth = Dimensions.get('window').width;
+	if (!width) width = windowWidth - 24;
+
 	return (
 		<View style={{ marginTop: 12 }}>
 			{showTitle && (
-				<Text style={{ textAlign: 'left', marginLeft: 5 }}>{placeholder}</Text>
+				<Text
+					style={{ textAlign: 'left', marginLeft: 5, color: colors.primary }}
+				>
+					{placeholder}
+				</Text>
 			)}
-			<View style={[styles.rootContainer, { width: width }]}>
+			<View
+				style={[
+					styles.rootContainer,
+					{ width: width, ...(ioniconName ? { paddingLeft: 12 } : {}) },
+				]}
+			>
 				{ioniconName && (
-					<Icon name={ioniconName} size={24} color={colors.primary} />
+					<Icon
+						name={ioniconName}
+						size={24}
+						color={colors.primary}
+						style={{ marginLeft: 20 }}
+					/>
 				)}
 
 				<TextInput
@@ -56,7 +73,6 @@ const styles = StyleSheet.create({
 		height: 45,
 		marginTop: 2,
 		elevation: 5,
-		paddingHorizontal: 20,
 		borderRadius: 5,
 	},
 	CustomInput: {
@@ -64,5 +80,6 @@ const styles = StyleSheet.create({
 		padding: 5,
 		paddingLeft: 10,
 		backgroundColor: colors.white,
+		color: colors.dark,
 	},
 });

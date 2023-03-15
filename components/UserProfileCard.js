@@ -47,9 +47,11 @@ const styles = StyleSheet.create({
 	usernameText: {
 		fontWeight: 'bold',
 		fontSize: 25,
+		color: colors.dark
 	},
 	secondaryText: {
 		fontWeight: 'bold',
 		fontSize: 12,
+		color: colors.muted
 	},
 });

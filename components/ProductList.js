@@ -27,15 +27,15 @@ const ProductList = ({
 					<Text style={styles.productTitle}>{title}</Text>
 					<View style={styles.productInfoItem}>
 						<Text style={styles.productInfoItemText}>Category: </Text>
-						<Text>{category}</Text>
+						<Text style={{ color: colors.dark }}>{category}</Text>
 					</View>
 					<View style={styles.productInfoItem}>
 						<Text style={styles.productInfoItemText}>Price: </Text>
-						<Text>{price}</Text>
+						<Text style={{ color: colors.dark }}>{price}</Text>
 					</View>
 					<View style={styles.productInfoItem}>
 						<Text style={styles.productInfoItemText}>SKU: </Text>
-						<Text>{qantity <= 0 ? 'Out of Stock' : qantity}</Text>
+						<Text style={{ color: colors.dark }}>{qantity <= 0 ? 'Out of Stock' : qantity}</Text>
 					</View>
 				</View>
 			</View>
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
 	productTitle: {
 		fontSize: 14,
 		fontWeight: 'bold',
+		color: colors.dark
 	},
 	productInfoItemText: {
 		fontSize: 13,

@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import { colors } from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Colors from '../constants/Colors';
 
 const BasicProductList = ({ title, price, quantity, image }) => {
 	return (
@@ -12,7 +13,7 @@ const BasicProductList = ({ title, price, quantity, image }) => {
 				</View>
 				<View style={styles.productInfoContainer}>
 					<Text style={styles.secondaryText}>{title}</Text>
-					<Text>x{quantity}</Text>
+					<Text style={{ color: colors.dark }}>x{quantity}</Text>
 				</View>
 			</View>
 			<View>
@@ -66,5 +67,6 @@ const styles = StyleSheet.create({
 	secondaryText: {
 		fontSize: 15,
 		fontWeight: '600',
+		color: colors.dark,
 	},
 });

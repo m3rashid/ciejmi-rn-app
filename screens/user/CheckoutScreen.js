@@ -31,12 +31,8 @@ const CheckoutScreen = ({ navigation, route }) => {
 	const [deliveryCost, setDeliveryCost] = useState(0);
 	const [totalCost, setTotalCost] = useState(0);
 	const [address, setAddress] = useState('');
-	const [country, setCountry] = useState('');
-	const [city, setCity] = useState('');
-	const [streetAddress, setStreetAddress] = useState('');
-	const [zipcode, setZipcode] = useState('');
-	const [error, setError] = useState('')
-	const [alertType, setAlertType] = useState('error')
+	const [error, setError] = useState('');
+	const [alertType, setAlertType] = useState('error');
 
 	//method to remove the authUser from aysnc storage and navigate to login
 	const logout = async () => {
@@ -56,13 +52,14 @@ const CheckoutScreen = ({ navigation, route }) => {
 
 	//method to handle checkout
 	const handleCheckout = async () => {
-		if (!user || user.addresses.length === 0) {
+		if (!user || !address === 0) {
 			setError('Please add an address to proceed');
 			setAlertType('error');
-			return
+			return;
 		}
+
 		setIsloading(true);
-		var myHeaders = new Headers();
+		const myHeaders = new Headers();
 		myHeaders.append('x-auth-token', user.token);
 		myHeaders.append('Content-Type', 'application/json');
 
@@ -73,7 +70,6 @@ const CheckoutScreen = ({ navigation, route }) => {
 		cartproduct.forEach((product) => {
 			let obj = {
 				productId: product._id,
-				price: product.price,
 				quantity: product.quantity,
 			};
 			totalamount += parseInt(product.price) * parseInt(product.quantity);
@@ -86,16 +82,12 @@ const CheckoutScreen = ({ navigation, route }) => {
 			body: JSON.stringify({
 				items: payload,
 				amount: totalamount,
-				discount: 0,
-				payment_type: 'cod',
-				country: country,
-				status: 'pending',
-				city: city,
-				zipcode: zipcode,
-				shippingAddress: streetAddress,
+				shippingAddress: address,
+				status: 'PENDING',
+				paymentType: 'COD',
 			}),
 			redirect: 'follow',
-		}) //API call
+		})
 			.then((response) => response.json())
 			.then((result) => {
 				if (result.err === 'jwt expired') {
@@ -115,11 +107,6 @@ const CheckoutScreen = ({ navigation, route }) => {
 
 	// set the address and total cost on initital render
 	useEffect(() => {
-		// if (streetAddress && city && country != '') {
-		// 	setAddress(`${streetAddress}, ${city},${country}`);
-		// } else {
-		// 	setAddress('');
-		// }
 		setTotalCost(
 			cartproduct.reduce((accumulator, object) => {
 				return accumulator + object.price * object.quantity;
@@ -150,7 +137,9 @@ const CheckoutScreen = ({ navigation, route }) => {
 			<CustomAlert message={error} type={alertType} />
 
 			<ScrollView style={styles.bodyContainer} nestedScrollEnabled={true}>
-				<Text style={[styles.primaryText, { fontSize: 20, marginBottom: 10 }]}>Order Summary</Text>
+				<Text style={[styles.primaryText, { fontSize: 20, marginBottom: 10 }]}>
+					Order Summary
+				</Text>
 				<ScrollView
 					style={styles.orderSummaryContainer}
 					nestedScrollEnabled={true}
@@ -169,12 +158,12 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<Text style={styles.primaryText}>Total</Text>
 				<View style={styles.totalOrderInfoContainer}>
 					<View style={styles.list}>
-						<Text>Order</Text>
-						<Text>₹ {totalCost}</Text>
+						<Text style={{ color: colors.muted }}>Order</Text>
+						<Text style={{ color: colors.muted }}>₹ {totalCost}</Text>
 					</View>
 					<View style={styles.list}>
-						<Text>Delivery</Text>
-						<Text>₹ {deliveryCost}</Text>
+						<Text style={{ color: colors.muted }}>Delivery Charges</Text>
+						<Text style={{ color: colors.muted }}>₹ {deliveryCost}</Text>
 					</View>
 					<View style={styles.list}>
 						<Text style={styles.primaryTextSm}>Total</Text>
@@ -187,36 +176,69 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<View style={styles.listContainer}>
 					<View style={styles.list}>
 						<Text style={styles.secondaryTextSm}>Email</Text>
-						<Text style={styles.secondaryTextSm}>
-							{user.email}
-						</Text>
+						<Text style={styles.secondaryTextSm}>{user.email}</Text>
 					</View>
 				</View>
 
 				<Text style={styles.primaryText}>Address</Text>
-				<View style={styles.listContainer}>
+				<View
+					style={[
+						styles.listContainer,
+						{
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							padding: 10,
+						},
+					]}
+				>
+					<Text style={styles.secondaryTextSm}>All Address</Text>
 					<TouchableOpacity
-						style={styles.list}
-						onPress={() => setModalVisible(true)}
+						// style={styles.list}
+						onPress={() => navigation.navigate('addAddress')}
 					>
-						<Text style={styles.secondaryTextSm}>Address</Text>
-						<View>
-							{country || city || streetAddress != '' ? (
-								<Text
-									style={styles.secondaryTextSm}
-									numberOfLines={1}
-									ellipsizeMode='tail'
-								>
-									{address.length < 25
-										? `${address}`
-										: `${address.substring(0, 25)}...`}
-								</Text>
-							) : (
-								<Text style={styles.primaryTextSm}>Add</Text>
-							)}
-						</View>
+						<Text style={styles.primaryTextSm}>Add Address</Text>
 					</TouchableOpacity>
 				</View>
+
+				<View style={{ backgroundColor: colors.white }}>
+					{(user.addresses || []).map((a) => {
+						return (
+							<View
+								key={a._id}
+								style={{
+									padding: 8,
+									borderRadius: 5,
+									...(a._id === address
+										? { backgroundColor: colors.primary_light }
+										: { backgroundColor: colors.white }),
+								}}
+							>
+								<TouchableOpacity
+									style={[
+										styles.list,
+										{
+											borderBottomWidth: 0,
+											flexDirection: 'column',
+											alignItems: 'flex-start',
+											...(a._id === address
+												? { backgroundColor: colors.primary_light }
+												: { backgroundColor: colors.white }),
+										},
+									]}
+									onPress={() => {
+										setAddress(a._id);
+									}}
+								>
+									<Text style={[styles.secondaryTextSm, { textAlign: 'left' }]}>
+										{a.localAddressOne}, {a.localAddressTwo}, {a.city},{' '}
+										{a.state}, {a.postalCode}
+									</Text>
+								</TouchableOpacity>
+							</View>
+						);
+					})}
+				</View>
+
 				<Text style={styles.primaryText}>Payment</Text>
 				<View style={styles.listContainer}>
 					<View style={styles.list}>
@@ -228,68 +250,17 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<View style={styles.emptyView} />
 			</ScrollView>
 			<View style={styles.buttomContainer}>
-				{country && city && streetAddress != '' ? (
+				{address ? (
 					<CustomButton
-						text={'Submit Order'}
-						// onPress={() => navigation.replace("orderconfirm")}
+						text='Confirm Order'
 						onPress={() => {
 							handleCheckout();
 						}}
 					/>
 				) : (
-					<CustomButton text={'Submit Order'} disabled />
+					<CustomButton text='Confirm Order' disabled />
 				)}
 			</View>
-			<Modal
-				animationType='slide'
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={() => {
-					setModalVisible(!modalVisible);
-				}}
-			>
-				<View style={styles.modelBody}>
-					<View style={styles.modelAddressContainer}>
-						<CustomInput
-							value={country}
-							setValue={setCountry}
-							placeholder={'Enter Country'}
-						/>
-						<CustomInput
-							value={city}
-							setValue={setCity}
-							placeholder={'Enter City'}
-						/>
-						<CustomInput
-							value={streetAddress}
-							setValue={setStreetAddress}
-							placeholder={'Enter Street Address'}
-						/>
-						<CustomInput
-							value={zipcode}
-							setValue={setZipcode}
-							placeholder={'Enter ZipCode'}
-							keyboardType={'number-pad'}
-						/>
-						{streetAddress || city || country != '' ? (
-							<CustomButton
-								onPress={() => {
-									setModalVisible(!modalVisible);
-									setAddress(`${streetAddress}, ${city},${country}`);
-								}}
-								text={'save'}
-							/>
-						) : (
-							<CustomButton
-								onPress={() => {
-									setModalVisible(!modalVisible);
-								}}
-								text={'close'}
-							/>
-						)}
-					</View>
-				</View>
-			</Modal>
 		</View>
 	);
 };
@@ -312,7 +283,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 20,
+		padding: 12,
 	},
 	toBarText: {
 		fontSize: 15,
@@ -340,6 +311,7 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		fontSize: 18,
 		fontWeight: 'bold',
+		color: colors.muted,
 	},
 	list: {
 		display: 'flex',
@@ -360,6 +332,7 @@ const styles = StyleSheet.create({
 	secondaryTextSm: {
 		fontSize: 15,
 		fontWeight: 'bold',
+		color: colors.muted,
 	},
 	listContainer: {
 		backgroundColor: colors.white,
@@ -368,18 +341,16 @@ const styles = StyleSheet.create({
 	},
 	buttomContainer: {
 		width: '100%',
-		padding: 20,
-		paddingLeft: 30,
-		paddingRight: 30,
+		padding: 12,
 	},
 	emptyView: {
 		width: '100%',
-		height: 20,
+		height: 12,
 	},
 	modelBody: {
 		flex: 1,
 		display: 'flex',
-		flexL: 'column',
+		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
@@ -388,7 +359,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
-		padding: 20,
+		padding: 12,
 		width: 320,
 		height: 400,
 		backgroundColor: colors.white,

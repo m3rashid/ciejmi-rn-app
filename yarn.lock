@@ -2949,6 +2949,11 @@ isomorphic-fetch@^2.1.1:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
 
+jamia-all-courses@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/jamia-all-courses/-/jamia-all-courses-1.2.0.tgz#5ee53ef8566d76dc4abdb36b537702ac9cd30d31"
+  integrity sha512-gnMupHfx4ulZvVjVj9Brl2MnhGWbi83HTqRHvzXWOs/zG0bX3m8g3fYWE6n3FXRPAC2hCqga82d4lwJnToeddg==
+
 jest-environment-node@^29.2.1:
   version "29.4.3"
   resolved "https://registry.yarnpkg.com/jest-environment-node/-/jest-environment-node-29.4.3.tgz#579c4132af478befc1889ddc43c2413a9cdbe014"

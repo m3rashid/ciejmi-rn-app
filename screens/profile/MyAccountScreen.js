@@ -58,6 +58,7 @@ const MyAccountScreen = ({ navigation, route }) => {
 			})
 			.catch(console.log);
 	};
+
 	return (
 		<View style={styles.container}>
 			<StatusBar style='auto' />
@@ -87,11 +88,8 @@ const MyAccountScreen = ({ navigation, route }) => {
 					text={'Change Password'}
 					Icon={Ionicons}
 					iconName={'key-sharp'}
-					onPress={
-						() =>
-							navigation.navigate('updatepassword', {
-								userID: userID,
-							}) // navigate to updatepassword
+					onPress={() =>
+						navigation.navigate('updatepassword', { userID: userID })
 					}
 				/>
 				<OptionList
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.light,
 		alignItems: 'center',
 		justifyContent: 'flex-start',
-		padding: 20,
+		padding: 12,
 		flex: 1,
 	},
 	TopBarContainer: {

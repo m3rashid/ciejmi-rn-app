@@ -140,7 +140,7 @@ const ViewUsersScreen = ({ navigation, route }) => {
 				}
 			>
 				{foundItems && foundItems.length == 0 ? (
-					<Text>{`No user found with the name of ${filterItem}!`}</Text>
+					<Text style={{ color: colors.dark }}>{`No user found with the name of ${filterItem}!`}</Text>
 				) : (
 					foundItems.map((item, index) => (
 						<UserList

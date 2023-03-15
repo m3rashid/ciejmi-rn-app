@@ -221,6 +221,7 @@ const styles = StyleSheet.create({
 	toBarText: {
 		fontSize: 20,
 		fontWeight: '600',
+		color: colors.dark
 	},
 	container: {
 		width: '100%',

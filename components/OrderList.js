@@ -28,9 +28,9 @@ export const dateFormat = datex => {
 	const date = ('0' + t.getDate()).slice(-2);
 	const month = ('0' + (t.getMonth() + 1)).slice(-2);
 	const year = t.getFullYear();
-	const hours = ('0' + t.getHours()).slice(-2);
-	const minutes = ('0' + t.getMinutes()).slice(-2);
-	const seconds = ('0' + t.getSeconds()).slice(-2);
+	// const hours = ('0' + t.getHours()).slice(-2);
+	// const minutes = ('0' + t.getMinutes()).slice(-2);
+	// const seconds = ('0' + t.getSeconds()).slice(-2);
 	const newDate = `${date}-${month}-${year}`;
 
 	return newDate;
@@ -41,14 +41,14 @@ const OrderList = ({ item, onPress }) => {
 	const [quantity, setQuantity] = useState(0);
 
 	useEffect(() => {
-		let packageItems = 0;
-		item?.items.forEach(() => {
-			++packageItems;
-		});
-		setQuantity(packageItems);
+		// let packageItems = 0;
+		// item?.items.forEach(() => {
+		// 	packageItems += 1;
+		// });
+		setQuantity(item.items.length);
 		setTotalCost(
-			item?.items.reduce((accumulator, object) => {
-				return (accumulator + object.price) * object.quantity;
+			item?.items.reduce((acc, it) => {
+				return (acc + (it.price * it.quantity));
 			}, 0),
 		);
 	}, []);
@@ -57,7 +57,7 @@ const OrderList = ({ item, onPress }) => {
 		<View style={styles.container}>
 			<View style={styles.innerRow}>
 				<View>
-					<Text style={styles.primaryText}>Order # {item?.orderId}</Text>
+					<Text style={styles.primaryText}>Order # {item?._id}</Text>
 				</View>
 				<View style={styles.timeDateContainer}>
 					<Text style={styles.secondaryTextSm}>
@@ -82,7 +82,7 @@ const OrderList = ({ item, onPress }) => {
 			</View>
 			<View style={styles.innerRow}>
 				<TouchableOpacity style={styles.detailButton} onPress={onPress}>
-					<Text>Details</Text>
+					<Text style={{ color: colors.dark }}>Details</Text>
 				</TouchableOpacity>
 				<Text style={styles.secondaryText}>{item?.status}</Text>
 			</View>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.white,
 		borderRadius: 5,
 		padding: 10,
-		marginBottom: 10,
+		marginTop: 10,
 		elevation: 1,
 	},
 	innerRow: {

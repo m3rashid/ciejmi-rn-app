@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
 	categoryTitle: {
 		fontSize: 15,
 		fontWeight: '500',
+		color: colors.dark
 	},
 	categoryDescription: {
 		fontSize: 12,

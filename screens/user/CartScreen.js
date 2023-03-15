@@ -72,10 +72,7 @@ const CartScreen = ({ navigation }) => {
 							color={colors.muted}
 						/>
 					</TouchableOpacity>
-					<View style={styles.cartInfoTopBar}>
-						<Text>Your Cart</Text>
-						<Text>{cartproduct.length} Items</Text>
-					</View>
+
 				</View>
 
 				<View />
@@ -83,38 +80,40 @@ const CartScreen = ({ navigation }) => {
 					<Image source={cartIcon} />
 				</TouchableOpacity>
 			</View>
+
+			<View style={styles.cartInfoTopBar}>
+				<Text style={{ color: colors.muted, fontSize: 20, fontWeight: 'bold' }}>Your Cart</Text>
+			</View>
+
 			{cartproduct.length === 0 ? (
 				<View style={styles.cartProductListContiainerEmpty}>
-					{/* <Image
-            source={CartEmpty}
-            style={{ height: 400, resizeMode: "contain" }}
-          /> */}
 					<Text style={styles.secondaryTextSmItalic}>"Cart is empty"</Text>
 				</View>
 			) : (
 				<ScrollView style={styles.cartProductListContiainer}>
 					{cartproduct.map((item, index) => (
-						<CartProductList
-							key={index}
-							index={index}
-							image={item.image}
-							title={item.title}
-							price={item.price}
-							quantity={item.quantity}
-							onPressIncrement={() => {
-								increaseQuantity(
-									item._id,
-									item.quantity,
-									item.avaiableQuantity,
-								);
-							}}
-							onPressDecrement={() => {
-								decreaseQuantity(item._id, item.quantity);
-							}}
-							handleDelete={() => {
-								deleteItem(item._id);
-							}}
-						/>
+						<TouchableOpacity key={index} style={{}}>
+							<CartProductList
+								index={index}
+								image={item.image}
+								title={item.title}
+								price={item.price}
+								quantity={item.quantity}
+								onPressIncrement={() => {
+									increaseQuantity(
+										item._id,
+										item.quantity,
+										item.avaiableQuantity,
+									);
+								}}
+								onPressDecrement={() => {
+									decreaseQuantity(item._id, item.quantity);
+								}}
+								handleDelete={() => {
+									deleteItem(item._id);
+								}}
+							/>
+						</TouchableOpacity>
 					))}
 					<View style={styles.emptyView} />
 				</ScrollView>
@@ -128,10 +127,8 @@ const CartScreen = ({ navigation }) => {
 							color={colors.primary}
 						/>
 					</View>
-					<View>
-						<Text style={styles.cartBottomPrimaryText}>Total</Text>
-						<Text style={styles.cartBottomSecondaryText}>₹ {totalPrice}</Text>
-					</View>
+					<Text style={styles.cartBottomPrimaryText}>Total : ₹{totalPrice}</Text>
+
 				</View>
 				<View style={styles.cartBottomRightContainer}>
 					{cartproduct.length > 0 ? (
@@ -159,7 +156,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 		flexDirecion: 'row',
 		backgroundColor: colors.light,
-		alignItems: 'center',
 		justifyContent: 'flex-start',
 		paddingBottom: 0,
 		flex: 1,
@@ -170,13 +166,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 20,
+		padding: 12,
 	},
 	toBarText: {
 		fontSize: 15,
 		fontWeight: '600',
 	},
-	cartProductListContiainer: { width: '100%', padding: 20 },
+	cartProductListContiainer: { width: '100%', padding: 12 },
 	cartProductListContiainerEmpty: {
 		width: '100%',
 		display: 'flex',
@@ -191,27 +187,26 @@ const styles = StyleSheet.create({
 	},
 	cartBottomContainer: {
 		width: '100%',
-		height: 120,
+		height: 100,
 		display: 'flex',
 		backgroundColor: colors.white,
 		borderTopRightRadius: 20,
 		borderTopLeftRadius: 20,
-		elevation: 3,
+		elevation: 5,
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
 	cartBottomLeftContainer: {
-		padding: 20,
+		padding: 10,
 		display: 'flex',
-		justifyContent: 'space-between',
 		flexDirection: 'column',
 		alignItems: 'center',
 		width: '30%',
 		height: '100%',
 	},
 	cartBottomRightContainer: {
-		padding: 30,
+		padding: 20,
 		display: 'flex',
 		justifyContent: 'flex-end',
 		flexDirection: 'column',
@@ -222,10 +217,7 @@ const styles = StyleSheet.create({
 	cartBottomPrimaryText: {
 		fontSize: 15,
 		fontWeight: 'bold',
-	},
-	cartBottomSecondaryText: {
-		fontSize: 12,
-		fontWeight: 'bold',
+		color: colors.muted
 	},
 	emptyView: {
 		width: '100%',
@@ -240,6 +232,7 @@ const styles = StyleSheet.create({
 		height: 40,
 		width: 40,
 		borderRadius: 5,
+		marginBottom: 10
 	},
 	cartInfoContainerTopBar: {
 		display: 'flex',
@@ -248,8 +241,6 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	cartInfoTopBar: {
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-		marginLeft: 5,
+		marginLeft: 12,
 	},
 });

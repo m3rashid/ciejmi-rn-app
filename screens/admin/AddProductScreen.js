@@ -283,6 +283,9 @@ const AddProductScreen = ({ navigation, route }) => {
 					/>
 				</View>
 
+				<View style={{ marginTop: 10 }}>
+					<Text style={{ color: colors.primary }}>Select Product Category</Text>
+				</View>
 				<DropDownPicker
 					placeholder='Select Product Category'
 					placeholderStyle={{ color: colors.muted }}
@@ -293,17 +296,15 @@ const AddProductScreen = ({ navigation, route }) => {
 					setValue={setCategory}
 					setItems={setItems}
 					disabled={statusDisable}
-					disabledStyle={{
-						backgroundColor: colors.light,
-						borderColor: colors.white,
-					}}
 					containerStyle={{ borderWidth: 0, borderColor: '#fff' }}
 					labelStyle={{ color: colors.muted }}
+					dropDownDirection='BOTTOM'
+					dropDownContainerStyle={{ borderColor: colors.light }}
 					style={{
 						borderColor: '#fff',
 						elevation: 5,
-						margin: 5,
 						marginBottom: 100,
+						marginTop: 5
 					}}
 				/>
 			</ScrollView>

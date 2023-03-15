@@ -3,15 +3,12 @@ import React from 'react';
 import { colors } from '../constants';
 
 const CustomAlert = ({ message, type }) => {
+	if (!message) return null
 	return (
 		<View style={{ width: '100%' }}>
-			{message != '' ? (
-				<View style={[styles.alertContainer, styles[`alertContainer_${type}`]]}>
-					<Text>{message}</Text>
-				</View>
-			) : (
-				<></>
-			)}
+			<View style={[styles.alertContainer, styles[`alertContainer_${type}`]]}>
+				<Text style={{ color: colors.dark }}>{message}</Text>
+			</View>
 		</View>
 	);
 };

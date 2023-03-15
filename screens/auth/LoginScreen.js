@@ -98,10 +98,7 @@ const LoginScreen = ({ navigation }) => {
 
 	return (
 		<InternetConnectionAlert>
-			<KeyboardAvoidingView
-				// behavior={Platform.OS === "ios" ? "padding" : "height"}
-				style={styles.container}
-			>
+			<KeyboardAvoidingView style={styles.container}>
 				<ScrollView style={{ flex: 1, width: '100%' }}>
 					<ProgressDialog visible={isloading} label={'Login ...'} />
 					<StatusBar />
@@ -150,7 +147,7 @@ const LoginScreen = ({ navigation }) => {
 					<CustomButton text='Login' onPress={loginHandle} />
 				</View>
 				<View style={styles.bottomContainer}>
-					<Text>Don't have an account? </Text>
+					<Text style={{ color: colors.dark }}>Don't have an account ? </Text>
 					<Text
 						onPress={() => navigation.navigate('signup')}
 						style={styles.signupText}
@@ -217,6 +214,7 @@ const styles = StyleSheet.create({
 	ForgetText: {
 		fontSize: 15,
 		fontWeight: '600',
+		color: colors.dark,
 	},
 	buttomContainer: {
 		display: 'flex',

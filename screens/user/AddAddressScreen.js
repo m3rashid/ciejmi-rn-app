@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	StyleSheet,
 	Text,
@@ -13,17 +13,27 @@ import ProgressDialog from "react-native-progress-dialog"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddAdressScreen = ({ navigation, route }) => {
-	const { authUser } = route.params;
 	const [isloading, setIsloading] = useState(false);
-
 	const [localAddressOne, setLocalAddressOne] = useState('')
 	const [localAddressTwo, setLocalAddressTwo] = useState('')
 	const [city, setCity] = useState('')
 	const [state, setState] = useState('')
 	const [postalCode, setPostalCode] = useState('')
 	const [error, setError] = useState('');
+	const [authUser, setAuthUser] = useState(null);
+
+	useEffect(() => {
+		//fetch the authUser from async storage
+		const fetchUser = async () => {
+			const value = await AsyncStorage.getItem('authUser');
+			let user = JSON.parse(value);
+			setAuthUser(user);
+		};
+		fetchUser();
+	}, [])
 
 	const addAddresshandle = async () => {
 		setIsloading(true);
@@ -77,7 +87,7 @@ const AddAdressScreen = ({ navigation, route }) => {
 			</View>
 
 			<View style={styles.screenNameContainer}>
-				<Text style={styles.screenNameText}>Add Product</Text>
+				<Text style={styles.screenNameText}>Add Address</Text>
 			</View>
 
 			<ScrollView
@@ -128,7 +138,7 @@ const AddAdressScreen = ({ navigation, route }) => {
 				</View>
 			</ScrollView>
 			<View style={styles.buttomContainer}>
-				<CustomButton text='Add Product' onPress={addAddresshandle} />
+				<CustomButton text='Add Address' onPress={addAddresshandle} />
 			</View>
 
 		</KeyboardAvoidingView>

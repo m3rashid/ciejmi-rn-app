@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
 		flexDirecion: 'row',
 		backgroundColor: colors.light,
 		alignItems: 'center',
-		padding: 20,
+		padding: 12,
 		flex: 1,
 	},
 	TopBarContainer: {

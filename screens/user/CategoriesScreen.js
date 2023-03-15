@@ -25,10 +25,9 @@ import CustomInput from '../../components/CustomInput';
 const CategoriesScreen = ({ navigation, route }) => {
 	const { categoryID } = route.params;
 
-	const [isLoading, setLoading] = useState(true);
+	const [categories, setCategories] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [refeshing, setRefreshing] = useState(false);
-	const [label, setLabel] = useState('Loading . . .');
 	const [error, setError] = useState('');
 	const [foundItems, setFoundItems] = useState([]);
 	const [filterItem, setFilterItem] = useState('');
@@ -37,7 +36,6 @@ const CategoriesScreen = ({ navigation, route }) => {
 	const [windowWidth, setWindowWidth] = useState(
 		Dimensions.get('window').width
 	);
-	const windowHeight = Dimensions.get('window').height;
 
 	//initialize the cartproduct with redux data
 	const cartproduct = useSelector((state) => state.product);
@@ -62,18 +60,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 		setRefreshing(false);
 	};
 
-	var headerOptions = {
-		method: 'GET',
-		redirect: 'follow',
-	};
-	const category = [
-		{
-			_id: '63f34c7e2f63d4b052b20fa4',
-			title: 'Drinkables',
-			image: require('../../assets/icons/cosmetics.png'),
-		},
-	];
-	const [selectedTab, setSelectedTab] = useState(category[0]);
+	const [selectedTab, setSelectedTab] = useState(categories[0]);
 
 	//method to fetch the product from server using API call
 	const fetchProduct = () => {
@@ -87,6 +74,25 @@ const CategoriesScreen = ({ navigation, route }) => {
 				if (result.success) {
 					setProducts(result.data);
 					setFoundItems(result.data);
+					setError('');
+				} else {
+					setError(result.message);
+				}
+			})
+			.catch((error) => {
+				setError(error.message);
+			});
+	};
+
+	const getCategories = () => {
+		fetch(`${network.serverip}/categories`, {
+			method: 'GET',
+			redirect: 'follow',
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				if (result.success) {
+					setCategories(result.categories);
 					setError('');
 				} else {
 					setError(result.message);
@@ -124,6 +130,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 
 	useEffect(() => {
 		fetchProduct();
+		getCategories();
 	}, []);
 
 	return (
@@ -158,7 +165,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.bodyContainer}>
-				<View style={{ padding: 0, paddingLeft: 12, paddingRight: 12 }}>
+				<View style={{ padding: 0, paddingLeft: 12, paddingRight: 12, marginBottom: 10 }}>
 					<CustomInput
 						radius={5}
 						ioniconName='search'
@@ -170,7 +177,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 				</View>
 
 				<FlatList
-					data={category}
+					data={categories}
 					keyExtractor={(index, item) => `${index}-${item}`}
 					horizontal
 					style={{ flexGrow: 0 }}
@@ -199,9 +206,10 @@ const CategoriesScreen = ({ navigation, route }) => {
 								justifyContent: 'center',
 								alignItems: 'center',
 								backgroundColor: colors.white,
-								height: 150,
-								width: 150,
+								height: 200,
+								width: 200,
 								borderRadius: 5,
+								gap: 10
 							}}
 						>
 							<Image
@@ -209,7 +217,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 								style={{ height: 80, width: 80, resizeMode: 'contain' }}
 							/>
 							<Text style={styles.emptyBoxText}>
-								There no product in this category
+								No Products {"\n"} found in this category
 							</Text>
 						</View>
 					</View>
@@ -237,7 +245,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 								<ProductCard
 									cardSize='large'
 									name={product.title}
-									image={`${network.serverip}/uploads/${product.image}`}
+									image={product.image}
 									price={product.price}
 									quantity={product.quantity}
 									onPress={() => handleProductPress(product)}

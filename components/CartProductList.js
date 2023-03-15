@@ -167,5 +167,6 @@ const styles = StyleSheet.create({
 	counterCountText: {
 		fontSize: 20,
 		fontWeight: 'bold',
+		color: colors.dark
 	},
 });

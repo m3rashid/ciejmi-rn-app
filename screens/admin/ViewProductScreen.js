@@ -181,7 +181,7 @@ const ViewProductScreen = ({ navigation, route }) => {
 				}
 			>
 				{foundItems && foundItems.length == 0 ? (
-					<Text>{`No product found with the name of ${filterItem}!`}</Text>
+					<Text style={{ color: colors.dark }}>{`No product found with the name of ${filterItem}!`}</Text>
 				) : (
 					foundItems.map((product, index) => {
 						return (

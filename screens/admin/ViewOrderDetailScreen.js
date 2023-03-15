@@ -135,7 +135,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 			<View style={styles.screenNameContainer}>
 				<Text style={styles.screenNameText}>Order Details</Text>
 				<View>
-					<Text style={styles.screenNameParagraph}>
+					<Text style={[styles.screenNameParagraph, { color: colors.dark }]}>
 						View all detail about order
 					</Text>
 				</View>
@@ -188,7 +188,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 				<View style={styles.orderItemsContainer}>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Package</Text>
-						<Text>{value}</Text>
+						<Text style={{ color: colors.dark }}>{value}</Text>
 					</View>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>
@@ -210,7 +210,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 					</ScrollView>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Total</Text>
-						<Text>₹ {totalCost}</Text>
+						<Text style={{ color: colors.dark }}>₹ {totalCost}</Text>
 					</View>
 				</View>
 				<View style={styles.emptyView} />

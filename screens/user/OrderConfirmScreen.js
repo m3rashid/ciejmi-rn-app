@@ -27,7 +27,7 @@ const OrderConfirmScreen = ({ navigation }) => {
 			<Text style={styles.secondaryText}>Order has be confirmed</Text>
 			<View>
 				<CustomButton
-					text={'Back to Home'}
+					text='Back to Home'
 					onPress={() => navigation.replace('tab', { user: user })}
 				/>
 			</View>
@@ -57,5 +57,6 @@ const styles = StyleSheet.create({
 	secondaryText: {
 		fontSize: 20,
 		fontWeight: 'bold',
+		color: colors.dark
 	},
 });

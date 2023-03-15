@@ -38,7 +38,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 	};
 
 	const [onWishlist, setOnWishlist] = useState(false);
-	const [quantity, setQuantity] = useState(0);
+	const [quantity, setQuantity] = useState(1);
 	const [wishlistItems, setWishlistItems] = useState([]);
 	const [error, setError] = useState('');
 	const [isDisable, setIsDisbale] = useState(true);
@@ -83,15 +83,15 @@ const ProductDetailScreen = ({ navigation, route }) => {
 
 	//method to increase the product quantity
 	const handleIncreaseButton = (quantity) => {
-		if (product.quantity > quantity) {
+		if (quantity >= 1 && product.quantity > quantity) {
 			setQuantity(quantity + 1);
 		}
 	};
 
 	//method to decrease the product quantity
 	const handleDecreaseButton = (quantity) => {
-		if (quantity > 0) {
-			setQuantity(quantity - 1);
+		if (quantity > 1) {
+			setQuantity((prev) => prev - 1);
 		}
 	};
 
@@ -239,19 +239,15 @@ const ProductDetailScreen = ({ navigation, route }) => {
 							</View>
 						</View>
 						<View style={styles.productDetailContainer}>
-							<View style={styles.productSizeOptionContainer}>
-								{/* <Text style={styles.secondaryTextSm}>Size:</Text> */}
-							</View>
-							<View style={styles.productPriceContainer}>
-								<Text style={styles.secondaryTextSm}>Price:</Text>
-								<Text style={styles.primaryTextSm}>₹ {product?.price}</Text>
-							</View>
+							<Text style={styles.secondaryTextSm}>Price :</Text>
+							<Text style={styles.primaryTextSm}>₹ {product?.price}</Text>
 						</View>
-						<View style={styles.productDescriptionContainer}>
-							<Text style={styles.secondaryTextSm}>Description:</Text>
-							<Text>{product?.description}</Text>
+						<View style={styles.productDetailContainer}>
+							<Text style={styles.secondaryTextSm}>Description :</Text>
+							<Text style={{ color: colors.muted }}>{product?.description}</Text>
 						</View>
 					</View>
+
 					<View style={styles.productInfoBottomContainer}>
 						<View style={styles.counterContainer}>
 							<View style={styles.counter}>
@@ -283,7 +279,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 									}}
 								/>
 							) : (
-								<CustomButton text={'Out of Stock'} disabled={true} />
+								<CustomButton text='Out of Stock' disabled={true} />
 							)}
 						</View>
 					</View>
@@ -310,7 +306,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 20,
+		padding: 12,
 	},
 	toBarText: {
 		fontSize: 15,
@@ -332,6 +328,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'flex-end',
 		padding: 0,
+		marginBottom: 30,
 	},
 	productInfoContainer: {
 		width: '100%',
@@ -343,6 +340,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		elevation: 25,
+		maxHeight: 450
 	},
 	productImage: {
 		height: 300,
@@ -366,23 +364,25 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		backgroundColor: colors.light,
 		width: '100%',
-		height: 140,
+		height: 150,
 		borderTopLeftRadius: 25,
 		borderTopRightRadius: 25,
+		elevation: 10,
 	},
 	productButtonContainer: {
-		padding: 20,
-		paddingLeft: 40,
-		paddingRight: 40,
+		padding: 12,
+		paddingLeft: 20,
+		paddingRight: 20,
 		backgroundColor: colors.white,
 		width: '100%',
-		height: 100,
+		height: 80,
 		borderTopLeftRadius: 25,
 		borderTopRightRadius: 25,
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
+		marginTop: 10,
 	},
 	productNameContaier: {
 		padding: 5,
@@ -396,6 +396,7 @@ const styles = StyleSheet.create({
 	productNameText: {
 		fontSize: 20,
 		fontWeight: 'bold',
+		color: colors.dark,
 	},
 	infoButtonContainer: {
 		padding: 5,
@@ -427,7 +428,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		elevation: 5,
 	},
-	secondaryTextSm: { fontSize: 15, fontWeight: 'bold' },
+	secondaryTextSm: { fontSize: 15, fontWeight: 'bold', color: colors.dark },
 	primaryTextSm: { color: colors.primary, fontSize: 15, fontWeight: 'bold' },
 	productDescriptionContainer: {
 		display: 'flex',
@@ -482,6 +483,7 @@ const styles = StyleSheet.create({
 	counterCountText: {
 		fontSize: 20,
 		fontWeight: 'bold',
+		color: colors.dark
 	},
 	cartIconContainer: {
 		display: 'flex',
@@ -502,7 +504,7 @@ const styles = StyleSheet.create({
 		borderRadius: 11,
 	},
 	cartItemCountText: {
-		color: colors.white,
+		color: colors.dark,
 		fontWeight: 'bold',
 		fontSize: 10,
 	},

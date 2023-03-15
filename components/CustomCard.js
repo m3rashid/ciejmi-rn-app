@@ -42,10 +42,12 @@ const styles = StyleSheet.create({
 	cardPrimaryText: {
 		fontSize: 20,
 		fontWeight: 'bold',
+		color: colors.dark
 	},
 	cardSecondaryText: {
 		fontSize: 15,
 		fontWeight: '800',
+		color: colors.muted
 	},
 	primary: {
 		backgroundColor: colors.primary,

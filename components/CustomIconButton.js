@@ -5,17 +5,23 @@ import { colors } from '../constants';
 const CustomIconButton = ({ text, image, onPress, active }) => {
 	return (
 		<TouchableOpacity
+			onPress={onPress}
 			style={[
 				styles.container,
 				{ backgroundColor: active ? colors.primary_light : colors.white },
 			]}
-			onPress={onPress}>
-			<Image source={image} style={styles.buttonIcon} />
+		>
+			{image ? (
+				<Image source={{ uri: image }} style={styles.buttonIcon} />
+			) : (
+				<Text style={{ marginLeft: 10, color: colors.muted }} />
+			)}
 			<Text
 				style={[
 					styles.buttonText,
 					{ color: active ? colors.dark : colors.muted },
-				]}>
+				]}
+			>
 				{text}
 			</Text>
 		</TouchableOpacity>
@@ -33,9 +39,10 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.white,
 		borderRadius: 5,
 		height: 40,
-		width: 110,
 		elevation: 3,
 		margin: 5,
+		paddingLeft: 5,
+		paddingRight: 10,
 	},
 	buttonText: {
 		fontSize: 12,

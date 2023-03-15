@@ -23,14 +23,6 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 import { SliderBox } from 'react-native-image-slider-box';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const category = [
-	{
-		_id: '63f34c7e2f63d4b052b20fa4',
-		title: 'Drinkables',
-		image: require('../../assets/icons/cosmetics.png'),
-	},
-];
-
 const slides = [
 	require('../../assets/image/banners/banner.png'),
 	require('../../assets/image/banners/banner.png'),
@@ -39,7 +31,6 @@ const slides = [
 const HomeScreen = ({ navigation, route }) => {
 	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
-
 	const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
 
 	const { user } = route.params;
@@ -48,6 +39,9 @@ const HomeScreen = ({ navigation, route }) => {
 	const [error, setError] = useState('');
 	const [userInfo, setUserInfo] = useState({});
 	const [searchItems, setSearchItems] = useState([]);
+	const [categories, setCategories] = useState([])
+
+
 
 	//method to convert the authUser to json object
 	const convertToJSON = (obj) => {
@@ -102,9 +96,27 @@ const HomeScreen = ({ navigation, route }) => {
 		setRefreshing(false);
 	};
 
+	const getCategories = () => {
+		fetch(`${network.serverip}/categories`, headerOptions) //API call
+			.then((response) => response.json())
+			.then((result) => {
+				console.log({ result: result.categories })
+				if (result.success) {
+					setCategories(result.categories);
+					setError('');
+				} else {
+					setError(result.message);
+				}
+			})
+			.catch((error) => {
+				setError(error.message);
+			});
+	}
+
 	useEffect(() => {
 		convertToJSON(user);
 		fetchProduct();
+		getCategories()
 	}, []);
 
 	return (
@@ -134,9 +146,10 @@ const HomeScreen = ({ navigation, route }) => {
 			<View style={styles.bodyContainer}>
 				<View style={styles.searchContainer}>
 					<View style={styles.inputContainer}>
-						<Ionicons name='search' size={24} />
+						<Ionicons name='search' style={{ color: colors.dark }} size={24} />
 
 						<SearchableDropdown
+							placeholderTextColor={colors.muted}
 							onTextChange={() => { }}
 							onItemSelect={(item) => handleProductPress(item)}
 							defaultIndex={0}
@@ -151,11 +164,11 @@ const HomeScreen = ({ navigation, route }) => {
 								paddingLeft: 10,
 								borderWidth: 0,
 								backgroundColor: colors.white,
+								color: colors.dark,
 							}}
 							itemStyle={{
 								padding: 10,
 								backgroundColor: colors.white,
-								borderColor: colors.muted,
 							}}
 							itemTextStyle={{
 								color: colors.muted,
@@ -191,7 +204,7 @@ const HomeScreen = ({ navigation, route }) => {
 							showsHorizontalScrollIndicator={false}
 							style={styles.flatListContainer}
 							horizontal={true}
-							data={category}
+							data={categories}
 							keyExtractor={(item, index) => `${item}-${index}`}
 							renderItem={({ item, index }) => (
 								<View style={{ marginBottom: 10 }} key={index}>
@@ -279,6 +292,7 @@ const styles = StyleSheet.create({
 	toBarText: {
 		fontSize: 20,
 		fontWeight: '600',
+		color: colors.dark,
 	},
 	topbarlogoContainer: {
 		display: 'flex',
@@ -363,6 +377,7 @@ const styles = StyleSheet.create({
 	primaryText: {
 		fontSize: 20,
 		fontWeight: 'bold',
+		color: colors.dark,
 	},
 	flatListContainer: {
 		width: '100%',

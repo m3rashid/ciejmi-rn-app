@@ -197,7 +197,7 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 					<RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />
 				}>
 				{foundItems && foundItems.length == 0 ? (
-					<Text>{`No category found with the title of ${filterItem}!`}</Text>
+					<Text style={{ color: colors.dark }}>{`No category found with the title of ${filterItem}!`}</Text>
 				) : (
 					foundItems.map((item, index) => (
 						<CategoryList
