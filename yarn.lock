@@ -1780,7 +1780,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-base-64@^0.1.0:
+base-64@0.1.0, base-64@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
   integrity sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==
@@ -2183,6 +2183,11 @@ cross-spawn@^6.0.0:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
+crypto-js@^3.2.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.3.0.tgz#846dd1cce2f68aacfa156c8578f926a609b7976b"
+  integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
+
 csstype@^3.0.2:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
@@ -2265,6 +2270,15 @@ depd@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/depd/-/depd-2.0.0.tgz#b696163cc757560d09cf22cc8fad1571b79e76df"
   integrity sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==
+
+deprecated-react-native-prop-types@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/deprecated-react-native-prop-types/-/deprecated-react-native-prop-types-2.3.0.tgz#c10c6ee75ff2b6de94bb127f142b814e6e08d9ab"
+  integrity sha512-pWD0voFtNYxrVqvBMYf5gq3NA2GCpfodS1yNynTPc93AYA/KEMGeWDqqeUB6R2Z9ZofVhks2aeJXiuQqKNpesA==
+  dependencies:
+    "@react-native/normalize-color" "*"
+    invariant "*"
+    prop-types "*"
 
 deprecated-react-native-prop-types@^3.0.1:
   version "3.0.1"
@@ -2613,7 +2627,7 @@ get-value@^2.0.3, get-value@^2.0.6:
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
   integrity sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==
 
-glob@^7.1.3:
+glob@^7.1.3, glob@^7.2.3:
   version "7.2.3"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.3.tgz#b8df0fb802bbfa8e89bd1d938b4e16578ed44f2b"
   integrity sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==
@@ -2948,11 +2962,6 @@ isomorphic-fetch@^2.1.1:
   dependencies:
     node-fetch "^1.0.1"
     whatwg-fetch ">=0.10.0"
-
-jamia-all-courses@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/jamia-all-courses/-/jamia-all-courses-1.2.0.tgz#5ee53ef8566d76dc4abdb36b537702ac9cd30d31"
-  integrity sha512-gnMupHfx4ulZvVjVj9Brl2MnhGWbi83HTqRHvzXWOs/zG0bX3m8g3fYWE6n3FXRPAC2hCqga82d4lwJnToeddg==
 
 jest-environment-node@^29.2.1:
   version "29.4.3"
@@ -4207,6 +4216,14 @@ react-moment@^1.1.3:
   resolved "https://registry.yarnpkg.com/react-moment/-/react-moment-1.1.3.tgz#829b21dfb279aa6db47ce4f1ac2555af17a1bcdc"
   integrity sha512-8EPvlUL8u6EknPp1ISF5MQ3wx2OHJVXIP/iZc4wRh3iV3XozftZERDv9ANZeAtMlhNNQHdFoqcZHFUkBSTONfA==
 
+react-native-blob-util@^0.17.2:
+  version "0.17.2"
+  resolved "https://registry.yarnpkg.com/react-native-blob-util/-/react-native-blob-util-0.17.2.tgz#5a3b31d827bd8cc4306cf6fa39e842a38c5d96b0"
+  integrity sha512-JXdUt/NfG6lDtDNDJ4/mAXiOl4elzhIPZDWQBlIwiCwQczo4TU10iGZl5+f8uMwKtbh3leuUjL2PESOkBYCRBg==
+  dependencies:
+    base-64 "0.1.0"
+    glob "^7.2.3"
+
 react-native-codegen@^0.71.5:
   version "0.71.5"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.71.5.tgz#454a42a891cd4ca5fc436440d301044dc1349c14"
@@ -4276,6 +4293,14 @@ react-native-internet-connection-alert@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/react-native-internet-connection-alert/-/react-native-internet-connection-alert-0.1.9.tgz#635b2cd964c22550d1c4572b7d4cef8b768dcf82"
   integrity sha512-gKCjDlkyms3xOH5uD2+BVb7i4FV6A1nMxJDsBnAE3PfdUHSOI9LCz3VbeUg1HXXi1spjyK5pJDOpKPOXgRH15g==
+
+react-native-pdf@^6.6.2:
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-6.6.2.tgz#a119aa3fd908c2c0a92102a78562530a35b9154b"
+  integrity sha512-gqxNPSzL0lNN1dGYAz9ObSLb0shUTB8x1u69qKLMSmwuxFTpGui5PNNgpH8q/nlpL9zBzMVVc/AXEuDCwRyxEQ==
+  dependencies:
+    crypto-js "^3.2.0"
+    deprecated-react-native-prop-types "^2.3.0"
 
 react-native-progress-dialog@^0.0.5:
   version "0.0.5"

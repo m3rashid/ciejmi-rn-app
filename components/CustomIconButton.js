@@ -12,7 +12,10 @@ const CustomIconButton = ({ text, image, onPress, active }) => {
 			]}
 		>
 			{image ? (
-				<Image source={{ uri: image }} style={styles.buttonIcon} />
+				<Image
+					source={{ uri: image }}
+					style={[styles.buttonIcon, { marginRight: 10 }]}
+				/>
 			) : (
 				<Text style={{ marginLeft: 10, color: colors.muted }} />
 			)}

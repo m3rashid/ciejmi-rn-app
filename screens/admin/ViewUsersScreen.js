@@ -79,8 +79,8 @@ const ViewUsersScreen = ({ navigation, route }) => {
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = users.filter((user) => {
-				return user.name.toLowerCase().includes(keyword.toLowerCase());
+			const results = (users || []).filter((user) => {
+				return (user.name || '').toLowerCase().includes(keyword.toLowerCase());
 			});
 
 			setFoundItems(results);

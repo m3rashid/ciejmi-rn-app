@@ -117,8 +117,8 @@ const ViewProductScreen = ({ navigation, route }) => {
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = products?.filter((product) => {
-				return product?.title.toLowerCase().includes(keyword.toLowerCase());
+			const results = (products || [])?.filter((product) => {
+				return (product?.title || '').toLowerCase().includes(keyword.toLowerCase());
 			});
 			setFoundItems(results);
 		} else {
@@ -181,7 +181,7 @@ const ViewProductScreen = ({ navigation, route }) => {
 				}
 			>
 				{foundItems && foundItems.length == 0 ? (
-					<Text style={{ color: colors.dark }}>{`No product found with the name of ${filterItem}!`}</Text>
+					<Text style={{ color: colors.dark, marginTop: 10 }}>{`No product found with the name of ${filterItem}!`}</Text>
 				) : (
 					foundItems.map((product, index) => {
 						return (

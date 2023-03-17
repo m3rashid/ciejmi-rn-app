@@ -22,7 +22,6 @@ import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { SliderBox } from 'react-native-image-slider-box';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 const slides = [
 	require('../../assets/image/banners/banner.png'),
 	require('../../assets/image/banners/banner.png'),
@@ -39,9 +38,7 @@ const HomeScreen = ({ navigation, route }) => {
 	const [error, setError] = useState('');
 	const [userInfo, setUserInfo] = useState({});
 	const [searchItems, setSearchItems] = useState([]);
-	const [categories, setCategories] = useState([])
-
-
+	const [categories, setCategories] = useState([]);
 
 	//method to convert the authUser to json object
 	const convertToJSON = (obj) => {
@@ -67,19 +64,26 @@ const HomeScreen = ({ navigation, route }) => {
 		redirect: 'follow',
 	};
 
+	const filter = (text) => {
+		if (!text || text === '') {
+			return;
+		}
+
+		const payload = (products || []).map((cat) => ({
+			...cat,
+			id: cat._id,
+			name: cat.title,
+		}));
+		setSearchItems(payload);
+	};
+
 	const fetchProduct = () => {
-		fetch(`${network.serverip}/products`, headerOptions) //API call
-			.then((response) => response.json())
+		fetch(`${network.serverip}/products`, headerOptions)
+			.then((r) => r.json())
 			.then((result) => {
 				if (result.success) {
 					setProducts(result.data);
 					setError('');
-					let payload = [];
-					result.data.forEach((cat, index) => {
-						let searchableItem = { ...cat, id: ++index, name: cat.title };
-						payload.push(searchableItem);
-					});
-					setSearchItems(payload);
 				} else {
 					setError(result.message);
 				}
@@ -110,12 +114,12 @@ const HomeScreen = ({ navigation, route }) => {
 			.catch((error) => {
 				setError(error.message);
 			});
-	}
+	};
 
 	useEffect(() => {
 		convertToJSON(user);
 		fetchProduct();
-		getCategories()
+		getCategories();
 	}, []);
 
 	return (
@@ -145,11 +149,15 @@ const HomeScreen = ({ navigation, route }) => {
 			<View style={styles.bodyContainer}>
 				<View style={styles.searchContainer}>
 					<View style={styles.inputContainer}>
-						<Ionicons name='search' style={{ color: colors.dark }} size={24} />
+						<Ionicons
+							name='search'
+							style={{ color: colors.dark, marginTop: 8 }}
+							size={24}
+						/>
 
 						<SearchableDropdown
 							placeholderTextColor={colors.muted}
-							onTextChange={() => { }}
+							onTextChange={(value) => filter(value)}
 							onItemSelect={(item) => handleProductPress(item)}
 							defaultIndex={0}
 							containerStyle={{
@@ -169,12 +177,8 @@ const HomeScreen = ({ navigation, route }) => {
 								padding: 10,
 								backgroundColor: colors.white,
 							}}
-							itemTextStyle={{
-								color: colors.muted,
-							}}
-							itemsContainerStyle={{
-								maxHeight: '100%',
-							}}
+							itemTextStyle={{ color: colors.muted }}
+							itemsContainerStyle={{ maxHeight: '100%' }}
 							items={searchItems}
 							placeholder='Search . . .'
 							resetValue={false}
@@ -336,12 +340,12 @@ const styles = StyleSheet.create({
 		width: '100%',
 		display: 'flex',
 		justifyContent: 'center',
-		alignItems: 'center',
+		alignItems: 'flex-start',
 		flexDirection: 'row',
 		backgroundColor: colors.white,
 		height: '100%',
 		borderRadius: 5,
-		height: 40,
+		maxHeight: 300,
 		elevation: 5,
 	},
 	buttonContainer: {

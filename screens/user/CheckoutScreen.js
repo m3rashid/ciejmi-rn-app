@@ -44,8 +44,6 @@ const CheckoutScreen = ({ navigation, route }) => {
 		const fetchUser = async () => {
 			const value = await AsyncStorage.getItem('authUser');
 			let user = JSON.parse(value);
-			// setUser(user);
-			// console.log({ user })
 			const dd = await fetch(network.serverip + '/get-all-address', {
 				method: 'GET',
 				headers: {
@@ -55,7 +53,7 @@ const CheckoutScreen = ({ navigation, route }) => {
 			return dd.json();
 		};
 		fetchUser().then((d) => setUser(d.data)).catch(console.log);
-	}, []);
+	}, [route]);
 
 	//method to handle checkout
 	const handleCheckout = async () => {
@@ -245,6 +243,10 @@ const CheckoutScreen = ({ navigation, route }) => {
 							</View>
 						);
 					})}
+
+					{(user.addresses || []).length === 0 && (
+						<Text style={{ color: colors.muted, padding: 8, textAlign: 'center' }}>Please add an address to continue</Text>
+					)}
 				</View>
 
 				<Text style={styles.primaryText}>Payment</Text>
@@ -258,6 +260,10 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<View style={styles.emptyView} />
 			</ScrollView>
 			<View style={styles.buttomContainer}>
+				{!address && (
+					<Text style={{ color: colors.muted, textAlign: 'center', marginBottom: 8 }}>Please Choose an address to continue</Text>
+				)}
+
 				{address ? (
 					<CustomButton
 						text='Confirm Order'

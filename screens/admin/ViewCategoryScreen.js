@@ -21,7 +21,7 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 	const { authUser } = route.params;
 	const [user, setUser] = useState({});
 
-	const getToken = obj => {
+	const getToken = (obj) => {
 		try {
 			setUser(JSON.parse(obj));
 		} catch (e) {
@@ -48,14 +48,14 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 		setRefreshing(false);
 	};
 	//method to navigate to edit screen for specific catgeory
-	const handleEdit = item => {
+	const handleEdit = (item) => {
 		navigation.navigate('editcategories', {
 			category: item,
 			authUser: authUser,
 		});
 	};
 	//method to delete the specific catgeory
-	const handleDelete = id => {
+	const handleDelete = (id) => {
 		var myHeaders = new Headers();
 		myHeaders.append('x-auth-token', getToken(authUser));
 
@@ -66,8 +66,8 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 		};
 		setIsloading(true);
 		fetch(`${network.serverip}/delete-category?id=${id}`, requestOptions) // API call
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					fetchCategories();
 					setError(result.message);
@@ -78,32 +78,20 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 				}
 				setIsloading(false);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
 				setError(error.message);
 			});
 	};
 
-	// method for alert
-	const showConfirmDialog = id => {
+	const showConfirmDialog = (id) => {
 		return Alert.alert(
 			'Are your sure?',
 			'Are you sure you want to delete the category?',
-			[
-				{
-					text: 'Yes',
-					onPress: () => {
-						handleDelete(id);
-					},
-				},
-				{
-					text: 'No',
-				},
-			],
+			[{ text: 'Yes', onPress: () => handleDelete(id) }, { text: 'No' }]
 		);
 	};
 
-	//method the fetch the catgeories from server using API call
 	const fetchCategories = () => {
 		var myHeaders = new Headers();
 		myHeaders.append('x-auth-token', getToken(authUser));
@@ -115,8 +103,8 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 		};
 		setIsloading(true);
 		fetch(`${network.serverip}/categories`, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success) {
 					setCategories(result.categories);
 					setFoundItems(result.categories);
@@ -126,18 +114,17 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 				}
 				setIsloading(false);
 			})
-			.catch(error => {
+			.catch((error) => {
 				setIsloading(false);
 				setError(error.message);
 			});
 	};
 
-	//method to filer the product for by title [search bar]
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = categories?.filter(item => {
-				return item?.title.toLowerCase().includes(keyword.toLowerCase());
+			const results = (categories || []).filter((item) => {
+				return (item?.title || '').toLowerCase().includes(keyword.toLowerCase());
 			});
 			setFoundItems(results);
 		} else {
@@ -161,9 +148,10 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.primary}
 					/>
@@ -171,8 +159,9 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.navigate('addcategories', { authUser: authUser });
-					}}>
-					<AntDesign name="plussquare" size={30} color={colors.primary} />
+					}}
+				>
+					<AntDesign name='plussquare' size={30} color={colors.primary} />
 				</TouchableOpacity>
 			</View>
 
@@ -195,9 +184,12 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 				showsVerticalScrollIndicator={false}
 				refreshControl={
 					<RefreshControl refreshing={refeshing} onRefresh={handleOnRefresh} />
-				}>
+				}
+			>
 				{foundItems && foundItems.length == 0 ? (
-					<Text style={{ color: colors.dark }}>{`No category found with the title of ${filterItem}!`}</Text>
+					<Text
+						style={{ color: colors.dark }}
+					>{`No category found with the title of ${filterItem}!`}</Text>
 				) : (
 					foundItems.map((item, index) => (
 						<CategoryList

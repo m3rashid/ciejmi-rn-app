@@ -114,8 +114,8 @@ const CategoriesScreen = ({ navigation, route }) => {
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = products.filter((product) => {
-				return product?.title.toLowerCase().includes(keyword.toLowerCase());
+			const results = (products || []).filter((product) => {
+				return (product?.title || '').toLowerCase().includes(keyword.toLowerCase());
 			});
 
 			setFoundItems(results);

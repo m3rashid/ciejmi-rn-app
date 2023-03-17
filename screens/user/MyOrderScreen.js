@@ -7,7 +7,7 @@ import {
 	TouchableOpacity,
 	RefreshControl,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { colors, network } from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';
@@ -29,15 +29,6 @@ const MyOrderScreen = ({ navigation, route }) => {
 	const logout = async () => {
 		await AsyncStorage.removeItem('authUser');
 		navigation.replace('login');
-	};
-
-	//method to convert the authUser to json object
-	const convertToJSON = (obj) => {
-		try {
-			setUserInfo(JSON.parse(obj));
-		} catch (e) {
-			setUserInfo(obj);
-		}
 	};
 
 	//method to convert the authUser to json object and return token
@@ -93,6 +84,10 @@ const MyOrderScreen = ({ navigation, route }) => {
 				setError(error.message);
 			});
 	};
+
+	useEffect(() => {
+		fetchOrders()
+	}, [])
 
 	return (
 		<View style={styles.container}>
@@ -171,7 +166,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 20,
+		padding: 10,
 	},
 	toBarText: {
 		fontSize: 15,
@@ -179,10 +174,8 @@ const styles = StyleSheet.create({
 	},
 	screenNameContainer: {
 		padding: 12,
-		marginBottom: 10,
-		marginLeft: 10,
-		paddingTop: 0,
 		paddingBottom: 0,
+		paddingTop: 0,
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',

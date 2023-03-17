@@ -18,17 +18,16 @@ import DropDownPicker from 'react-native-dropdown-picker';
 const ViewOrderDetailScreen = ({ navigation, route }) => {
 	const { orderDetail, Token } = route.params;
 	const [isloading, setIsloading] = useState(false);
-	const [label, setLabel] = useState('Loading..');
+	const [label, setLabel] = useState('Loading . . .');
 	const [error, setError] = useState('');
 	const [alertType, setAlertType] = useState('error');
-	// const [address, setAddress] = useState('');
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState(null);
 	const [statusDisable, setStatusDisable] = useState(false);
 	const [items, setItems] = useState([
-		{ label: 'Pending', value: 'pending' },
-		{ label: 'Shipped', value: 'shipped' },
-		{ label: 'Delivered', value: 'delivered' },
+		{ label: 'Pending', value: 'PENDING' },
+		{ label: 'Shipped', value: 'SHIPPED' },
+		{ label: 'Delivered', value: 'DELIVERED' },
 	]);
 
 	//method to convert the time into AM PM format
@@ -61,6 +60,8 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 
 	//method to update the status using API call
 	const handleUpdateStatus = (id) => {
+		if (!id) return;
+
 		setIsloading(true);
 		setError('');
 		setAlertType('error');
@@ -80,8 +81,8 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 				if (result.success == true) {
 					setError(`Order status is successfully updated to ${value}`);
 					setAlertType('success');
-					setIsloading(false);
 				}
+				setIsloading(false);
 			})
 			.catch((error) => {
 				setAlertType('error');
@@ -94,6 +95,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		setError('');
 		setAlertType('error');
+		console.log({ status: orderDetail?.status })
 		if (orderDetail?.status == 'DELIVERED') {
 			setStatusDisable(true);
 		} else {
@@ -103,18 +105,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	}, []);
 
 	const handleViewInvoice = () => {
-		if (!orderDetail?.invoiceUrl) return;
-
-		return Linking.canOpenURL(orderDetail?.invoiceUrl)
-			.then(supported => {
-				if (!supported) {
-					console.log("Can't handle url: " + url);
-					// this.showFlashMessage('Not supported in your device');
-				} else {
-					return Linking.openURL(url);
-				}
-			})
-			.catch(err => console.error('An error occurred', err));
+		navigation.navigate("pdf", { pdfUrl: orderDetail?.invoiceUrl })
 	}
 
 	return (
@@ -238,7 +229,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 						items={items}
 						setOpen={setOpen}
 						setValue={setValue}
-						placeholder='Update Status'
+						placeholder='Change Status'
 						setItems={setItems}
 						disabled={statusDisable}
 						disabledStyle={{

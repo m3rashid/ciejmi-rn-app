@@ -152,6 +152,18 @@ const DashboardScreen = ({ navigation, route }) => {
 				<View style={{ flex: 1, width: '103%' }}>
 					<ScrollView style={styles.actionContainer}>
 						<OptionList
+							text='Departments'
+							Icon={Ionicons}
+							iconName='briefcase'
+							onPress={() =>
+								navigation.navigate('viewDepartment', { authUser: user })
+							}
+							onPressSecondary={() =>
+								navigation.navigate('addDepartment', { authUser: user })
+							}
+							type="morden"
+						/>
+						<OptionList
 							text='Products'
 							Icon={Ionicons}
 							iconName='md-square'
@@ -193,7 +205,6 @@ const DashboardScreen = ({ navigation, route }) => {
 							}
 							type="morden"
 						/>
-
 						<View style={{ height: 20 }} />
 					</ScrollView>
 				</View>

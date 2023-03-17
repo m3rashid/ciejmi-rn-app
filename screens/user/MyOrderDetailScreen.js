@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
 import BasicProductList from '../../components/BasicProductList';
@@ -20,12 +20,11 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 	const [label, setLabel] = useState('Loading..');
 	const [error, setError] = useState('');
 	const [alertType, setAlertType] = useState('error');
-	const [totalCost, setTotalCost] = useState(0);
 	const [address, setAddress] = useState('');
-	const [value, setValue] = useState(null);
 	const [statusDisable, setStatusDisable] = useState(false);
 	const labels = ['Processing', 'Shipping', 'Delivery'];
 	const [trackingState, setTrackingState] = useState(1);
+
 	const customStyles = {
 		stepIndicatorSize: 25,
 		currentStepIndicatorSize: 30,
@@ -64,7 +63,7 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 	}
 
 	//method to convert data to dd-mm-yyyy  format
-	const dateFormat = datex => {
+	const dateFormat = (datex) => {
 		let t = new Date(datex);
 		const date = ('0' + t.getDate()).slice(-2);
 		const month = ('0' + (t.getMonth() + 1)).slice(-2);
@@ -82,27 +81,14 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		setError('');
 		setAlertType('error');
-		if (orderDetail?.status == 'delivered') {
+		if (orderDetail?.status == 'DELIVERED') {
 			setStatusDisable(true);
 		} else {
 			setStatusDisable(false);
 		}
-		setValue(orderDetail?.status);
-		setAddress(
-			orderDetail?.country +
-			', ' +
-			orderDetail?.city +
-			', ' +
-			orderDetail?.shippingAddress,
-		);
-		setTotalCost(
-			orderDetail?.items.reduce((accumulator, object) => {
-				return (accumulator + object.price) * object.quantity;
-			}, 0),
-		);
-		if (orderDetail?.status === 'pending') {
+		if (orderDetail?.status === 'PENDING') {
 			setTrackingState(1);
-		} else if (orderDetail?.status === 'shipped') {
+		} else if (orderDetail?.status === 'SHIPPED') {
 			setTrackingState(2);
 		} else {
 			setTrackingState(3);
@@ -117,37 +103,45 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 				<TouchableOpacity
 					onPress={() => {
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
 				</TouchableOpacity>
 			</View>
 			<View style={styles.screenNameContainer}>
-				<Text style={styles.screenNameText}>Order Detials</Text>
+				<Text style={styles.screenNameText}>Order Details</Text>
 			</View>
 
 			<CustomAlert message={error} type={alertType} />
 			<ScrollView
 				style={styles.bodyContainer}
-				showsVerticalScrollIndicator={false}>
+				showsVerticalScrollIndicator={false}
+			>
 				<View style={styles.containerNameContainer}>
 					<View>
 						<Text style={styles.containerNameText}>Shipping Address</Text>
 					</View>
 				</View>
 				<View style={styles.ShipingInfoContainer}>
-					<Text style={styles.secondarytextSm}>{address}</Text>
-					<Text style={styles.secondarytextSm}>{orderDetail?.zipcode}</Text>
+					<Text
+						style={styles.secondarytextSm}
+					>{`${orderDetail?.shippingAddress?.localAddressOne}, ${orderDetail?.shippingAddress?.localAddressTwo}, ${orderDetail?.shippingAddress?.city}, ${orderDetail?.shippingAddress?.state}`}</Text>
+					<Text style={styles.secondarytextSm}>
+						{orderDetail?.shippingAddress?.postalCode}
+					</Text>
 				</View>
+
 				<View>
 					<Text style={styles.containerNameText}>Order Info</Text>
 				</View>
+
 				<View style={styles.orderInfoContainer}>
 					<Text style={styles.secondarytextMedian}>
-						Order # {orderDetail?.orderId}
+						Order # {orderDetail?._id}
 					</Text>
 					<Text style={styles.secondarytextSm}>
 						Ordered on {dateFormat(orderDetail?.updatedAt)}
@@ -180,29 +174,33 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 				<View style={styles.orderItemsContainer}>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Package</Text>
-						<Text style={{ color: colors.dark }}>{value}</Text>
+						<Text style={{ color: colors.dark, fontWeight: 'bold' }}>
+							{orderDetail?.status}
+						</Text>
 					</View>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>
-							Order on : {orderDetail?.updatedAt}
+							Order on : {dateFormat(orderDetail?.createdAt)}
 						</Text>
 					</View>
 					<ScrollView
 						style={styles.orderSummaryContainer}
-						nestedScrollEnabled={true}>
+						nestedScrollEnabled={true}
+					>
 						{orderDetail?.items.map((product, index) => (
 							<View key={index}>
 								<BasicProductList
 									title={product?.productId?.title}
-									price={product?.price}
+									price={product?.productId?.price}
 									quantity={product?.quantity}
+									image={product?.productId?.image}
 								/>
 							</View>
 						))}
 					</ScrollView>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Total</Text>
-						<Text style={{ color: colors.dark }}>₹ {totalCost}</Text>
+						<Text style={{ color: colors.dark }}>₹ {orderDetail?.amount}</Text>
 					</View>
 				</View>
 				<View style={styles.emptyView} />
@@ -219,7 +217,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.light,
 		alignItems: 'center',
 		justifyContent: 'center',
-		padding: 20,
+		padding: 12,
 		paddingBottom: 0,
 		flex: 1,
 	},
@@ -234,7 +232,6 @@ const styles = StyleSheet.create({
 	screenNameContainer: {
 		marginTop: 10,
 		marginBottom: 10,
-		marginLeft: 10,
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',
@@ -251,7 +248,7 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		fontSize: 15,
 	},
-	bodyContainer: { flex: 1, width: '100%', padding: 5 },
+	bodyContainer: { flex: 1, width: '100%' },
 	ShipingInfoContainer: {
 		marginTop: 5,
 		display: 'flex',
@@ -260,7 +257,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		backgroundColor: colors.white,
 		padding: 10,
-		borderRadius: 10,
+		borderRadius: 5,
 		borderColor: colors.muted,
 		elevation: 5,
 		marginBottom: 10,
@@ -273,8 +270,8 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 	},
 	containerNameText: {
-		fontSize: 18,
-		fontWeight: '800',
+		fontSize: 16,
+		fontWeight: 'bold',
 		color: colors.muted,
 	},
 	secondarytextSm: {
@@ -289,7 +286,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		backgroundColor: colors.white,
 		padding: 10,
-		borderRadius: 10,
+		borderRadius: 5,
 
 		borderColor: colors.muted,
 		elevation: 3,
@@ -308,7 +305,7 @@ const styles = StyleSheet.create({
 	},
 	orderSummaryContainer: {
 		backgroundColor: colors.white,
-		borderRadius: 10,
+		borderRadius: 5,
 		padding: 10,
 		maxHeight: 220,
 		width: '100%',
@@ -337,7 +334,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		backgroundColor: colors.white,
 		padding: 10,
-		borderRadius: 10,
+		borderRadius: 5,
 
 		borderColor: colors.muted,
 		elevation: 1,

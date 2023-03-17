@@ -67,7 +67,6 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 		fetch(`${network.serverip}/admin/orders`, requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
-				console.log(result)
 				if (result.success) {
 					setOrders(result.data);
 					setFoundItems(result.data);
@@ -87,8 +86,8 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {
-			const results = orders?.filter((item) => {
-				return item?.orderId.toLowerCase().includes(keyword.toLowerCase());
+			const results = (orders || [])?.filter((item) => {
+				return (item?.orderId || '').toLowerCase().includes(keyword.toLowerCase());
 			});
 			setFoundItems(results);
 		} else {
@@ -141,7 +140,7 @@ const ViewOrdersScreen = ({ navigation, route }) => {
 				}
 			>
 				{foundItems && foundItems.length == 0 ? (
-					<Text style={{ color: colors.dark }}>{`No order found with the order ${filterItem}!`}</Text>
+					<Text style={{ color: colors.dark, marginTop: 10 }}>{`No order found with the order ${filterItem}!`}</Text>
 				) : (
 					foundItems.map((order, index) => {
 						return (

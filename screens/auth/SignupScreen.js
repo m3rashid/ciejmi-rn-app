@@ -17,14 +17,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import SearchableDropDown from 'react-native-searchable-dropdown';
-import {
-	doctoralProgrammes,
-	mastersProgrammes,
-	postgraduateDiplomaProgrammes,
-	undergraduateProgrammes,
-	advancedDiplomaProgrammes,
-	diplomaProgrammes,
-} from 'jamia-all-courses';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 const SignupScreen = ({ navigation }) => {
@@ -34,8 +26,8 @@ const SignupScreen = ({ navigation }) => {
 	const [name, setName] = useState('');
 	const [department, setDepartment] = useState('');
 	const [error, setError] = useState('');
-	const [programmeOpen, setProgramOpen] = useState(false);
-	const [courseOpen, setCourseOpen] = useState(false);
+	const [courses, setCourses] = useState([]);
+	const [searchItems, setSearchItems] = useState([])
 
 	var myHeaders = new Headers();
 	myHeaders.append('Content-Type', 'application/json');
@@ -88,66 +80,30 @@ const SignupScreen = ({ navigation }) => {
 			});
 	};
 
-	const programmes = [
-		{ label: 'Doctoral', value: 'doctoral' },
-		{ label: 'Masters', value: 'masters' },
-		{ label: 'PG Diploma', value: 'postGraduateDiploma' },
-		{ label: 'Undergraduate', value: 'undergraduate' },
-		{ label: 'Advanced Diploma', value: 'advancedDiploma' },
-		{ label: 'Diploma', value: 'diploma' },
-	];
+	const getCourses = async () => {
+		fetch(network.serverip + '/departments')
+			.then((r) => r.json())
+			.then((result) => {
+				setCourses(result.data);
+			})
+			.catch(console.log);
+	};
 
-	const [programme, setProgramme] = useState('doctoral');
-	const [courses, setCourses] = useState([]);
-
-	const getCourses = (programme) => {
-		let courses = [];
-		switch (programme) {
-			case 'doctoral': {
-				courses = doctoralProgrammes;
-				break;
-			}
-			case 'masters': {
-				courses = mastersProgrammes;
-				break;
-			}
-			case 'postGraduateDiploma': {
-				courses = postgraduateDiplomaProgrammes;
-				break;
-			}
-			case 'undergraduate': {
-				courses = undergraduateProgrammes;
-				break;
-			}
-			case 'advancedDiploma': {
-				courses = advancedDiplomaProgrammes;
-				break;
-			}
-			case 'diploma': {
-				courses = diplomaProgrammes;
-				beak;
-			}
-		}
-
-		if (!courses || courses.length == 0) {
+	const filter = (text) => {
+		if (!text || text === '') {
 			return;
 		}
 
-		const actualCourses = courses.courses.reduce((acc, c) => {
-			return [
-				...acc,
-				...c.specializations.map((sp) => ({
-					label: `${courses.name} in ${sp.name}`,
-					value: `${courses.name} in ${sp.name}`,
-				})),
-			];
-		}, []);
-		setCourses(actualCourses);
-	};
+		const payload = (courses || []).map((cat) => ({
+			...cat,
+			id: cat._id,
+		}));
+		setSearchItems(payload);
+	}
 
 	useEffect(() => {
-		getCourses(programme);
-	}, [programme]);
+		getCourses();
+	}, []);
 
 	return (
 		<InternetConnectionAlert>
@@ -179,7 +135,7 @@ const SignupScreen = ({ navigation }) => {
 						</View>
 					</View>
 					<View style={styles.formContainer}>
-						<CustomAlert message={error} type={'error'} />
+						<CustomAlert message={error} type='error' />
 						<CustomInput
 							ioniconName='person-outline'
 							value={name}
@@ -215,52 +171,52 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 
-						<View style={{ marginTop: 15, width: '103%', zIndex: 0 }}>
-							<Text style={{ color: colors.primary, marginBottom: 5 }}>Programme Name</Text>
+						<View style={{ marginTop: 15, width: '103%' }}>
+							<Text style={{ color: colors.primary, marginBottom: 5 }}>
+								Course Name
+							</Text>
 
-							<DropDownPicker
-								style={{ borderColor: colors.white, elevation: 5 }}
-								open={programmeOpen}
-								value={programme}
-								items={programmes}
-								setOpen={setProgramOpen}
-								placeholderStyle={{ color: colors.muted }}
-								setValue={setProgramme}
-								placeholder='Select Programme'
-								labelStyle={{ color: colors.muted }}
-								containerStyle={{
-									borderColor: colors.white,
-								}}
-								dropDownContainerStyle={{
-									borderColor: colors.white,
-								}}
-							/>
-						</View>
+							<View style={styles.searchContainer}>
+								<View style={styles.inputContainer}>
+									<Ionicons
+										name='search'
+										style={{ color: colors.muted, marginTop: 8 }}
+										size={24}
+									/>
 
-						<View style={{ marginTop: 15, width: '103%', ...(programmeOpen ? { display: 'none' } : {}) }}>
-							<Text style={{ color: colors.primary, marginBottom: 5 }}>Course Name</Text>
-
-							<DropDownPicker
-								style={{ borderColor: colors.white, elevation: 5 }}
-								open={courseOpen}
-								value={department}
-								items={courses}
-								placeholder='Select Course'
-								placeholderStyle={{ color: colors.muted }}
-								setOpen={setCourseOpen}
-								setValue={setDepartment}
-								labelStyle={{ color: colors.muted }}
-								containerStyle={{
-									borderColor: colors.white,
-								}}
-								dropDownContainerStyle={{
-									borderColor: colors.white,
-									zIndex: 1000
-								}}
-								onChangeValue={(value) => {
-									setDepartment(value);
-								}}
-							/>
+									<SearchableDropDown
+										placeholderTextColor={colors.muted}
+										onTextChange={(value) => filter(value)}
+										onItemSelect={(item) => {
+											setDepartment(item.name)
+										}}
+										defaultIndex={0}
+										containerStyle={{
+											width: '90%',
+											maxHeight: 300,
+											backgroundColor: colors.light,
+										}}
+										textInputStyle={{
+											borderRadius: 5,
+											padding: 6,
+											paddingLeft: 10,
+											borderWidth: 0,
+											backgroundColor: colors.white,
+											color: colors.dark,
+										}}
+										itemStyle={{
+											padding: 10,
+											backgroundColor: colors.white,
+										}}
+										itemTextStyle={{ color: colors.muted }}
+										itemsContainerStyle={{ maxHeight: '100%' }}
+										items={searchItems}
+										placeholder='Search Your Department . . .'
+										resetValue={false}
+										underlineColorAndroid='transparent'
+									/>
+								</View>
+							</View>
 						</View>
 					</View>
 				</ScrollView>
@@ -277,7 +233,7 @@ const SignupScreen = ({ navigation }) => {
 					</Text>
 				</View>
 			</KeyboardAvoidingView>
-		</InternetConnectionAlert>
+		</InternetConnectionAlert >
 	);
 };
 
@@ -367,5 +323,25 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		fontSize: 15,
 		color: colors.muted,
+	},
+	searchContainer: {
+		width: '100%',
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
+	},
+	inputContainer: {
+		width: '100%',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'flex-start',
+		flexDirection: 'row',
+		backgroundColor: colors.white,
+		height: '100%',
+		borderRadius: 5,
+		maxHeight: 350,
+		elevation: 5,
+		padding: 3
 	},
 });

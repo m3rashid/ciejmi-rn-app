@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { colors } from '../constants';
+import CustomButton from "./CustomButton"
 
 export const getTime = (date) => {
 	let t = new Date(date);
@@ -77,9 +78,7 @@ const OrderList = ({ item, onPress }) => {
 				<Text style={styles.secondaryText}>Total Amount : ₹ {item?.amount}</Text>
 			</View>
 			<View style={styles.innerRow}>
-				<TouchableOpacity style={styles.detailButton} onPress={onPress}>
-					<Text style={{ color: colors.dark }}>Details</Text>
-				</TouchableOpacity>
+				<CustomButton style={styles.detailButton} onPress={onPress} text="Details" />
 				<Text style={styles.secondaryText}>{item?.status}</Text>
 			</View>
 		</View>
@@ -136,10 +135,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 5,
-		borderWidth: 1,
-		padding: 5,
-		borderColor: colors.muted,
-		color: colors.muted,
+		padding: 6,
 		width: 100,
 	},
 });
