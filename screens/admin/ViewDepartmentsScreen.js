@@ -53,8 +53,6 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 		}
 	};
 
-	const handleEdit = (_id) => { };
-
 	const getDepartments = async () => {
 		try {
 			setIsloading(true);
@@ -83,22 +81,28 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 	};
 
 	const filter = (filterItem) => {
-		if (!departments || departments.length == 0) {
-			getDepartments().then((data) => {
-				if (!data) return;
-				setFoundItems(data);
-			});
-			return;
-		}
+		let timer;
+		return (() => {
+			clearTimeout(timer);
+			timer = setTimeout(() => {
+				if (!departments || departments.length == 0) {
+					getDepartments().then((data) => {
+						if (!data) return;
+						setFoundItems(data);
+					});
+					return;
+				}
 
-		if (filterItem !== '') {
-			const results = departments?.filter((dept) => {
-				return dept?.name.toLowerCase().includes(filterItem.toLowerCase());
-			});
-			setFoundItems(results);
-		} else {
-			setFoundItems(departments);
-		}
+				if (filterItem !== '') {
+					const results = departments?.filter((dept) => {
+						return dept?.name.toLowerCase().includes(filterItem.toLowerCase());
+					});
+					setFoundItems(results);
+				} else {
+					setFoundItems(departments);
+				}
+			}, 500);
+		})();
 	};
 
 	useEffect(() => {
@@ -106,7 +110,7 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 			if (!data) return;
 			setFoundItems(data);
 		});
-	}, [])
+	}, []);
 
 	const showConfirmDialog = (id) => {
 		return Alert.alert(
@@ -130,7 +134,11 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => {
-						navigation.navigate('addDepartment', { authUser: authUser });
+						navigation.navigate('addDepartment', {
+							authUser: authUser,
+							dept: null,
+							editFn: null,
+						});
 					}}
 				>
 					<AntDesign name='plussquare' size={30} color={colors.primary} />
@@ -166,7 +174,8 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 							<DepartmentList
 								key={dept._id}
 								department={dept.name}
-								editFn={() => { }}
+								authUser={authUser}
+								id={dept._id}
 								onDelete={() => showConfirmDialog(dept._id)}
 							/>
 						);

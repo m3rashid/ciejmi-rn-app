@@ -3,7 +3,7 @@ import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../constants';
 
-const DepartmentList = ({ department, editFn, onDelete }) => {
+const DepartmentList = ({ department, onDelete, id, authUser }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.innerContainer}>
@@ -13,7 +13,12 @@ const DepartmentList = ({ department, editFn, onDelete }) => {
 			<View style={{ display: 'flex', flexDirection: 'row' }}>
 				<TouchableOpacity
 					style={[styles.actionButton, { backgroundColor: colors.primary }]}
-					onPress={editFn}
+					onPress={() => {
+						navigator.navigate('addDepartment', {
+							dept: { _id: id, name: department },
+							authUser: authUser,
+						});
+					}}
 				>
 					<MaterialIcons name='edit' size={18} color={colors.white} />
 				</TouchableOpacity>

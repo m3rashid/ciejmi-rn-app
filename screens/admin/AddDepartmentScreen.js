@@ -16,11 +16,42 @@ import ProgressDialog from 'react-native-progress-dialog';
 import CustomAlert from '../../components/CustomAlert';
 
 const AddDepartmentScreen = ({ navigation, route }) => {
-	const { authUser } = route.params;
+	const { authUser, dept } = route.params;
 	const [isloading, setIsloading] = useState(false);
-	const [department, setDepartment] = useState('');
+	const [department, setDepartment] = useState(dept?.name || '');
 	const [error, setError] = useState('');
 	const [alertType, setAlertType] = useState('error');
+
+	const handleEdit = async (_id) => {
+		try {
+			setIsloading(true);
+			if (!department) {
+				setError('All fields are required');
+				setAlertType('error');
+			}
+
+			const r = await fetch(network.serverip + '/edit-department', {
+				method: 'POST',
+				headers: {
+					'x-auth-token': authUser.token,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ _id: _id, name: department }),
+				redirect: 'follow',
+			})
+			const res = await r.json()
+
+			if (res.success) {
+				setError(res.message);
+				setAlertType('success');
+			}
+		} catch (err) {
+			setError(err.message || 'An error occured');
+			setAlertType('error');
+		} finally {
+			setIsloading(false);
+		}
+	};
 
 	const addDepartmentHandle = () => {
 		try {
@@ -37,7 +68,7 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					department: department,
+					name: department,
 				}),
 				redirect: 'follow',
 			})
@@ -76,7 +107,7 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 			</View>
 
 			<View style={styles.screenNameContainer}>
-				<Text style={styles.screenNameText}>Add Department</Text>
+				<Text style={styles.screenNameText}>{!!dept ? "Edit Department" : "Add Department"}</Text>
 			</View>
 
 			<CustomAlert message={error} type={alertType} />
@@ -95,9 +126,11 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 					/>
 				</View>
 			</ScrollView>
-
+			w
 			<View style={styles.buttomContainer}>
-				<CustomButton text='Add Department' onPress={addDepartmentHandle} />
+				<CustomButton text={`${!!dept ? "Edit" : "Add"} Department`} onPress={() => {
+					!!dept ? handleEdit(dept._id) : addDepartmentHandle()
+				}} />
 			</View>
 		</KeyboardAvoidingView>
 	);

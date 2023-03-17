@@ -44,8 +44,8 @@ const DashboardScreen = ({ navigation, route }) => {
 	//method the fetch the statistics from server using API call
 	const fetchStats = () => {
 		fetch(`${network.serverip}/dashboard`, requestOptions)
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				if (result.success == true) {
 					//set the fetched data to Data state
 					setData([
@@ -92,7 +92,7 @@ const DashboardScreen = ({ navigation, route }) => {
 					setIsloading(false);
 				}
 			})
-			.catch(error => {
+			.catch((error) => {
 				setError(error.message);
 				setIsloading(false);
 			});
@@ -119,9 +119,9 @@ const DashboardScreen = ({ navigation, route }) => {
 						navigation.replace('login');
 					},
 				},
-			],
+			]
 		);
-	}
+	};
 
 	useEffect(() => {
 		fetchStats();
@@ -133,9 +133,8 @@ const DashboardScreen = ({ navigation, route }) => {
 				<StatusBar />
 				<ProgressDialog visible={isloading} label={label} />
 				<View style={styles.topBarContainer}>
-					<TouchableOpacity
-						onPress={handleLogout}>
-						<Ionicons name="log-out" size={30} color={colors.muted} />
+					<TouchableOpacity onPress={handleLogout}>
+						<Ionicons name='log-out' size={30} color={colors.muted} />
 					</TouchableOpacity>
 
 					<View style={styles.topbarlogoContainer}>
@@ -143,7 +142,6 @@ const DashboardScreen = ({ navigation, route }) => {
 						<Text style={styles.toBarText}>CIE-JMI</Text>
 					</View>
 				</View>
-
 
 				<View style={styles.headingContainer}>
 					<Text style={styles.headingText}>Welcome, Admin</Text>
@@ -159,9 +157,12 @@ const DashboardScreen = ({ navigation, route }) => {
 								navigation.navigate('viewDepartment', { authUser: user })
 							}
 							onPressSecondary={() =>
-								navigation.navigate('addDepartment', { authUser: user })
+								navigation.navigate('addDepartment', {
+									authUser: user,
+									dept: null,
+								})
 							}
-							type="morden"
+							type='morden'
 						/>
 						<OptionList
 							text='Products'
@@ -173,7 +174,7 @@ const DashboardScreen = ({ navigation, route }) => {
 							onPressSecondary={() =>
 								navigation.navigate('addproduct', { authUser: user })
 							}
-							type="morden"
+							type='morden'
 						/>
 						<OptionList
 							text='Categories'
@@ -185,7 +186,7 @@ const DashboardScreen = ({ navigation, route }) => {
 							onPressSecondary={() =>
 								navigation.navigate('addcategories', { authUser: user })
 							}
-							type="morden"
+							type='morden'
 						/>
 						<OptionList
 							text='Orders'
@@ -194,7 +195,7 @@ const DashboardScreen = ({ navigation, route }) => {
 							onPress={() =>
 								navigation.navigate('vieworder', { authUser: user })
 							}
-							type="morden"
+							type='morden'
 						/>
 						<OptionList
 							text='Users'
@@ -203,7 +204,7 @@ const DashboardScreen = ({ navigation, route }) => {
 							onPress={() =>
 								navigation.navigate('viewusers', { authUser: user })
 							}
-							type="morden"
+							type='morden'
 						/>
 						<View style={{ height: 20 }} />
 					</ScrollView>
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
 	toBarText: {
 		fontSize: 20,
 		fontWeight: '600',
-		color: colors.dark
+		color: colors.dark,
 	},
 	container: {
 		width: '100%',
