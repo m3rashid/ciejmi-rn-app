@@ -1,6 +1,6 @@
 import { StyleSheet, Image, Text, View, StatusBar } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import SuccessImage from '../../assets/image/success.png';
+import SuccessImage from '../../assets/image/success.jpg';
 import CustomButton from '../../components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
