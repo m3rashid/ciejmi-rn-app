@@ -34,6 +34,8 @@ const SignupScreen = ({ navigation }) => {
 
 	//method to post the user data to server for user signup using API call
 	const signUpHandle = () => {
+		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 		if (email == '') {
 			return setError('Please enter your email');
 		}
@@ -43,11 +45,8 @@ const SignupScreen = ({ navigation }) => {
 		if (password == '') {
 			return setError('Please enter your password');
 		}
-		if (!email.includes('@')) {
-			return setError('Email is not valid');
-		}
-		if (email.length < 6) {
-			return setError('Email is too short');
+		if (!email.match(emailRegex)) {
+			return setError("Email is not valid")
 		}
 		if (password.length < 5) {
 			return setError('Password must be 6 characters long');

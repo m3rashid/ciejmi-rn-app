@@ -1,58 +1,39 @@
+import React from 'react';
 import {
-	StyleSheet,
 	Text,
 	View,
+	Alert,
+	StyleSheet,
 	StatusBar,
 	TouchableOpacity,
-	Alert,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
 import UserProfileCard from '../../components/UserProfileCard';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionList from '../../components/OptionList';
-import { colors } from '../../constants';
+import { colors, network } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const UserProfileScreen = ({ navigation, route }) => {
-	const [userInfo, setUserInfo] = useState({});
-	const { user } = route.params;
+const AdminProfileScreen = ({ navigation, route }) => {
+	const { authUser } = route.params;
+
+	console.log({ authUser });
+
+	const logout = async () => {
+		await AsyncStorage.removeItem('authUser');
+		navigation.replace('login');
+	};
 
 	const handleLogout = async () => {
 		return Alert.alert(
 			'Logout from CIE-JMI ?',
 			'Are you sure you want to logout ?',
-			[
-				{
-					text: 'Cancel',
-				},
-				{
-					text: 'Logout',
-					onPress: async () => {
-						await AsyncStorage.removeItem('authUser');
-						navigation.replace('login');
-					},
-				},
-			],
+			[{ text: 'Cancel' }, { text: 'Logout', onPress: logout }]
 		);
-	}
-
-	const handleMyAddresses = () => { }
-
-	const convertToJSON = obj => {
-		try {
-			setUserInfo(JSON.parse(obj));
-		} catch (e) {
-			setUserInfo(obj);
-		}
 	};
-
-	useEffect(() => {
-		convertToJSON(user);
-	}, []);
 
 	return (
 		<View style={styles.container}>
-			<StatusBar style="auto" />
+			<StatusBar style='auto' />
 			<View style={styles.TopBarContainer}>
 				<TouchableOpacity
 					onPress={() => {
@@ -68,53 +49,33 @@ const UserProfileScreen = ({ navigation, route }) => {
 			</View>
 
 			<View style={styles.screenNameContainer}>
-				<Text style={styles.screenNameText}>Profile</Text>
+				<Text style={styles.screenNameText}>Admin Profile</Text>
 			</View>
 
 			<View style={styles.UserProfileCardContianer}>
 				<UserProfileCard
 					Icon={Ionicons}
-					name={userInfo?.name}
-					email={userInfo?.email}
+					name={authUser?.name}
+					email={authUser?.email}
 				/>
 			</View>
 
 			<View style={styles.OptionsContainer}>
 				<OptionList
-					text='My Account'
-					Icon={Ionicons}
-					iconName='person'
-					onPress={() => navigation.navigate('myaccount', { user: userInfo })}
-					style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
-				/>
-
-				<OptionList
-					text='Wishlist'
-					Icon={Ionicons}
-					iconName='heart'
-					onPress={() => navigation.navigate('mywishlist', { user: userInfo })}
-				/>
-
-				<OptionList
 					text='Logout'
 					Icon={Ionicons}
 					iconName='log-out'
 					onPress={handleLogout}
-				/>
-
-				<OptionList
-					text="My Addresses"
-					Icon={Ionicons}
-					iconName="md-navigate-circle-outline"
-					onPress={() => navigation.navigate('myaddress', { user: userInfo })}
-					style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5 }}
+					style={{ borderRadius: 5 }}
 				/>
 			</View>
+
+			<Text>AdminProfileScreen</Text>
 		</View>
 	);
 };
 
-export default UserProfileScreen;
+export default AdminProfileScreen;
 
 const styles = StyleSheet.create({
 	container: {

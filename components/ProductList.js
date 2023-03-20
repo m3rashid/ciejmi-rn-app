@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
 		width: 100,
 	},
 	productInfoContainer: {
-		paddingLeft: 5,
+		paddingLeft: 15,
 	},
 	buttonContainer: {
 		display: 'flex',

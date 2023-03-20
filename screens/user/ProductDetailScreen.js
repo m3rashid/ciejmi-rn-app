@@ -5,6 +5,7 @@ import {
 	View,
 	StatusBar,
 	Text,
+	Dimensions,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -240,12 +241,16 @@ const ProductDetailScreen = ({ navigation, route }) => {
 						</View>
 						<View style={styles.productDetailContainer}>
 							<Text style={styles.secondaryTextSm}>Price :</Text>
-							<Text style={styles.primaryTextSm}>₹ {product?.price}</Text>
+							<Text style={styles.primaryTextSm}>₹ {Number(product?.price).toFixed(2)}</Text>
 						</View>
-						<View style={styles.productDetailContainer}>
-							<Text style={styles.secondaryTextSm}>Description :</Text>
-							<Text style={{ color: colors.muted }}>{product?.description}</Text>
-						</View>
+						{product?.description && (
+							<View style={styles.productDetailContainer}>
+								<Text style={styles.secondaryTextSm}>Description :</Text>
+								<Text style={{ color: colors.muted }}>
+									{product?.description}
+								</Text>
+							</View>
+						)}
 					</View>
 
 					<View style={styles.productInfoBottomContainer}>
@@ -273,7 +278,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 						<View style={styles.productButtonContainer}>
 							{product.quantity > 0 ? (
 								<CustomButton
-									text={'Add to Cart'}
+									text='Add to Cart'
 									onPress={() => {
 										handleAddToCat(product);
 									}}
@@ -340,11 +345,12 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-end',
 		alignItems: 'center',
 		elevation: 25,
-		maxHeight: 450
+		maxHeight: 450,
 	},
 	productImage: {
-		height: 300,
-		width: 300,
+		width: Dimensions.get('window').width - 20,
+		height: '100%',
+		maxHeight: 500,
 		resizeMode: 'contain',
 	},
 	productInfoTopContainer: {
@@ -427,6 +433,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		elevation: 5,
+		marginTop: 10,
 	},
 	secondaryTextSm: { fontSize: 15, fontWeight: 'bold', color: colors.dark },
 	primaryTextSm: { color: colors.primary, fontSize: 15, fontWeight: 'bold' },
@@ -483,7 +490,7 @@ const styles = StyleSheet.create({
 	counterCountText: {
 		fontSize: 20,
 		fontWeight: 'bold',
-		color: colors.dark
+		color: colors.dark,
 	},
 	cartIconContainer: {
 		display: 'flex',

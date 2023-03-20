@@ -127,7 +127,7 @@ const CartScreen = ({ navigation }) => {
 							color={colors.primary}
 						/>
 					</View>
-					<Text style={styles.cartBottomPrimaryText}>Total : ₹{totalPrice}</Text>
+					<Text style={styles.cartBottomPrimaryText}>Total : ₹{Number(totalPrice).toFixed(2)}</Text>
 
 				</View>
 				<View style={styles.cartBottomRightContainer}>

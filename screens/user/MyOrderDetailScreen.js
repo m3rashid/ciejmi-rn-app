@@ -200,7 +200,7 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 					</ScrollView>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Total</Text>
-						<Text style={{ color: colors.dark }}>₹ {orderDetail?.amount}</Text>
+						<Text style={{ color: colors.dark }}>₹ {Number(orderDetail?.amount).toFixed(2)}</Text>
 					</View>
 				</View>
 				<View style={styles.emptyView} />

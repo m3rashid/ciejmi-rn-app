@@ -75,7 +75,7 @@ const OrderList = ({ item, onPress }) => {
 			)}
 			<View style={styles.innerRow}>
 				<Text style={styles.secondaryText}>Quantity : {quantity}</Text>
-				<Text style={styles.secondaryText}>Total Amount : ₹ {item?.amount}</Text>
+				<Text style={styles.secondaryText}>Total Amount : ₹ {Number(item?.amount).toFixed(2)}</Text>
 			</View>
 			<View style={styles.innerRow}>
 				<CustomButton style={styles.detailButton} onPress={onPress} text="Details" />

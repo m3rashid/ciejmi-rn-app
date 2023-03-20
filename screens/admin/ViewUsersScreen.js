@@ -11,7 +11,7 @@ import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';
-import CustomInput from '../../components/CustomInput/';
+import CustomInput from '../../components/CustomInput';
 import ProgressDialog from 'react-native-progress-dialog';
 import UserList from '../../components/UserList';
 

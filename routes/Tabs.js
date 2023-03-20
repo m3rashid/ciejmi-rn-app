@@ -20,12 +20,7 @@ const Tabs = ({ navigation, route }) => {
 		<Tab.Navigator
 			screenOptions={({ route }) => ({
 				tabBarHideOnKeyboard: true,
-				tabBarStyle: [
-					{
-						display: 'flex',
-					},
-					null,
-				],
+				tabBarStyle: [{ display: 'flex' }, null],
 				headerShown: false,
 				tabBarShowLabel: false,
 				tabBarActiveTintColor: colors.primary,
@@ -50,13 +45,13 @@ const Tabs = ({ navigation, route }) => {
 							<TouchableOpacity disabled>
 								{focused == true ? (
 									<Ionicons
-										name="ios-apps-sharp"
+										name='ios-apps-sharp'
 										size={29}
 										color={colors.primary}
 									/>
 								) : (
 									<Ionicons
-										name="ios-apps-sharp"
+										name='ios-apps-sharp'
 										size={29}
 										color={colors.muted}
 									/>
@@ -68,13 +63,13 @@ const Tabs = ({ navigation, route }) => {
 							<TouchableOpacity disabled>
 								{focused == true ? (
 									<Ionicons
-										name="cart-outline"
+										name='cart-outline'
 										size={29}
 										color={colors.primary}
 									/>
 								) : (
 									<Ionicons
-										name="cart-outline"
+										name='cart-outline'
 										size={29}
 										color={colors.muted}
 									/>
@@ -97,23 +92,21 @@ const Tabs = ({ navigation, route }) => {
 					}
 				},
 				tabBarStyle: {
-					borderTopLeftRadius: 20,
-					borderTopRightRadius: 20,
+					borderTopLeftRadius: 15,
+					borderTopRightRadius: 15,
 					backgroundColor: colors.white,
+					elevation: 2
 				},
-			})}>
+			})}
+		>
 			<Tab.Screen
-				name="home"
+				name='home'
 				component={HomeScreen}
 				initialParams={{ user: user }}
-				tabBarOptions={{
-					style: {
-						position: 'absolute',
-					},
-				}}
+				tabBarOptions={{ style: { position: 'absolute' } }}
 			/>
 			<Tab.Screen
-				name="categories"
+				name='categories'
 				component={CategoriesScreen}
 				initialParams={{ user: user }}
 				tabBarOptions={{
@@ -126,13 +119,13 @@ const Tabs = ({ navigation, route }) => {
 			{
 				// Wishlist is ready yet!
 				<Tab.Screen
-					name="myorder"
+					name='myorder'
 					component={MyOrderScreen}
 					initialParams={{ user: user }}
 				/>
 			}
 			<Tab.Screen
-				name="user"
+				name='user'
 				component={UserProfileScreen}
 				initialParams={{ user: user }}
 			/>

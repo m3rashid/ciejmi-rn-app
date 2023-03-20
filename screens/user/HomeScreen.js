@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
 		height: '100%',
 		borderRadius: 5,
 		maxHeight: 300,
-		elevation: 5,
+		elevation: 2,
 	},
 	buttonContainer: {
 		width: '20%',

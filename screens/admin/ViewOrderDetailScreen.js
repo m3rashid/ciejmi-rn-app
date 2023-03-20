@@ -95,7 +95,7 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		setError('');
 		setAlertType('error');
-		console.log({ status: orderDetail?.status })
+		console.log({ status: orderDetail?.status });
 		if (orderDetail?.status == 'DELIVERED') {
 			setStatusDisable(true);
 		} else {
@@ -105,8 +105,8 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	}, []);
 
 	const handleViewInvoice = () => {
-		navigation.navigate("pdf", { pdfUrl: orderDetail?.invoiceUrl })
-	}
+		navigation.navigate('pdf', { pdfUrl: orderDetail?.invoiceUrl });
+	};
 
 	return (
 		<View style={styles.container}>
@@ -211,19 +211,36 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 							</View>
 						))}
 
-						<CustomButton onPress={handleViewInvoice} text="View Invoice" style={{ marginTop: 15, padding: 8, backgroundColor: colors.primary }} />
+						<CustomButton
+							onPress={handleViewInvoice}
+							text='View Invoice'
+							style={{
+								marginTop: 15,
+								padding: 8,
+								backgroundColor: colors.primary,
+							}}
+						/>
 					</ScrollView>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Total</Text>
-						<Text style={{ color: colors.dark }}>₹ {orderDetail.amount}</Text>
+						<Text style={{ color: colors.dark }}>
+							₹ {Number(orderDetail.amount).toFixed(2)}
+						</Text>
 					</View>
 				</View>
 				<View style={styles.emptyView} />
 			</ScrollView>
+
 			<View style={styles.bottomContainer}>
-				<View style={{ paddingLeft: 12 }}>
+				<View style={{ marginRight: 10 }}>
 					<DropDownPicker
-						style={{ width: 180, borderColor: colors.white }}
+						style={{
+							width: 180,
+							borderColor: colors.white,
+							marginTop: -10,
+							backgroundColor: colors.light,
+							borderColor: colors.white,
+						}}
 						open={open}
 						value={value}
 						items={items}
@@ -232,24 +249,18 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 						placeholder='Change Status'
 						setItems={setItems}
 						disabled={statusDisable}
-						disabledStyle={{
-							backgroundColor: colors.light,
-							borderColor: colors.white,
-						}}
 						containerStyle={{ borderColor: colors.white }}
 						dropDownContainerStyle={{ borderColor: colors.white }}
 						labelStyle={{ color: colors.muted }}
 					/>
 				</View>
-				{statusDisable == false ? (
-					<CustomButton
-						style={{ width: 200 }}
-						text='Update'
-						onPress={() => handleUpdateStatus(orderDetail?._id)}
-					/>
-				) : (
-					<CustomButton text={'Update'} disabled />
-				)}
+				<CustomButton
+					style={{ width: 200 }}
+					text='Update'
+					{...(statusDisable == false
+						? { onPress: () => handleUpdateStatus(orderDetail?._id) }
+						: { disabled: true })}
+				/>
 			</View>
 		</View>
 	);
@@ -306,7 +317,7 @@ const styles = StyleSheet.create({
 		padding: 12,
 		borderRadius: 5,
 		borderColor: colors.muted,
-		elevation: 5,
+		elevation: 2,
 		marginBottom: 10,
 	},
 	containerNameContainer: {
@@ -335,7 +346,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		borderRadius: 5,
 		borderColor: colors.muted,
-		elevation: 3,
+		elevation: 2,
 		marginBottom: 10,
 	},
 	orderItemContainer: {
@@ -359,11 +370,11 @@ const styles = StyleSheet.create({
 	},
 	bottomContainer: {
 		backgroundColor: colors.white,
-		width: '103%',
+		width: '105%',
 		height: 100,
-		borderTopLeftRadius: 20,
-		borderTopEndRadius: 20,
-		elevation: 5,
+		borderTopLeftRadius: 15,
+		borderTopEndRadius: 15,
+		elevation: 2,
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -381,7 +392,7 @@ const styles = StyleSheet.create({
 		padding: 12,
 		borderRadius: 5,
 		borderColor: colors.muted,
-		elevation: 1,
+		elevation: 2,
 		marginBottom: 10,
 	},
 	primarytextMedian: {

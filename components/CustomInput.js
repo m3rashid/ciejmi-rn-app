@@ -18,10 +18,9 @@ const CustomInput = ({
 	showTitle = true,
 }) => {
 	const windowWidth = Dimensions.get('window').width;
-	if (!width) width = windowWidth - 24;
 
 	return (
-		<View style={{ marginTop: 12 }}>
+		<View style={{ marginTop: 12, marginBottom: 6 }}>
 			{showTitle && (
 				<Text
 					style={{ textAlign: 'left', marginLeft: 5, color: colors.primary }}
@@ -32,7 +31,10 @@ const CustomInput = ({
 			<View
 				style={[
 					styles.rootContainer,
-					{ width: width, ...(ioniconName ? { paddingLeft: 12 } : {}) },
+					{
+						width: width || windowWidth - 24,
+						...(ioniconName ? { paddingLeft: 12 } : {}),
+					},
 				]}
 			>
 				{ioniconName && (
@@ -40,7 +42,6 @@ const CustomInput = ({
 						name={ioniconName}
 						size={24}
 						color={colors.primary}
-						style={{ marginLeft: 20 }}
 					/>
 				)}
 
@@ -67,16 +68,16 @@ const styles = StyleSheet.create({
 	rootContainer: {
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		flexDirection: 'row',
 		backgroundColor: colors.white,
 		height: 45,
 		marginTop: 2,
-		elevation: 5,
 		borderRadius: 5,
+		elevation: 2,
 	},
 	CustomInput: {
-		width: '100%',
+		flex: 1,
 		padding: 5,
 		paddingLeft: 10,
 		backgroundColor: colors.white,

@@ -1,7 +1,8 @@
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View, Text, Dimensions } from 'react-native';
 import React, { useEffect } from 'react';
 import { colors } from '../../constants';
 import logo from '../../assets/logo/logo_white.jpg';
+import poweredBy from '../../assets/image/poweredByExatorial.jpg';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -36,7 +37,17 @@ const Splash = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Image style={styles.logo} source={logo} />
+			<View
+				style={{
+					height: Dimensions.get('window').height - 100,
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<Image style={styles.logo} source={logo} />
+			</View>
+
+			<Image source={poweredBy} style={{ height: 50, resizeMode: 'contain' }} />
 		</View>
 	);
 };
@@ -49,11 +60,6 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.primary,
 		alignItems: 'center',
 		justifyContent: 'center',
-	},
-	splashText: {
-		color: colors.light,
-		fontSize: 50,
-		fontWeight: 'bold',
 	},
 	logo: {
 		resizeMode: 'contain',

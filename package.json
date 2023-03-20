@@ -15,6 +15,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "date-fns": "^2.29.3",
+    "lodash.debounce": "^4.0.8",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.41",
     "react": "18.2.0",

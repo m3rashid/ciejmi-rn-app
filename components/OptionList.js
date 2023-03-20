@@ -10,11 +10,12 @@ const OptionList = ({
 	onPress,
 	type,
 	onPressSecondary,
+	style
 }) => {
 	return (
 		<>
 			{type == 'morden' ? (
-				<View style={[styles.container, { backgroundColor: colors.white }]}>
+				<View style={[styles.container, { backgroundColor: colors.white }, style]}>
 					<View style={styles.IconContainer}>
 						<Icon name={iconName} size={24} color={colors.primary} />
 						<Text style={styles.listText}>{text}</Text>
@@ -35,7 +36,7 @@ const OptionList = ({
 					</View>
 				</View>
 			) : (
-				<TouchableOpacity style={styles.container} onPress={onPress}>
+				<TouchableOpacity style={[styles.container, style]} onPress={onPress}>
 					<View style={styles.IconContainer}>
 						<Icon name={iconName} size={24} color={colors.primary} />
 						<Text style={styles.listText}>{text}</Text>
@@ -63,12 +64,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: colors.white,
-		borderRadius: 5,
-		height: 50,
+		height: 55,
 		paddingLeft: 10,
 		paddingRight: 10,
-		elevation: 5,
-		marginBottom: 15,
+		elevation: 2,
 	},
 	IconContainer: {
 		flexDirection: 'row',

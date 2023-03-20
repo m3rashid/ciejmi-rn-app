@@ -8,14 +8,15 @@ import {
 	RefreshControl,
 	Alert,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { colors, network } from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ProgressDialog from 'react-native-progress-dialog';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomAlert from '../../components/CustomAlert';
 import CustomInput from '../../components/CustomInput/';
-import ProgressDialog from 'react-native-progress-dialog';
 import DepartmentList from '../../components/DepartmentList';
+import debounce from 'lodash.debounce';
 
 const ViewDepartmentScreen = ({ navigation, route }) => {
 	const { authUser } = route.params;
@@ -80,30 +81,23 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 		getDepartments();
 	};
 
-	const filter = (filterItem) => {
-		let timer;
-		return (() => {
-			clearTimeout(timer);
-			timer = setTimeout(() => {
-				if (!departments || departments.length == 0) {
-					getDepartments().then((data) => {
-						if (!data) return;
-						setFoundItems(data);
-					});
-					return;
-				}
-
-				if (filterItem !== '') {
-					const results = departments?.filter((dept) => {
-						return dept?.name.toLowerCase().includes(filterItem.toLowerCase());
-					});
-					setFoundItems(results);
-				} else {
-					setFoundItems(departments);
-				}
-			}, 500);
-		})();
-	};
+	const filter = useCallback(debounce(() => {
+		if (!departments || departments.length == 0) {
+			getDepartments().then((data) => {
+				if (!data) return;
+				setFoundItems(data);
+			});
+			return;
+		}
+		if (filterItem !== '') {
+			const results = departments?.filter((dept) => {
+				return dept?.name.toLowerCase().includes(filterItem.toLowerCase());
+			});
+			setFoundItems(results);
+		} else {
+			setFoundItems(departments);
+		}
+	}, 500))
 
 	useEffect(() => {
 		getDepartments().then((data) => {

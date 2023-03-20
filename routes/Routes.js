@@ -31,6 +31,7 @@ import AddAdressScreen from "../screens/user/AddAddressScreen"
 import ViewPDFScreen from '../screens/admin/showPdf';
 import ViewDepartmentScreen from '../screens/admin/ViewDepartmentsScreen';
 import AddDepartmentScreen from "../screens/admin/AddDepartmentScreen"
+import AdminProfileScreen from "../screens/admin/adminProfileScreen"
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,7 @@ const Routes = () => {
 				<Stack.Screen name="pdf" component={ViewPDFScreen} />
 				<Stack.Screen name="viewDepartment" component={ViewDepartmentScreen} />
 				<Stack.Screen name="addDepartment" component={AddDepartmentScreen} />
+				<Stack.Screen name="adminProfileScreen" component={AdminProfileScreen} />
 				<Stack.Screen
 					name="vieworderdetails"
 					component={ViewOrderDetailScreen}

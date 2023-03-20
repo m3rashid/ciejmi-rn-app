@@ -1,11 +1,13 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Dimensions, View } from 'react-native';
 import Pdf from 'react-native-pdf';
+import ProgressDialog from 'react-native-progress-dialog';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../constants';
 
 const ViewPDFScreen = ({ navigation, route }) => {
 	const { pdfUrl } = route.params;
+	const [loading, setLoading] = React.useState(true);
 
 	return (
 		<View style={styles.container}>
@@ -22,13 +24,16 @@ const ViewPDFScreen = ({ navigation, route }) => {
 					/>
 				</TouchableOpacity>
 			</View>
-
+			<ProgressDialog visible={loading} label='Loading . . .' />
 			<Pdf
 				source={{ uri: pdfUrl, cache: true }}
 				trustAllCerts={false}
 				onError={(error) => {
 					console.log(error);
 					navigation.goBack();
+				}}
+				onLoadComplete={() => {
+					setLoading(false);
 				}}
 				style={styles.pdf}
 			/>

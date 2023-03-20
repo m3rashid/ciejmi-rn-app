@@ -5,7 +5,6 @@ import {
 	TouchableOpacity,
 	Text,
 	ScrollView,
-	Alert,
 	Image,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
@@ -42,6 +41,7 @@ const DashboardScreen = ({ navigation, route }) => {
 	};
 
 	//method the fetch the statistics from server using API call
+
 	const fetchStats = () => {
 		fetch(`${network.serverip}/dashboard`, requestOptions)
 			.then((response) => response.json())
@@ -104,25 +104,6 @@ const DashboardScreen = ({ navigation, route }) => {
 		setRefreshing(false);
 	};
 
-	const handleLogout = async () => {
-		return Alert.alert(
-			'Logout from CIE-JMI ?',
-			'Are you sure you want to logout ?',
-			[
-				{
-					text: 'Cancel',
-				},
-				{
-					text: 'Logout',
-					onPress: async () => {
-						await AsyncStorage.removeItem('authUser');
-						navigation.replace('login');
-					},
-				},
-			]
-		);
-	};
-
 	useEffect(() => {
 		fetchStats();
 	}, []);
@@ -133,13 +114,31 @@ const DashboardScreen = ({ navigation, route }) => {
 				<StatusBar />
 				<ProgressDialog visible={isloading} label={label} />
 				<View style={styles.topBarContainer}>
-					<TouchableOpacity onPress={handleLogout}>
-						<Ionicons name='log-out' size={30} color={colors.muted} />
+					<TouchableOpacity
+						onPress={() => {
+							navigation.navigate('adminProfileScreen', { authUser: authUser });
+						}}
+						style={{
+							borderColor: colors.muted,
+							borderRadius: 20,
+							padding: 5,
+							borderWidth: 2,
+						}}
+					>
+						<Ionicons name='person' size={20} color={colors.muted} />
 					</TouchableOpacity>
 
 					<View style={styles.topbarlogoContainer}>
 						<Image source={easybuylogo} style={styles.logo} />
-						<Text style={styles.toBarText}>CIE-JMI</Text>
+						<Text
+							style={{
+								fontSize: 20,
+								fontWeight: 'bold',
+								color: colors.muted,
+							}}
+						>
+							CIE-JMI
+						</Text>
 					</View>
 				</View>
 
@@ -162,6 +161,7 @@ const DashboardScreen = ({ navigation, route }) => {
 									dept: null,
 								})
 							}
+							style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
 							type='morden'
 						/>
 						<OptionList
@@ -204,6 +204,7 @@ const DashboardScreen = ({ navigation, route }) => {
 							onPress={() =>
 								navigation.navigate('viewusers', { authUser: user })
 							}
+							style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5 }}
 							type='morden'
 						/>
 						<View style={{ height: 20 }} />
@@ -233,7 +234,6 @@ const styles = StyleSheet.create({
 	toBarText: {
 		fontSize: 20,
 		fontWeight: '600',
-		color: colors.dark,
 	},
 	container: {
 		width: '100%',

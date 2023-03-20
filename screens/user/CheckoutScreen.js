@@ -165,16 +165,16 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<View style={styles.totalOrderInfoContainer}>
 					<View style={styles.list}>
 						<Text style={{ color: colors.muted }}>Order</Text>
-						<Text style={{ color: colors.muted }}>₹ {totalCost}</Text>
+						<Text style={{ color: colors.muted }}>₹ {Number(totalCost).toFixed(2)}</Text>
 					</View>
 					<View style={styles.list}>
 						<Text style={{ color: colors.muted }}>Delivery Charges</Text>
-						<Text style={{ color: colors.muted }}>₹ {deliveryCost}</Text>
+						<Text style={{ color: colors.muted }}>₹ {Number(deliveryCost).toFixed(2)}</Text>
 					</View>
 					<View style={styles.list}>
 						<Text style={styles.primaryTextSm}>Total</Text>
 						<Text style={styles.secondaryTextSm}>
-							₹ {totalCost + deliveryCost}
+							₹ {Number(totalCost + deliveryCost).toFixed(2)}
 						</Text>
 					</View>
 				</View>

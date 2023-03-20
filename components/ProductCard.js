@@ -25,7 +25,7 @@ const ProductCard = ({
 						0,
 						10,
 					)}..`}</Text>
-					<Text style={styles.primaryTextSm}>₹ {price}</Text>
+					<Text style={styles.primaryTextSm}>₹ {Number(price).toFixed(2)}</Text>
 				</View>
 				<View>
 					{quantity > 0 ? (
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		padding: 5,
-		elevation: 5,
+		elevation: 2,
 	},
 	imageContainer: {
 		backgroundColor: colors.light,

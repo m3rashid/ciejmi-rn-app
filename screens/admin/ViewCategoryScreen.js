@@ -124,7 +124,9 @@ const ViewCategoryScreen = ({ navigation, route }) => {
 		const keyword = filterItem;
 		if (keyword !== '') {
 			const results = (categories || []).filter((item) => {
-				return (item?.title || '').toLowerCase().includes(keyword.toLowerCase());
+				return (item?.title || '')
+					.toLowerCase()
+					.includes(keyword.toLowerCase());
 			});
 			setFoundItems(results);
 		} else {
