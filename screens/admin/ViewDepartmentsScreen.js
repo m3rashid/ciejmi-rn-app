@@ -14,7 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressDialog from 'react-native-progress-dialog';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomAlert from '../../components/CustomAlert';
-import CustomInput from '../../components/CustomInput/';
+import CustomInput from '../../components/CustomInput';
 import DepartmentList from '../../components/DepartmentList';
 import debounce from 'lodash.debounce';
 
@@ -44,6 +44,7 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 						setError(res.message);
 						setAlertType('success');
 						setIsloading(false);
+						getDepartments()
 					}
 				});
 		} catch (error) {
@@ -67,6 +68,7 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 			const res = await result.json();
 			if (res.success) {
 				setDepartments(res.data);
+				setIsloading(false);
 				return res.data;
 			}
 		} catch (error) {
@@ -77,27 +79,27 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 		}
 	};
 
-	const handleOnRefresh = () => {
-		getDepartments();
-	};
+	const handleOnRefresh = getDepartments;
 
-	const filter = useCallback(debounce(() => {
-		if (!departments || departments.length == 0) {
+	const filter = debounce((text) => {
+		if (!departments || departments.length === 0) {
 			getDepartments().then((data) => {
 				if (!data) return;
 				setFoundItems(data);
 			});
 			return;
 		}
-		if (filterItem !== '') {
-			const results = departments?.filter((dept) => {
-				return dept?.name.toLowerCase().includes(filterItem.toLowerCase());
-			});
-			setFoundItems(results);
-		} else {
+
+		if (!text || text === '') {
 			setFoundItems(departments);
+			return;
 		}
-	}, 500))
+
+		const results = departments?.filter((dept) => {
+			return dept?.name.toLowerCase().includes(text.toLowerCase());
+		});
+		setFoundItems(results);
+	}, 500);
 
 	useEffect(() => {
 		getDepartments().then((data) => {
@@ -148,8 +150,8 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 				radius={5}
 				ioniconName='search'
 				placeholder='Search . . .'
-				// value={filterItem}
 				setValue={(v) => filter(v)}
+				// value={search}
 				showTitle={false}
 			/>
 
@@ -166,6 +168,7 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 					foundItems.map((dept) => {
 						return (
 							<DepartmentList
+								navigation={navigation}
 								key={dept._id}
 								department={dept.name}
 								authUser={authUser}

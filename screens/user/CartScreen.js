@@ -8,7 +8,7 @@ import {
 	ScrollView,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import cartIcon from '../../assets/icons/cart_beg_active.jpg';
 import { colors, network } from '../../constants';
 import CartProductList from '../../components/CartProductList';
@@ -19,7 +19,7 @@ import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import { bindActionCreators } from 'redux';
 
 const CartScreen = ({ navigation }) => {
-	const cartproduct = useSelector(state => state.product);
+	const cartproduct = useSelector((state) => state.product);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [refresh, setRefresh] = useState(false);
 	const dispatch = useDispatch();
@@ -27,12 +27,10 @@ const CartScreen = ({ navigation }) => {
 	const { removeCartItem, increaseCartItemQuantity, decreaseCartItemQuantity } =
 		bindActionCreators(actionCreaters, dispatch);
 
-	//method to remove the item from (cart) redux
-	const deleteItem = id => {
+	const deleteItem = (id) => {
 		removeCartItem(id);
 	};
 
-	//method to increase the quantity of the item in(cart) redux
 	const increaseQuantity = (id, quantity, avaiableQuantity) => {
 		if (avaiableQuantity > quantity) {
 			increaseCartItemQuantity({ id: id, type: 'increase' });
@@ -40,7 +38,6 @@ const CartScreen = ({ navigation }) => {
 		}
 	};
 
-	//method to decrease the quantity of the item in(cart) redux
 	const decreaseQuantity = (id, quantity) => {
 		if (quantity > 1) {
 			decreaseCartItemQuantity({ id: id, type: 'decrease' });
@@ -48,12 +45,11 @@ const CartScreen = ({ navigation }) => {
 		}
 	};
 
-	//calcute and the set the total price whenever the value of carproduct change
 	useEffect(() => {
 		setTotalPrice(
 			cartproduct.reduce((accumulator, object) => {
 				return accumulator + object.price * object.quantity;
-			}, 0),
+			}, 0)
 		);
 	}, [cartproduct, refresh]);
 
@@ -65,14 +61,14 @@ const CartScreen = ({ navigation }) => {
 					<TouchableOpacity
 						onPress={() => {
 							navigation.goBack();
-						}}>
+						}}
+					>
 						<Ionicons
-							name="arrow-back-circle-outline"
+							name='arrow-back-circle-outline'
 							size={30}
 							color={colors.muted}
 						/>
 					</TouchableOpacity>
-
 				</View>
 
 				<View />
@@ -82,16 +78,18 @@ const CartScreen = ({ navigation }) => {
 			</View>
 
 			<View style={styles.cartInfoTopBar}>
-				<Text style={{ color: colors.muted, fontSize: 20, fontWeight: 'bold' }}>Your Cart</Text>
+				<Text style={{ color: colors.muted, fontSize: 20, fontWeight: 'bold' }}>
+					Your Cart
+				</Text>
 			</View>
 
-			{cartproduct.length === 0 ? (
+			{(cartproduct || []).length === 0 ? (
 				<View style={styles.cartProductListContiainerEmpty}>
 					<Text style={styles.secondaryTextSmItalic}>"Cart is empty"</Text>
 				</View>
 			) : (
 				<ScrollView style={styles.cartProductListContiainer}>
-					{cartproduct.map((item, index) => (
+					{(cartproduct || []).map((item, index) => (
 						<TouchableOpacity key={index} style={{}}>
 							<CartProductList
 								index={index}
@@ -103,7 +101,7 @@ const CartScreen = ({ navigation }) => {
 									increaseQuantity(
 										item._id,
 										item.quantity,
-										item.avaiableQuantity,
+										item.avaiableQuantity
 									);
 								}}
 								onPressDecrement={() => {
@@ -122,13 +120,14 @@ const CartScreen = ({ navigation }) => {
 				<View style={styles.cartBottomLeftContainer}>
 					<View style={styles.IconContainer}>
 						<MaterialIcons
-							name="featured-play-list"
+							name='featured-play-list'
 							size={24}
 							color={colors.primary}
 						/>
 					</View>
-					<Text style={styles.cartBottomPrimaryText}>Total : ₹{Number(totalPrice).toFixed(2)}</Text>
-
+					<Text style={styles.cartBottomPrimaryText}>
+						Total : ₹{Number(totalPrice).toFixed(2)}
+					</Text>
 				</View>
 				<View style={styles.cartBottomRightContainer}>
 					{cartproduct.length > 0 ? (
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
 	cartBottomPrimaryText: {
 		fontSize: 15,
 		fontWeight: 'bold',
-		color: colors.muted
+		color: colors.muted,
 	},
 	emptyView: {
 		width: '100%',
@@ -232,7 +231,7 @@ const styles = StyleSheet.create({
 		height: 40,
 		width: 40,
 		borderRadius: 5,
-		marginBottom: 10
+		marginBottom: 10,
 	},
 	cartInfoContainerTopBar: {
 		display: 'flex',

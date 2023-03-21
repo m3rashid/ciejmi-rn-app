@@ -75,26 +75,32 @@ const UpdatePasswordScreen = ({ navigation, route }) => {
 			<View style={styles.formContainer}>
 				<CustomAlert message={error} type={alertType} />
 				<CustomInput
+					isRequired
 					value={currnetPassword}
 					setValue={setCurrentPassword}
 					placeholder={'Current Password'}
 					secureTextEntry={true}
+					ioniconName='lock-closed-outline'
 				/>
 				<CustomInput
+					isRequired
 					value={newPassword}
 					setValue={setNewPassword}
 					placeholder={'New Password'}
 					secureTextEntry={true}
+					ioniconName='lock-closed-outline'
 				/>
 				<CustomInput
+					isRequired
 					value={confirmPassword}
 					setValue={setCconfirmPassword}
 					placeholder={'Confirm New Password'}
 					secureTextEntry={true}
+					ioniconName='lock-closed-outline'
 				/>
 			</View>
 			<CustomButton
-				text={'Update Password'}
+				text='Update Password'
 				onPress={updatePasswordHandle}
 				radius={5}
 			/>

@@ -117,6 +117,7 @@ const LoginScreen = ({ navigation }) => {
 					<View style={styles.formContainer}>
 						<CustomAlert message={error} type={'error'} />
 						<CustomInput
+							isRequired
 							ioniconName='ios-at-outline'
 							value={email}
 							setValue={setEmail}
@@ -125,6 +126,7 @@ const LoginScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
+							isRequired
 							ioniconName='ios-lock-closed-outline'
 							value={password}
 							setValue={setPassword}

@@ -28,11 +28,10 @@ const slides = [
 ];
 
 const HomeScreen = ({ navigation, route }) => {
+	const { user } = route.params;
 	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 	const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
-
-	const { user } = route.params;
 	const [products, setProducts] = useState([]);
 	const [refeshing, setRefreshing] = useState(false);
 	const [error, setError] = useState('');
@@ -40,7 +39,6 @@ const HomeScreen = ({ navigation, route }) => {
 	const [searchItems, setSearchItems] = useState([]);
 	const [categories, setCategories] = useState([]);
 
-	//method to convert the authUser to json object
 	const convertToJSON = (obj) => {
 		try {
 			setUserInfo(JSON.parse(obj));
@@ -49,12 +47,10 @@ const HomeScreen = ({ navigation, route }) => {
 		}
 	};
 
-	//method to navigate to product detail screen of a specific product
 	const handleProductPress = (product) => {
 		navigation.navigate('productdetail', { product: product });
 	};
 
-	//method to add to cart (redux)
 	const handleAddToCat = (product) => {
 		addCartItem(product);
 	};

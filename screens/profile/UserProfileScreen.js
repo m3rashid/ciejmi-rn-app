@@ -5,17 +5,21 @@ import {
 	StatusBar,
 	TouchableOpacity,
 	Alert,
+	Image,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import UserProfileCard from '../../components/UserProfileCard';
-import Ionicons from 'react-native-vector-icons/Ionicons';;
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionList from '../../components/OptionList';
 import { colors } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import poweredBy from '../../assets/image/poweredByExatorialWhite.jpg';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const UserProfileScreen = ({ navigation, route }) => {
 	const [userInfo, setUserInfo] = useState({});
 	const { user } = route.params;
+	const userID = user?._id;
 
 	const handleLogout = async () => {
 		return Alert.alert(
@@ -32,18 +36,54 @@ const UserProfileScreen = ({ navigation, route }) => {
 						navigation.replace('login');
 					},
 				},
-			],
+			]
 		);
-	}
+	};
 
-	const handleMyAddresses = () => { }
+	const handleMyAddresses = () => { };
 
-	const convertToJSON = obj => {
+	const convertToJSON = (obj) => {
 		try {
 			setUserInfo(JSON.parse(obj));
 		} catch (e) {
 			setUserInfo(obj);
 		}
+	};
+
+	const DeleteAccontHandle = (userID) => {
+		let fetchURL = network.serverip + '/delete-user?id=' + String(userID);
+		fetch(fetchURL, {
+			method: 'GET',
+			redirect: 'follow',
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				if (result.success == true) {
+					navigation.navigate('login');
+				} else {
+					setError(result.message);
+				}
+			})
+			.catch(console.log);
+	};
+
+	const showConfirmDialog = (id) => {
+		return Alert.alert(
+			'Are your sure?',
+			'Are you sure you want to remove your account?',
+			[
+				{
+					text: 'Yes',
+					onPress: () => {
+						setShowBox(false);
+						DeleteAccontHandle(id);
+					},
+				},
+				{
+					text: 'No',
+				},
+			]
+		);
 	};
 
 	useEffect(() => {
@@ -52,7 +92,7 @@ const UserProfileScreen = ({ navigation, route }) => {
 
 	return (
 		<View style={styles.container}>
-			<StatusBar style="auto" />
+			<StatusBar style='auto' />
 			<View style={styles.TopBarContainer}>
 				<TouchableOpacity
 					onPress={() => {
@@ -81,33 +121,46 @@ const UserProfileScreen = ({ navigation, route }) => {
 
 			<View style={styles.OptionsContainer}>
 				<OptionList
-					text='My Account'
+					text='My Addresses'
 					Icon={Ionicons}
-					iconName='person'
-					onPress={() => navigation.navigate('myaccount', { user: userInfo })}
+					iconName='md-navigate-circle-outline'
+					onPress={() => navigation.navigate('myaddress', { user: userInfo })}
 					style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
 				/>
-
 				<OptionList
 					text='Wishlist'
 					Icon={Ionicons}
 					iconName='heart'
 					onPress={() => navigation.navigate('mywishlist', { user: userInfo })}
 				/>
-
+				<OptionList
+					text='Delete My Account'
+					Icon={MaterialIcons}
+					iconName='delete'
+					type='danger'
+					onPress={() => showConfirmDialog(userID)}
+				/>
+				<OptionList
+					text={'Change Password'}
+					Icon={Ionicons}
+					iconName='key-sharp'
+					onPress={() =>
+						navigation.navigate('updatepassword', { userID: userID })
+					}
+				/>
 				<OptionList
 					text='Logout'
 					Icon={Ionicons}
 					iconName='log-out'
 					onPress={handleLogout}
-				/>
-
-				<OptionList
-					text="My Addresses"
-					Icon={Ionicons}
-					iconName="md-navigate-circle-outline"
-					onPress={() => navigation.navigate('myaddress', { user: userInfo })}
 					style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5 }}
+				/>
+			</View>
+
+			<View style={{ marginTop: 'auto' }}>
+				<Image
+					source={poweredBy}
+					style={{ height: 50, resizeMode: 'contain' }}
 				/>
 			</View>
 		</View>

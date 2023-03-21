@@ -7,8 +7,10 @@ import {
 	KeyboardAvoidingView,
 	ScrollView,
 	TouchableOpacity,
+	FlatList,
+	Dimensions,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { colors, network } from '../../constants';
 import CustomInput from '../../components/CustomInput';
 import header_logo from '../../assets/logo/logo.jpg';
@@ -16,8 +18,8 @@ import CustomButton from '../../components/CustomButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomAlert from '../../components/CustomAlert';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
-import SearchableDropDown from 'react-native-searchable-dropdown';
-import DropDownPicker from 'react-native-dropdown-picker';
+import debounce from 'lodash.debounce';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 const SignupScreen = ({ navigation }) => {
 	const [email, setEmail] = useState('');
@@ -27,12 +29,12 @@ const SignupScreen = ({ navigation }) => {
 	const [department, setDepartment] = useState('');
 	const [error, setError] = useState('');
 	const [courses, setCourses] = useState([]);
-	const [searchItems, setSearchItems] = useState([])
+	const [searchItems, setSearchItems] = useState([]);
+	const refRBSheet = useRef();
 
-	var myHeaders = new Headers();
+	const myHeaders = new Headers();
 	myHeaders.append('Content-Type', 'application/json');
 
-	//method to post the user data to server for user signup using API call
 	const signUpHandle = () => {
 		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -46,7 +48,7 @@ const SignupScreen = ({ navigation }) => {
 			return setError('Please enter your password');
 		}
 		if (!email.match(emailRegex)) {
-			return setError("Email is not valid")
+			return setError('Email is not valid');
 		}
 		if (password.length < 5) {
 			return setError('Password must be 6 characters long');
@@ -84,21 +86,27 @@ const SignupScreen = ({ navigation }) => {
 			.then((r) => r.json())
 			.then((result) => {
 				setCourses(result.data);
+				setSearchItems(result.data);
 			})
 			.catch(console.log);
 	};
 
-	const filter = (text) => {
+	const filter = debounce((text) => {
 		if (!text || text === '') {
+			setSearchItems(courses);
 			return;
 		}
 
-		const payload = (courses || []).map((cat) => ({
-			...cat,
-			id: cat._id,
-		}));
+		const payload = (courses || []).filter((item) => {
+			return item.name.includes(text);
+		});
 		setSearchItems(payload);
-	}
+	}, 500);
+
+	const handleSetDepartment = (item) => {
+		setDepartment(item.name);
+		refRBSheet.current.close();
+	};
 
 	useEffect(() => {
 		getCourses();
@@ -106,6 +114,54 @@ const SignupScreen = ({ navigation }) => {
 
 	return (
 		<InternetConnectionAlert>
+			<RBSheet
+				ref={refRBSheet}
+				closeOnDragDown={true}
+				closeOnPressMask={false}
+				customStyles={{
+					draggableIcon: {
+						backgroundColor: colors.muted,
+					},
+				}}
+				height={Dimensions.get('window').height * 0.7}
+			>
+				<View style={{ width: '103%', padding: 12 }}>
+					<CustomInput
+						setValue={(v) => filter(v)}
+						placeholder='Search Department'
+						placeholderTextColor={colors.muted}
+						radius={5}
+						ioniconName='search'
+						showTitle={false}
+					/>
+
+					<FlatList
+						style={{
+							width: '100%',
+							backgroundColor: colors.white,
+							padding: 8,
+							borderRadius: 5,
+							elevation: 2,
+						}}
+						data={searchItems}
+						renderItem={({ item }) => {
+							return (
+								<TouchableOpacity
+									key={item._id}
+									style={{ padding: 8 }}
+									onPress={() => handleSetDepartment(item)}
+								>
+									<Text style={{ color: colors.dark }} key={item._id}>
+										{item.name}
+									</Text>
+								</TouchableOpacity>
+							);
+						}}
+						keyExtractor={(item) => item._id}
+					/>
+				</View>
+			</RBSheet>
+
 			<KeyboardAvoidingView style={styles.container}>
 				<StatusBar />
 				<View style={styles.TopBarContainer}>
@@ -121,10 +177,12 @@ const SignupScreen = ({ navigation }) => {
 						/>
 					</TouchableOpacity>
 				</View>
-				<ScrollView style={{ flex: 1, width: '100%' }} nestedScrollEnabled>
+
+				<ScrollView style={{ width: '100%' }} nestedScrollEnabled>
 					<View style={styles.welconeContainer}>
 						<Image style={styles.logo} source={header_logo} />
 					</View>
+
 					<View style={styles.screenNameContainer}>
 						<Text style={styles.screenNameText}>Sign up</Text>
 						<View>
@@ -133,9 +191,11 @@ const SignupScreen = ({ navigation }) => {
 							</Text>
 						</View>
 					</View>
+
 					<View style={styles.formContainer}>
 						<CustomAlert message={error} type='error' />
 						<CustomInput
+							isRequired
 							ioniconName='person-outline'
 							value={name}
 							setValue={setName}
@@ -144,6 +204,7 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
+							isRequired
 							ioniconName='ios-at-outline'
 							value={email}
 							setValue={setEmail}
@@ -152,6 +213,7 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
+							isRequired
 							ioniconName='ios-lock-closed-outline'
 							value={password}
 							setValue={setPassword}
@@ -161,6 +223,7 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 						<CustomInput
+							isRequired
 							ioniconName='ios-lock-closed-outline'
 							value={confirmPassword}
 							setValue={setConfirmPassword}
@@ -170,55 +233,34 @@ const SignupScreen = ({ navigation }) => {
 							radius={5}
 						/>
 
-						<View style={{ marginTop: 15, width: '103%' }}>
-							<Text style={{ color: colors.primary, marginBottom: 5 }}>
-								Course Name
-							</Text>
-
-							<View style={styles.searchContainer}>
-								<View style={styles.inputContainer}>
-									<Ionicons
-										name='search'
-										style={{ color: colors.muted, marginTop: 8 }}
-										size={24}
-									/>
-
-									<SearchableDropDown
-										placeholderTextColor={colors.muted}
-										onTextChange={(value) => filter(value)}
-										onItemSelect={(item) => {
-											setDepartment(item.name)
-										}}
-										defaultIndex={0}
-										containerStyle={{
-											width: '90%',
-											maxHeight: 300,
-											backgroundColor: colors.light,
-										}}
-										textInputStyle={{
-											borderRadius: 5,
-											padding: 6,
-											paddingLeft: 10,
-											borderWidth: 0,
-											backgroundColor: colors.white,
-											color: colors.dark,
-										}}
-										itemStyle={{
-											padding: 10,
-											backgroundColor: colors.white,
-										}}
-										itemTextStyle={{ color: colors.muted }}
-										itemsContainerStyle={{ maxHeight: '100%' }}
-										items={searchItems}
-										placeholder='Search Your Department . . .'
-										resetValue={false}
-										underlineColorAndroid='transparent'
-									/>
-								</View>
+						{department && (
+							<View style={{ marginVertical: 10 }}>
+								<Text
+									style={{
+										color: colors.primary,
+										fontSize: department ? 18 : 14,
+									}}
+								>
+									{department}
+								</Text>
 							</View>
-						</View>
+						)}
+
+						<CustomButton
+							text={`${department ? 'Change' : 'Choose'} Department`}
+							style={{
+								backgroundColor: colors.white,
+								width: '103%',
+								elevation: 2,
+								marginTop: 6,
+								marginBottom: 6,
+							}}
+							textStyles={{ color: colors.dark }}
+							onPress={() => refRBSheet.current.open()}
+						/>
 					</View>
 				</ScrollView>
+
 				<View style={styles.buttomContainer}>
 					<CustomButton text='Sign Up' onPress={signUpHandle} />
 				</View>
@@ -232,7 +274,7 @@ const SignupScreen = ({ navigation }) => {
 					</Text>
 				</View>
 			</KeyboardAvoidingView>
-		</InternetConnectionAlert >
+		</InternetConnectionAlert>
 	);
 };
 
@@ -323,13 +365,6 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		color: colors.muted,
 	},
-	searchContainer: {
-		width: '100%',
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-evenly',
-	},
 	inputContainer: {
 		width: '100%',
 		display: 'flex',
@@ -340,7 +375,7 @@ const styles = StyleSheet.create({
 		height: '100%',
 		borderRadius: 5,
 		maxHeight: 350,
-		elevation: 5,
-		padding: 3
+		elevation: 2,
+		padding: 3,
 	},
 });

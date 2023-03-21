@@ -3,7 +3,7 @@ import React from 'react';
 import { colors } from '../constants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const CustomButton = ({ text, onPress, ioniconName, disabled = false, style = {} }) => {
+const CustomButton = ({ text, onPress, ioniconName, disabled = false, style = {}, textStyles = {} }) => {
 	return (
 		<TouchableOpacity
 			disabled={disabled}
@@ -12,7 +12,7 @@ const CustomButton = ({ text, onPress, ioniconName, disabled = false, style = {}
 			{ioniconName &&
 				<Icon name={ioniconName} size={24} color={colors.white} />
 			}
-			<Text style={disabled ? styles.buttonTextDisabled : styles.buttonText}>{text}</Text>
+			<Text style={[(disabled ? styles.buttonTextDisabled : styles.buttonText), textStyles]}>{text}</Text>
 		</TouchableOpacity>
 	)
 };

@@ -47,7 +47,7 @@ const Splash = ({ navigation }) => {
 				<Image style={styles.logo} source={logo} />
 			</View>
 
-			<Image source={poweredBy} style={{ height: 50, resizeMode: 'contain' }} />
+			<Image source={poweredBy} style={{ height: 40, resizeMode: 'contain' }} />
 		</View>
 	);
 };

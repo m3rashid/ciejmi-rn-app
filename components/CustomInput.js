@@ -16,17 +16,23 @@ const CustomInput = ({
 	maxLength,
 	ioniconName,
 	showTitle = true,
+	isRequired = false,
 }) => {
 	const windowWidth = Dimensions.get('window').width;
 
 	return (
 		<View style={{ marginTop: 12, marginBottom: 6 }}>
 			{showTitle && (
-				<Text
-					style={{ textAlign: 'left', marginLeft: 5, color: colors.primary }}
-				>
-					{placeholder}
-				</Text>
+				<View style={{ display: 'flex', flexDirection: 'row' }}>
+					{isRequired && (
+						<Text style={{ color: colors.danger, }}>*</Text>
+					)}
+					<Text
+						style={{ textAlign: 'left', marginLeft: 5, color: colors.primary }}
+					>
+						{placeholder}
+					</Text>
+				</View>
 			)}
 			<View
 				style={[
@@ -38,11 +44,7 @@ const CustomInput = ({
 				]}
 			>
 				{ioniconName && (
-					<Icon
-						name={ioniconName}
-						size={24}
-						color={colors.primary}
-					/>
+					<Icon name={ioniconName} size={24} color={colors.primary} />
 				)}
 
 				<TextInput

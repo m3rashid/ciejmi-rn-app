@@ -38,12 +38,15 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 				},
 				body: JSON.stringify({ _id: _id, name: department }),
 				redirect: 'follow',
-			})
-			const res = await r.json()
+			});
+			const res = await r.json();
 
 			if (res.success) {
 				setError(res.message);
 				setAlertType('success');
+				setTimeout(() => {
+					navigation.goBack();
+				}, 1500);
 			}
 		} catch (err) {
 			setError(err.message || 'An error occured');
@@ -78,6 +81,9 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 						setError(result.message);
 						setAlertType('success');
 						setIsloading(false);
+						setTimeout(() => {
+							navigation.goBack();
+						}, 1500);
 					}
 				});
 		} catch (err) {
@@ -107,7 +113,9 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 			</View>
 
 			<View style={styles.screenNameContainer}>
-				<Text style={styles.screenNameText}>{!!dept ? "Edit Department" : "Add Department"}</Text>
+				<Text style={styles.screenNameText}>
+					{!!dept ? 'Edit Department' : 'Add Department'}
+				</Text>
 			</View>
 
 			<CustomAlert message={error} type={alertType} />
@@ -118,6 +126,7 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 			>
 				<View style={styles.formContainer}>
 					<CustomInput
+						isRequired
 						value={department}
 						setValue={setDepartment}
 						placeholder='Department Name'
@@ -126,11 +135,13 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 					/>
 				</View>
 			</ScrollView>
-			w
 			<View style={styles.buttomContainer}>
-				<CustomButton text={`${!!dept ? "Edit" : "Add"} Department`} onPress={() => {
-					!!dept ? handleEdit(dept._id) : addDepartmentHandle()
-				}} />
+				<CustomButton
+					text={`${!!dept ? 'Edit' : 'Add'} Department`}
+					onPress={() => {
+						!!dept ? handleEdit(dept._id) : addDepartmentHandle();
+					}}
+				/>
 			</View>
 		</KeyboardAvoidingView>
 	);

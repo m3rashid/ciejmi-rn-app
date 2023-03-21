@@ -22,22 +22,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 	const { product } = route.params;
 	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
-
 	const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
-
-	//method to add item to cart(redux)
-	const handleAddToCat = (item) => {
-		addCartItem(item);
-		setAlertType('success');
-		setError('Item added to cart');
-	};
-
-	//remove the authUser from async storage and navigate to login
-	const logout = async () => {
-		await AsyncStorage.removeItem('authUser');
-		navigation.replace('login');
-	};
-
 	const [onWishlist, setOnWishlist] = useState(false);
 	const [quantity, setQuantity] = useState(1);
 	const [wishlistItems, setWishlistItems] = useState([]);
@@ -45,58 +30,59 @@ const ProductDetailScreen = ({ navigation, route }) => {
 	const [isDisable, setIsDisbale] = useState(true);
 	const [alertType, setAlertType] = useState('error');
 
-	//method to fetch wishlist from server using API call
-	const fetchWishlist = async () => {
-		const value = await AsyncStorage.getItem('authUser'); // get authUser from async storage
-		let user = JSON.parse(value);
-		var myHeaders = new Headers();
-		myHeaders.append('x-auth-token', user.token);
-
-		var requestOptions = {
-			method: 'GET',
-			headers: myHeaders,
-			redirect: 'follow',
-		};
-		fetch(`${network.serverip}/wishlist`, requestOptions)
-			.then((response) => response.json())
-			.then((result) => {
-				if (result?.err === 'jwt expired') {
-					logout();
-				}
-				if (result.success) {
-					setWishlistItems(result.data[0].wishlist);
-					setIsDisbale(false);
-
-					//check if the current active product is already in wishlish or not
-					result.data[0].wishlist.map((item) => {
-						if (item?.productId?._id === product?._id) {
-							setOnWishlist(true);
-						}
-					});
-
-					setError('');
-				}
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
+	const handleAddToCart = async (item) => {
+		addCartItem(item, quantity);
+		setAlertType('success');
+		setError('Item added to cart');
 	};
 
-	//method to increase the product quantity
+	const logout = async () => {
+		await AsyncStorage.removeItem('authUser');
+		navigation.replace('login');
+	};
+
+	const fetchWishlist = async () => {
+		try {
+			const value = await AsyncStorage.getItem('authUser');
+			let user = JSON.parse(value);
+			var myHeaders = new Headers();
+			myHeaders.append('x-auth-token', user.token);
+
+			const response = await fetch(network.serverip + '/wishlist', {
+				method: 'GET',
+				headers: myHeaders,
+				redirect: 'follow',
+			});
+			const result = await response.json();
+			if (result?.err === 'jwt expired') logout();
+			if (result.success) {
+				setWishlistItems(result.data[0].wishlist);
+				setIsDisbale(false);
+
+				result.data[0].wishlist.map((item) => {
+					if (item?.productId?._id === product?._id) {
+						setOnWishlist(true);
+					}
+				});
+				setError('');
+			}
+		} catch (error) {
+			setError(error.message || 'An error occured');
+		}
+	};
+
 	const handleIncreaseButton = (quantity) => {
 		if (quantity >= 1 && product.quantity > quantity) {
 			setQuantity(quantity + 1);
 		}
 	};
 
-	//method to decrease the product quantity
 	const handleDecreaseButton = (quantity) => {
 		if (quantity > 1) {
 			setQuantity((prev) => prev - 1);
 		}
 	};
 
-	//method to add or remove item from wishlist
 	const handleWishlistBtn = async () => {
 		setIsDisbale(true);
 		const value = await AsyncStorage.getItem('authUser');
@@ -112,7 +98,6 @@ const ProductDetailScreen = ({ navigation, route }) => {
 				redirect: 'follow',
 			};
 
-			//API call to remove a item in wishlish
 			fetch(
 				`${network.serverip}/remove-from-wishlist?id=${product?._id}`,
 				requestOptions
@@ -151,7 +136,6 @@ const ProductDetailScreen = ({ navigation, route }) => {
 				redirect: 'follow',
 			};
 
-			//API call to add a item in wishlish
 			fetch(`${network.serverip}/add-to-wishlist`, addrequestOptions)
 				.then((response) => response.json())
 				.then((result) => {
@@ -173,12 +157,10 @@ const ProductDetailScreen = ({ navigation, route }) => {
 		}
 	};
 
-	//set quantity, avaiableQuantity, product image and fetch wishlist on initial render
 	useEffect(() => {
 		fetchWishlist();
 	}, []);
 
-	//render whenever the value of wishlistItems change
 	useEffect(() => { }, [wishlistItems]);
 
 	return (
@@ -241,7 +223,9 @@ const ProductDetailScreen = ({ navigation, route }) => {
 						</View>
 						<View style={styles.productDetailContainer}>
 							<Text style={styles.secondaryTextSm}>Price :</Text>
-							<Text style={styles.primaryTextSm}>₹ {Number(product?.price).toFixed(2)}</Text>
+							<Text style={styles.primaryTextSm}>
+								₹ {Number(product?.price).toFixed(2)}
+							</Text>
 						</View>
 						{product?.description && (
 							<View style={styles.productDetailContainer}>
@@ -280,7 +264,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 								<CustomButton
 									text='Add to Cart'
 									onPress={() => {
-										handleAddToCat(product);
+										handleAddToCart(product);
 									}}
 								/>
 							) : (

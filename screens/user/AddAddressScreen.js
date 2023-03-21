@@ -95,6 +95,7 @@ const AddAdressScreen = ({ navigation, route }) => {
 				style={{ flex: 1, width: '100%' }}>
 				<View style={styles.formContainer}>
 					<CustomInput
+						isRequired
 						value={localAddressOne}
 						setValue={setLocalAddressOne}
 						ioniconName='location'
@@ -111,6 +112,7 @@ const AddAdressScreen = ({ navigation, route }) => {
 						radius={5}
 					/>
 					<CustomInput
+						isRequired
 						value={city}
 						setValue={setCity}
 						ioniconName='location'
@@ -119,6 +121,7 @@ const AddAdressScreen = ({ navigation, route }) => {
 						radius={5}
 					/>
 					<CustomInput
+						isRequired
 						value={state}
 						setValue={setState}
 						ioniconName='location'
@@ -127,6 +130,7 @@ const AddAdressScreen = ({ navigation, route }) => {
 						radius={5}
 					/>
 					<CustomInput
+						isRequired
 						value={postalCode}
 						setValue={setPostalCode}
 						ioniconName='location'

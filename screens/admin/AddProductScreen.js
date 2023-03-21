@@ -98,7 +98,7 @@ const AddProductScreen = ({ navigation, route }) => {
 
 	const upload = async (file) => {
 		if (!file) return;
-		setIsloading(true)
+		setIsloading(true);
 		const fileToUpload = {
 			name: 'images',
 			filetype: 'image/jpeg',
@@ -119,12 +119,12 @@ const AddProductScreen = ({ navigation, route }) => {
 			if (response.statusCode === 200) {
 				// request successfully completed
 				const data = JSON.parse(response.body);
-				setImage(data.data)
+				setImage(data.data);
 			} else {
 				// server error
 			}
-			setIsloading(false)
-		})
+			setIsloading(false);
+		});
 	};
 
 	const pickImage = async () => {
@@ -245,6 +245,7 @@ const AddProductScreen = ({ navigation, route }) => {
 					</View>
 
 					<CustomInput
+						isRequired
 						value={sku}
 						setValue={setSku}
 						placeholder='SKU (Stock Keeping Unit)'
@@ -252,6 +253,7 @@ const AddProductScreen = ({ navigation, route }) => {
 						radius={5}
 					/>
 					<CustomInput
+						isRequired
 						value={title}
 						setValue={setTitle}
 						placeholder='Title'
@@ -259,6 +261,7 @@ const AddProductScreen = ({ navigation, route }) => {
 						radius={5}
 					/>
 					<CustomInput
+						isRequired
 						value={price}
 						setValue={setPrice}
 						placeholder={'Price'}
@@ -283,8 +286,11 @@ const AddProductScreen = ({ navigation, route }) => {
 					/>
 				</View>
 
-				<View style={{ marginTop: 10 }}>
-					<Text style={{ color: colors.primary }}>Select Product Category</Text>
+				<View style={{ marginTop: 10, display: 'flex', flexDirection: 'row' }}>
+					<Text style={{ color: colors.danger }}>* </Text>
+					<Text style={{ color: colors.primary }}>
+						Select Product Category
+					</Text>
 				</View>
 				<DropDownPicker
 					placeholder='Select Product Category'
@@ -302,9 +308,9 @@ const AddProductScreen = ({ navigation, route }) => {
 					dropDownContainerStyle={{ borderColor: colors.light }}
 					style={{
 						borderColor: '#fff',
-						elevation: 5,
+						elevation: 2,
 						marginBottom: 100,
-						marginTop: 5
+						marginTop: 5,
 					}}
 				/>
 			</ScrollView>

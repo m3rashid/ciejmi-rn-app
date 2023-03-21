@@ -16,7 +16,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import { bindActionCreators } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomInput from '../../components/CustomInput';
 import ProgressDialog from 'react-native-progress-dialog';
 import CustomAlert from '../../components/CustomAlert';
 
@@ -48,11 +47,13 @@ const CheckoutScreen = ({ navigation, route }) => {
 				method: 'GET',
 				headers: {
 					'x-auth-token': user.token,
-				}
-			})
+				},
+			});
 			return dd.json();
 		};
-		fetchUser().then((d) => setUser(d.data)).catch(console.log);
+		fetchUser()
+			.then((d) => setUser(d.data))
+			.catch(console.log);
 	}, [route]);
 
 	//method to handle checkout
@@ -104,11 +105,12 @@ const CheckoutScreen = ({ navigation, route }) => {
 				}
 			})
 			.catch((error) => {
-				console.log(error)
-				setIsloading(false);
-			}).finally(() => {
+				console.log(error);
 				setIsloading(false);
 			})
+			.finally(() => {
+				setIsloading(false);
+			});
 	};
 
 	// set the address and total cost on initital render
@@ -165,11 +167,15 @@ const CheckoutScreen = ({ navigation, route }) => {
 				<View style={styles.totalOrderInfoContainer}>
 					<View style={styles.list}>
 						<Text style={{ color: colors.muted }}>Order</Text>
-						<Text style={{ color: colors.muted }}>₹ {Number(totalCost).toFixed(2)}</Text>
+						<Text style={{ color: colors.muted }}>
+							₹ {Number(totalCost).toFixed(2)}
+						</Text>
 					</View>
 					<View style={styles.list}>
 						<Text style={{ color: colors.muted }}>Delivery Charges</Text>
-						<Text style={{ color: colors.muted }}>₹ {Number(deliveryCost).toFixed(2)}</Text>
+						<Text style={{ color: colors.muted }}>
+							₹ {Number(deliveryCost).toFixed(2)}
+						</Text>
 					</View>
 					<View style={styles.list}>
 						<Text style={styles.primaryTextSm}>Total</Text>
@@ -245,7 +251,11 @@ const CheckoutScreen = ({ navigation, route }) => {
 					})}
 
 					{(user.addresses || []).length === 0 && (
-						<Text style={{ color: colors.muted, padding: 8, textAlign: 'center' }}>Please add an address to continue</Text>
+						<Text
+							style={{ color: colors.muted, padding: 8, textAlign: 'center' }}
+						>
+							Please add an address to continue
+						</Text>
 					)}
 				</View>
 
@@ -261,7 +271,15 @@ const CheckoutScreen = ({ navigation, route }) => {
 			</ScrollView>
 			<View style={styles.buttomContainer}>
 				{!address && (
-					<Text style={{ color: colors.muted, textAlign: 'center', marginBottom: 8 }}>Please Choose an address to continue</Text>
+					<Text
+						style={{
+							color: colors.muted,
+							textAlign: 'center',
+							marginBottom: 8,
+						}}
+					>
+						Please Choose an address to continue
+					</Text>
 				)}
 
 				{address ? (

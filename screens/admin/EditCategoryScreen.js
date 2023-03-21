@@ -112,6 +112,7 @@ const EditCategoryScreen = ({ navigation, route }) => {
 				style={{ flex: 1, width: '100%' }}>
 				<View style={styles.formContainer}>
 					<CustomInput
+						isRequired
 						value={title}
 						setValue={setTitle}
 						placeholder={'Title'}
@@ -120,6 +121,7 @@ const EditCategoryScreen = ({ navigation, route }) => {
 					/>
 
 					<CustomInput
+						isRequired
 						value={description}
 						setValue={setDescription}
 						placeholder={'Description'}

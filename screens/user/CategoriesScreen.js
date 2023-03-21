@@ -10,7 +10,6 @@ import {
 	Dimensions,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import cartIcon from '../../assets/icons/cart_beg.jpg';
 import emptyBox from '../../assets/image/emptybox.jpg';
@@ -24,36 +23,25 @@ import CustomInput from '../../components/CustomInput';
 
 const CategoriesScreen = ({ navigation, route }) => {
 	const { categoryID } = route.params;
-
 	const [categories, setCategories] = useState([]);
 	const [products, setProducts] = useState([]);
 	const [refeshing, setRefreshing] = useState(false);
 	const [error, setError] = useState('');
 	const [foundItems, setFoundItems] = useState([]);
 	const [filterItem, setFilterItem] = useState('');
-
-	//get the dimenssions of active window
-	const [windowWidth, setWindowWidth] = useState(
-		Dimensions.get('window').width
-	);
-
-	//initialize the cartproduct with redux data
+	const windowWidth = Dimensions.get('window').width
 	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 
 	const { addCartItem } = bindActionCreators(actionCreaters, dispatch);
-
-	//method to navigate to product detail screen of specific product
 	const handleProductPress = (product) => {
 		navigation.navigate('productdetail', { product: product });
 	};
 
-	//method to add the product to cart (redux)
 	const handleAddToCat = (product) => {
 		addCartItem(product);
 	};
 
-	//method call on pull refresh
 	const handleOnRefresh = () => {
 		setRefreshing(true);
 		fetchProduct();
@@ -62,7 +50,6 @@ const CategoriesScreen = ({ navigation, route }) => {
 
 	const [selectedTab, setSelectedTab] = useState(categories[0]);
 
-	//method to fetch the product from server using API call
 	const fetchProduct = () => {
 		var headerOptions = {
 			method: 'GET',
@@ -103,14 +90,12 @@ const CategoriesScreen = ({ navigation, route }) => {
 			});
 	};
 
-	//listener call on tab focus and initlize categoryID
 	navigation.addListener('focus', () => {
 		if (categoryID) {
 			setSelectedTab(categoryID);
 		}
 	});
 
-	//method to filter the product according to user search in selected category
 	const filter = () => {
 		const keyword = filterItem;
 		if (keyword !== '') {

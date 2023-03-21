@@ -3,7 +3,7 @@ import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../constants';
 
-const DepartmentList = ({ department, onDelete, id, authUser }) => {
+const DepartmentList = ({ department, onDelete, id, authUser, navigation }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.innerContainer}>
@@ -14,7 +14,7 @@ const DepartmentList = ({ department, onDelete, id, authUser }) => {
 				<TouchableOpacity
 					style={[styles.actionButton, { backgroundColor: colors.primary }]}
 					onPress={() => {
-						navigator.navigate('addDepartment', {
+						navigation.navigate('addDepartment', {
 							dept: { _id: id, name: department },
 							authUser: authUser,
 						});

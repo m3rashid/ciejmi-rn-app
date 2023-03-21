@@ -170,6 +170,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
 						placeholder='Title'
 						placeholderTextColor={colors.muted}
 						radius={5}
+						isRequired
 					/>
 
 					<CustomInput
@@ -178,6 +179,7 @@ const AddCategoryScreen = ({ navigation, route }) => {
 						placeholder='Description'
 						placeholderTextColor={colors.muted}
 						radius={5}
+						isRequired
 					/>
 				</View>
 			</ScrollView>

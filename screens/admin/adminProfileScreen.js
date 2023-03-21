@@ -6,17 +6,18 @@ import {
 	StyleSheet,
 	StatusBar,
 	TouchableOpacity,
+	Image,
+	Dimensions,
 } from 'react-native';
 import UserProfileCard from '../../components/UserProfileCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import OptionList from '../../components/OptionList';
 import { colors, network } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import poweredBy from '../../assets/image/poweredByExatorialWhite.jpg';
 
 const AdminProfileScreen = ({ navigation, route }) => {
 	const { authUser } = route.params;
-
-	console.log({ authUser });
 
 	const logout = async () => {
 		await AsyncStorage.removeItem('authUser');
@@ -70,7 +71,9 @@ const AdminProfileScreen = ({ navigation, route }) => {
 				/>
 			</View>
 
-			<Text>AdminProfileScreen</Text>
+			<View style={{ marginTop: 'auto' }}>
+				<Image source={poweredBy} style={{ height: 40, resizeMode: 'contain' }} />
+			</View>
 		</View>
 	);
 };

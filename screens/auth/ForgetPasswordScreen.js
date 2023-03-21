@@ -34,7 +34,7 @@ const ForgetPasswordScreen = ({ navigation }) => {
 				</View>
 			</View>
 			<View style={styles.formContainer}>
-				<CustomInput placeholder={'Enter your Email Address'} />
+				<CustomInput placeholder={'Enter your Email Address'} isRequired />
 			</View>
 			<CustomButton
 				text={'Send Instruction'}

@@ -4307,6 +4307,11 @@ react-native-progress-dialog@^0.0.5:
   resolved "https://registry.yarnpkg.com/react-native-progress-dialog/-/react-native-progress-dialog-0.0.5.tgz#3a6b90255fbe205fdc401d8ffdf8befc4422c6de"
   integrity sha512-gpo+t9jF52l6rHyDoZqW1DYBL7MiUg6ROCJhTV1vql5ngb+IT4dy0ccd3sqYl8/AoC05QpFFcfh97HBBQ7RxUA==
 
+react-native-raw-bottom-sheet@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-raw-bottom-sheet/-/react-native-raw-bottom-sheet-2.2.0.tgz#d11dabb86aadb014273767ef7b554924b13633c5"
+  integrity sha512-qL4JKIqvbcVxbkKzeh51hjV7suoJN3ouxzvLmOg0FBUV1yiJAfEbacjQdtRCI6+OU5pyGFBIifLsTXcFDwHggg==
+
 react-native-safe-area-context@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.5.0.tgz#9208313236e8f49e1920ac1e2a2c975f03aed284"

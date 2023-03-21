@@ -153,6 +153,7 @@ const EditProductScreen = ({ navigation, route }) => {
 						)}
 					</View>
 					<CustomInput
+						isRequired
 						value={sku}
 						setValue={setSku}
 						placeholder={'SKU'}
@@ -160,6 +161,7 @@ const EditProductScreen = ({ navigation, route }) => {
 						radius={5}
 					/>
 					<CustomInput
+						isRequired
 						value={title}
 						setValue={setTitle}
 						placeholder={'Title'}
@@ -167,6 +169,7 @@ const EditProductScreen = ({ navigation, route }) => {
 						radius={5}
 					/>
 					<CustomInput
+						isRequired
 						value={price}
 						setValue={setPrice}
 						placeholder={'Price'}

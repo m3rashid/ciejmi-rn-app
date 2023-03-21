@@ -95,7 +95,6 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		setError('');
 		setAlertType('error');
-		console.log({ status: orderDetail?.status });
 		if (orderDetail?.status == 'DELIVERED') {
 			setStatusDisable(true);
 		} else {
