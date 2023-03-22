@@ -49,14 +49,15 @@ const CheckoutScreen = ({ navigation, route }) => {
 					'x-auth-token': user.token,
 				},
 			});
+			if (!dd.ok) throw new Error("Error fetching address");
 			return dd.json();
 		};
+
 		fetchUser()
 			.then((d) => setUser(d.data))
 			.catch(console.log);
 	}, [route]);
 
-	//method to handle checkout
 	const handleCheckout = async () => {
 		if (!user || !address === 0) {
 			setError('Please add an address to proceed');
@@ -64,53 +65,50 @@ const CheckoutScreen = ({ navigation, route }) => {
 			return;
 		}
 
-		setIsloading(true);
-		const myHeaders = new Headers();
-		myHeaders.append('x-auth-token', user.token);
-		myHeaders.append('Content-Type', 'application/json');
+		try {
+			setIsloading(true);
 
-		const payload = [];
-		let totalamount = 0;
+			const payload = [];
+			let totalamount = 0;
 
-		// fetch the cart items from redux and set the total cost
-		cartproduct.forEach((product) => {
-			let obj = {
-				productId: product._id,
-				quantity: product.quantity,
-			};
-			totalamount += parseInt(product.price) * parseInt(product.quantity);
-			payload.push(obj);
-		});
-
-		fetch(network.serverip + '/checkout', {
-			method: 'POST',
-			headers: myHeaders,
-			body: JSON.stringify({
-				items: payload,
-				amount: totalamount,
-				shippingAddress: address,
-				status: 'PENDING',
-				paymentType: 'COD',
-			}),
-			redirect: 'follow',
-		})
-			.then((response) => response.json())
-			.then((result) => {
-				if (result.err === 'jwt expired') {
-					logout();
-				}
-				if (result.success == true) {
-					emptyCart('empty');
-					navigation.replace('orderconfirm');
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-				setIsloading(false);
-			})
-			.finally(() => {
-				setIsloading(false);
+			cartproduct.forEach((product) => {
+				let obj = {
+					productId: product._id,
+					quantity: product.quantity,
+				};
+				totalamount += parseInt(product.price) * parseInt(product.quantity);
+				payload.push(obj);
 			});
+
+			const res = await fetch(network.serverip + '/checkout', {
+				method: 'POST',
+				headers: {
+					'x-auth-token': user.token,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					items: payload,
+					amount: totalamount,
+					shippingAddress: address,
+					status: 'PENDING',
+					paymentType: 'COD',
+				}),
+				redirect: 'follow',
+			});
+			if (!res.ok) throw new Error("Checkout failed")
+			const result = await res.json();
+
+			if (result.success == true) {
+				emptyCart('empty');
+				navigation.replace('orderconfirm');
+			}
+		} catch (err) {
+			console.log('error: ', err);
+			setAlertType('error');
+			setError(err.message || 'Checkout failed');
+		} finally {
+			setIsloading(false);
+		}
 	};
 
 	// set the address and total cost on initital render

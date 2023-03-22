@@ -57,7 +57,7 @@ const SignupScreen = ({ navigation }) => {
 			return setError('password does not match');
 		}
 
-		const requestOptions = {
+		fetch(network.serverip + '/register', {
 			method: 'POST',
 			headers: myHeaders,
 			body: JSON.stringify({
@@ -67,9 +67,7 @@ const SignupScreen = ({ navigation }) => {
 				department,
 			}),
 			redirect: 'follow',
-		};
-
-		fetch(network.serverip + '/register', requestOptions) // API call
+		})
 			.then((response) => response.json())
 			.then((result) => {
 				if (result.data.email == email) {

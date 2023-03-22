@@ -65,6 +65,7 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 					'x-auth-token': authUser.token,
 				},
 			});
+			if (!result.ok) throw new Error('An error occured');
 			const res = await result.json();
 			if (res.success) {
 				setDepartments(res.data);

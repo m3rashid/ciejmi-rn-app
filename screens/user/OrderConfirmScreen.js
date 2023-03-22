@@ -27,7 +27,9 @@ const OrderConfirmScreen = ({ navigation }) => {
 			<Text style={styles.secondaryText}>Order has been Confirmed</Text>
 			<View>
 				<CustomButton
+					ioniconName='home-outline'
 					text='Back to Home'
+					textStyles={{ width: '45%' }}
 					onPress={() => navigation.replace('tab', { user: user })}
 				/>
 			</View>

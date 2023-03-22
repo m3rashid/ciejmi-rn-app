@@ -39,6 +39,7 @@ const AddDepartmentScreen = ({ navigation, route }) => {
 				body: JSON.stringify({ _id: _id, name: department }),
 				redirect: 'follow',
 			});
+			if (!r.ok) throw new Error('An error occured');
 			const res = await r.json();
 
 			if (res.success) {

@@ -17,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddresssList from '../../components/addressList';
 
 const MyAddressScreen = ({ navigation, route }) => {
-	const { user } = route.params;
+	const { user, number } = route.params;
 	const [isloading, setIsloading] = useState(false);
 	const [label, setLabel] = useState('Please wait . . .');
 	const [error, setError] = useState('');
@@ -55,23 +55,18 @@ const MyAddressScreen = ({ navigation, route }) => {
 		}
 	};
 
-	useEffect(() => {
-		fetchAddresses().then().catch(console.log);
-	}, []);
-
 	const handleOnRefresh = () => {
 		setRefreshing(true);
 		fetchAddresses();
 		setRefreshing(false);
 	};
 
+	useEffect(() => {
+		handleOnRefresh();
+	}, [number]);
+
 	const handleAddAddress = () => {
 		navigation.navigate('addAddress', { authUser: user });
-	};
-
-	const logout = async () => {
-		await AsyncStorage.removeItem('authUser');
-		navigation.replace('login');
 	};
 
 	return (

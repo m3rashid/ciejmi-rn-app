@@ -53,6 +53,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 				headers: myHeaders,
 				redirect: 'follow',
 			});
+			if (!response.ok) throw new Error('Error fetching wishlist');
 			const result = await response.json();
 			if (result?.err === 'jwt expired') logout();
 			if (result.success) {

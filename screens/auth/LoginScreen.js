@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
 		width: 80,
 	},
 	welcomeText: {
-		fontSize: 30,
+		fontSize: 28,
 		fontWeight: 'bold',
 		color: colors.muted,
 	},

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { colors } from '../constants';
-import CustomButton from "./CustomButton"
+import CustomButton from './CustomButton';
 
 export const getTime = (date) => {
 	let t = new Date(date);
@@ -10,45 +10,36 @@ export const getTime = (date) => {
 	const seconds = ('0' + t.getSeconds()).slice(-2);
 	let time = `${hours}:${minutes}:${seconds}`;
 
-	// Check correct time format and split into components
 	time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [
 		time,
 	];
 
 	if (time.length > 1) {
-		// If time format correct
 		time = time.slice(1); // Remove full string match value
 		time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
 		time[0] = +time[0] % 12 || 12; // Adjust hours
 	}
 	return time.join(''); // return adjusted time or original string
-}
+};
 
-export const dateFormat = datex => {
+export const dateFormat = (datex) => {
 	let t = new Date(datex);
 	const date = ('0' + t.getDate()).slice(-2);
 	const month = ('0' + (t.getMonth() + 1)).slice(-2);
 	const year = t.getFullYear();
-	// const hours = ('0' + t.getHours()).slice(-2);
-	// const minutes = ('0' + t.getMinutes()).slice(-2);
-	// const seconds = ('0' + t.getSeconds()).slice(-2);
 	const newDate = `${date}-${month}-${year}`;
 
 	return newDate;
 };
 
 const OrderList = ({ item, onPress }) => {
-	// const [totalCost, setTotalCost] = useState(0);
-	const [quantity, setQuantity] = useState(0);
-
-	useEffect(() => {
-		setQuantity(item.items.length);
-		// setTotalCost(
-		// 	item?.items.reduce((acc, it) => {
-		// 		return (acc + (it.price * it.quantity));
-		// 	}, 0),
-		// );
-	}, []);
+	const items = item.items.map((t) => ({
+		id: t.productId._id,
+		name: t.productId.title,
+		quantity: t.quantity,
+	}));
+	console.log(items);
+	const quantity = 0;
 
 	return (
 		<View style={styles.container}>
@@ -73,12 +64,30 @@ const OrderList = ({ item, onPress }) => {
 					<Text style={styles.secondaryText}>{item?.user?.email} </Text>
 				</View>
 			)}
+
+			<View style={{ marginTop: 8 }} />
+			{items.map((t) => (
+				<View key={t.id} style={styles.innerRow}>
+					<Text style={styles.secondaryText}>{t.name}</Text>
+					<Text style={styles.secondaryText}>Quantity: {t.quantity}</Text>
+				</View>
+			))}
+			<View style={{ marginTop: 8 }} />
+
+
 			<View style={styles.innerRow}>
-				<Text style={styles.secondaryText}>Quantity : {quantity}</Text>
-				<Text style={styles.secondaryText}>Total Amount : ₹ {Number(item?.amount).toFixed(2)}</Text>
+				<Text style={styles.secondaryText}></Text>
+				<Text style={styles.secondaryText}>
+					Total Amount : ₹ {Number(item?.amount).toFixed(2)}
+				</Text>
 			</View>
+
 			<View style={styles.innerRow}>
-				<CustomButton style={styles.detailButton} onPress={onPress} text="Details" />
+				<CustomButton
+					style={styles.detailButton}
+					onPress={onPress}
+					text='Details'
+				/>
 				<Text style={styles.secondaryText}>{item?.status}</Text>
 			</View>
 		</View>

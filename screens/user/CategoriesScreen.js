@@ -97,10 +97,9 @@ const CategoriesScreen = ({ navigation, route }) => {
 	});
 
 	const filter = () => {
-		const keyword = filterItem;
-		if (keyword !== '') {
+		if (filterItem !== '') {
 			const results = (products || []).filter((product) => {
-				return (product?.title || '').toLowerCase().includes(keyword.toLowerCase());
+				return (product?.title || '').toLowerCase().includes(filterItem.toLowerCase());
 			});
 
 			setFoundItems(results);

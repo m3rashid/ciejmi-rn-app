@@ -70,6 +70,7 @@ const HomeScreen = ({ navigation, route }) => {
 			id: cat._id,
 			name: cat.title,
 		}));
+
 		setSearchItems(payload);
 	};
 

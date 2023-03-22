@@ -59,7 +59,9 @@ const UserProfileScreen = ({ navigation, route }) => {
 			.then((response) => response.json())
 			.then((result) => {
 				if (result.success == true) {
-					navigation.navigate('login');
+					AsyncStorage.removeItem('authUser').then(() => {
+						navigation.navigate('login');
+					});
 				} else {
 					setError(result.message);
 				}
@@ -81,6 +83,7 @@ const UserProfileScreen = ({ navigation, route }) => {
 				},
 				{
 					text: 'No',
+					onPress: () => { },
 				},
 			]
 		);
@@ -124,7 +127,7 @@ const UserProfileScreen = ({ navigation, route }) => {
 					text='My Addresses'
 					Icon={Ionicons}
 					iconName='md-navigate-circle-outline'
-					onPress={() => navigation.navigate('myaddress', { user: userInfo })}
+					onPress={() => navigation.navigate('myaddress', { user: userInfo, number: Math.random() })}
 					style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
 				/>
 				<OptionList
@@ -160,7 +163,7 @@ const UserProfileScreen = ({ navigation, route }) => {
 			<View style={{ marginTop: 'auto' }}>
 				<Image
 					source={poweredBy}
-					style={{ height: 50, resizeMode: 'contain' }}
+					style={{ height: 35, resizeMode: 'contain' }}
 				/>
 			</View>
 		</View>

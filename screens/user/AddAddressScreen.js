@@ -9,66 +9,79 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import { network } from '../../constants';
-import ProgressDialog from "react-native-progress-dialog"
-import Ionicons from "react-native-vector-icons/Ionicons"
+import ProgressDialog from 'react-native-progress-dialog';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddAdressScreen = ({ navigation, route }) => {
 	const [isloading, setIsloading] = useState(false);
-	const [localAddressOne, setLocalAddressOne] = useState('')
-	const [localAddressTwo, setLocalAddressTwo] = useState('')
-	const [city, setCity] = useState('')
-	const [state, setState] = useState('')
-	const [postalCode, setPostalCode] = useState('')
+	const [localAddressOne, setLocalAddressOne] = useState('');
+	const [localAddressTwo, setLocalAddressTwo] = useState('');
+	const [city, setCity] = useState('');
+	const [state, setState] = useState('');
+	const [postalCode, setPostalCode] = useState('');
 	const [error, setError] = useState('');
 	const [authUser, setAuthUser] = useState(null);
 
 	useEffect(() => {
-		//fetch the authUser from async storage
 		const fetchUser = async () => {
 			const value = await AsyncStorage.getItem('authUser');
 			let user = JSON.parse(value);
 			setAuthUser(user);
 		};
 		fetchUser();
-	}, [])
+	}, []);
 
 	const addAddresshandle = async () => {
 		setIsloading(true);
-		if (!localAddressOne || !city || !state || !postalCode) {
-			setError("Insufficient data")
-			return
+		if (
+			!localAddressOne ||
+			localAddressOne == '' ||
+			!city ||
+			city == '' ||
+			!state ||
+			state == '' ||
+			!postalCode ||
+			postalCode == ''
+		) {
+			setError('Insufficient data');
+			return;
 		}
+
 		try {
 			fetch(network.serverip + '/add-address', {
 				method: 'POST',
 				headers: {
 					'x-auth-token': authUser.token,
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
 					localAddressOne,
 					localAddressTwo,
 					city,
 					state,
-					postalCode
+					postalCode,
 				}),
-				redirect: 'follow'
-			}).then((response) => response.json()).then((result) => {
-				if (result.success) {
-					navigation.goBack()
-				} else {
-					setError(result.message || "Something went wrong")
-				}
-			}).catch((error) => {
-				setError(error.message || "Something went wrong")
-			}).finally(() => {
-				setIsloading(false)
+				redirect: 'follow',
 			})
+				.then((response) => response.json())
+				.then((result) => {
+					if (result.success) {
+						navigation.navigate('myaddress', { user: authUser, number: Math.random() });
+					} else {
+						setError(result.message || 'Something went wrong');
+					}
+				})
+				.catch((error) => {
+					setError(error.message || 'Something went wrong');
+				})
+				.finally(() => {
+					setIsloading(false);
+				});
 		} catch (err) { }
-	}
+	};
 
 	return (
 		<KeyboardAvoidingView style={styles.container}>
@@ -77,9 +90,12 @@ const AddAdressScreen = ({ navigation, route }) => {
 
 			<View style={styles.TopBarContainer}>
 				<TouchableOpacity
-					onPress={() => { navigation.goBack() }}>
+					onPress={() => {
+						navigation.goBack();
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
@@ -92,7 +108,8 @@ const AddAdressScreen = ({ navigation, route }) => {
 
 			<ScrollView
 				showsVerticalScrollIndicator={false}
-				style={{ flex: 1, width: '100%' }}>
+				style={{ flex: 1, width: '100%' }}
+			>
 				<View style={styles.formContainer}>
 					<CustomInput
 						isRequired
@@ -144,12 +161,11 @@ const AddAdressScreen = ({ navigation, route }) => {
 			<View style={styles.buttomContainer}>
 				<CustomButton text='Add Address' onPress={addAddresshandle} />
 			</View>
-
 		</KeyboardAvoidingView>
-	)
-}
+	);
+};
 
-export default AddAdressScreen
+export default AddAdressScreen;
 
 const styles = StyleSheet.create({
 	container: {
