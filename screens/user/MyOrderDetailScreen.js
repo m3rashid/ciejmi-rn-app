@@ -5,6 +5,8 @@ import {
 	View,
 	ScrollView,
 	TouchableOpacity,
+	Linking,
+	Share,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
@@ -13,6 +15,7 @@ import CustomAlert from '../../components/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
 import BasicProductList from '../../components/BasicProductList';
 import StepIndicator from 'react-native-step-indicator';
+import CustomButton from '../../components/CustomButton';
 
 const MyOrderDetailScreen = ({ navigation, route }) => {
 	const { orderDetail } = route.params;
@@ -77,7 +80,36 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 		return newDate;
 	};
 
-	// set total cost, order detail, order status on initial render
+	const handleViewInvoice = () => {
+		if (!orderDetail?.invoiceUrl) {
+			// handle the error
+			return;
+		}
+
+		navigation.navigate('pdf', { pdfUrl: orderDetail?.invoiceUrl });
+	};
+
+	const handleShareInvoice = async () => {
+		if (!orderDetail?.invoiceUrl) {
+			// handle the error
+			return;
+		}
+		const result = await Share.share({
+			message: `Here is my invoice for order # ${orderDetail?._id} ordered from CIE-JMI : ${orderDetail?.invoiceUrl}`,
+		});
+	};
+
+	const handleDownloadInvoice = () => {
+		if (!orderDetail?.invoiceUrl) {
+			// handle the error
+			return;
+		}
+
+		Linking.openURL(`${orderDetail?.invoiceUrl}`).catch((err) =>
+			console.error('Error', err)
+		);
+	};
+
 	useEffect(() => {
 		setError('');
 		setAlertType('error');
@@ -178,11 +210,6 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 							{orderDetail?.status}
 						</Text>
 					</View>
-					<View style={styles.orderItemContainer}>
-						<Text style={styles.orderItemText}>
-							Order on : {dateFormat(orderDetail?.createdAt)}
-						</Text>
-					</View>
 					<ScrollView
 						style={styles.orderSummaryContainer}
 						nestedScrollEnabled={true}
@@ -197,10 +224,62 @@ const MyOrderDetailScreen = ({ navigation, route }) => {
 								/>
 							</View>
 						))}
+
+						<View style={{ marginTop: 12 }}>
+							<Text
+								style={{
+									color: colors.muted,
+									fontWeight: 'bold',
+									fontSize: 15,
+									paddingLeft: 5,
+								}}
+							>
+								Order Invoice
+							</Text>
+						</View>
+
+						<View
+							style={{
+								marginTop: 10,
+								flexDirection: 'row',
+								justifyContent: 'center',
+								gap: 12,
+							}}
+						>
+							<CustomButton
+								onPress={handleViewInvoice}
+								text='View'
+								style={{
+									padding: 8,
+									flex: 1,
+									backgroundColor: colors.primary,
+								}}
+							/>
+							<CustomButton
+								onPress={handleDownloadInvoice}
+								text='Download'
+								style={{
+									padding: 8,
+									flex: 1,
+									backgroundColor: colors.primary,
+								}}
+							/>
+							<CustomButton
+								onPress={handleShareInvoice}
+								text='Share'
+								style={{
+									padding: 8,
+									flex: 1,
+									backgroundColor: colors.primary,
+								}}
+							/>
+						</View>
 					</ScrollView>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Total</Text>
-						<Text style={{ color: colors.dark }}>₹ {Number(orderDetail?.amount).toFixed(2)}</Text>
+						<Text style={{ color: colors.dark }}>
+							₹ {Number(orderDetail?.amount).toFixed(2)}
+						</Text>
 					</View>
 				</View>
 				<View style={styles.emptyView} />

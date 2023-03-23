@@ -25,25 +25,21 @@ const MyWishlistScreen = ({ navigation, route }) => {
 	const [wishlist, setWishlist] = useState([]);
 	const [onWishlist, setOnWishlist] = useState(true);
 
-	//method to navigate to the product detail screen of the specific product
 	const handleView = (product) => {
 		navigation.navigate('productdetail', { product: product });
 	};
 
-	//method the remove the authUser from Aysnc Storage and navigate back to login screen
 	const logout = async () => {
 		await AsyncStorage.removeItem('authUser');
 		navigation.replace('login');
 	};
 
-	//method call on pull refresh
 	const handleOnRefresh = () => {
 		setRefreshing(true);
 		fetchWishlist();
 		setRefreshing(false);
 	};
 
-	//method to fetch the wishlist from server using API call
 	const fetchWishlist = () => {
 		var myHeaders = new Headers();
 		myHeaders.append('x-auth-token', user.token);
@@ -57,7 +53,6 @@ const MyWishlistScreen = ({ navigation, route }) => {
 		fetch(`${network.serverip}/wishlist`, requestOptions) // API call
 			.then((response) => response.json())
 			.then((result) => {
-				//check if the token is expired
 				if (result?.err === 'jwt expired') {
 					logout();
 				}
@@ -73,7 +68,6 @@ const MyWishlistScreen = ({ navigation, route }) => {
 			});
 	};
 
-	//method to remove the item from wishlist using API call
 	const handleRemoveFromWishlist = (id) => {
 		var myHeaders = new Headers();
 		myHeaders.append('x-auth-token', user.token);
@@ -128,9 +122,6 @@ const MyWishlistScreen = ({ navigation, route }) => {
 					/>
 				</TouchableOpacity>
 				<View />
-				<TouchableOpacity onPress={() => handleOnRefresh()}>
-					<Ionicons name='heart-outline' size={30} color={colors.primary} />
-				</TouchableOpacity>
 			</View>
 
 			<View style={styles.screenNameContainer}>
@@ -146,7 +137,7 @@ const MyWishlistScreen = ({ navigation, route }) => {
 				</View>
 			) : (
 				<ScrollView
-					style={{ flex: 1, width: '100%', padding: 20 }}
+					style={{ flex: 1, width: '100%', paddingVertical: 12 }}
 					showsVerticalScrollIndicator={false}
 					refreshControl={
 						<RefreshControl
@@ -155,16 +146,16 @@ const MyWishlistScreen = ({ navigation, route }) => {
 						/>
 					}
 				>
-					{wishlist.map((list, index) => {
+					{wishlist.map((item) => {
 						return (
 							<WishList
-								image={`${network.serverip}/uploads/${list?.productId?.image}`}
-								title={list?.productId?.title}
-								description={list?.productId?.description}
-								key={index}
-								onPressView={() => handleView(list?.productId)}
+								image={item?.image}
+								title={item?.title}
+								description={item?.description}
+								key={item._id}
+								onPressView={() => handleView(item)}
 								onPressRemove={() =>
-									handleRemoveFromWishlist(list?.productId?._id)
+									handleRemoveFromWishlist(item?._id)
 								}
 							/>
 						);
@@ -186,6 +177,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'flex-start',
 		flex: 1,
+		padding: 12,
 	},
 	topBarContainer: {
 		width: '100%',
@@ -193,16 +185,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 20,
 	},
 	toBarText: {
 		fontSize: 15,
 		fontWeight: '600',
 	},
 	screenNameContainer: {
-		padding: 12,
-		paddingTop: 0,
-		paddingBottom: 0,
+		paddingTop: 12,
 		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',

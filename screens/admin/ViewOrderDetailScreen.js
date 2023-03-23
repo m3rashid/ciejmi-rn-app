@@ -5,6 +5,7 @@ import {
 	View,
 	ScrollView,
 	TouchableOpacity,
+	Share,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
@@ -89,6 +90,16 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 				setError(error);
 				setIsloading(false);
 			});
+	};
+
+	const handleShareInvoice = async () => {
+		if (!orderDetail?.invoiceUrl) {
+			// handle the error
+			return;
+		}
+		const result = await Share.share({
+			message: `Here is your invoice for order # ${orderDetail?._id} ordered from CIE-JMI : ${orderDetail?.invoiceUrl}`,
+		});
 	};
 
 	// calculate the total cost and set the all requried variables on initial render
@@ -210,15 +221,46 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 							</View>
 						))}
 
-						<CustomButton
-							onPress={handleViewInvoice}
-							text='View Invoice'
+						<View style={{ marginTop: 12 }}>
+							<Text
+								style={{
+									color: colors.muted,
+									fontWeight: 'bold',
+									fontSize: 15,
+									paddingLeft: 5,
+								}}
+							>
+								Order Invoice
+							</Text>
+						</View>
+
+						<View
 							style={{
-								marginTop: 15,
-								padding: 8,
-								backgroundColor: colors.primary,
+								marginTop: 10,
+								flexDirection: 'row',
+								justifyContent: 'center',
+								gap: 12,
 							}}
-						/>
+						>
+							<CustomButton
+								onPress={handleViewInvoice}
+								text='View Invoice'
+								style={{
+									flex: 1,
+									padding: 8,
+									backgroundColor: colors.primary,
+								}}
+							/>
+							<CustomButton
+								onPress={handleShareInvoice}
+								text='Share'
+								style={{
+									padding: 8,
+									flex: 1,
+									backgroundColor: colors.primary,
+								}}
+							/>
+						</View>
 					</ScrollView>
 					<View style={styles.orderItemContainer}>
 						<Text style={styles.orderItemText}>Total</Text>

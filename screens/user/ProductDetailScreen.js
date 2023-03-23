@@ -90,19 +90,13 @@ const ProductDetailScreen = ({ navigation, route }) => {
 		let user = JSON.parse(value);
 
 		if (onWishlist) {
-			var myHeaders = new Headers();
-			myHeaders.append('x-auth-token', user.token);
-
-			var requestOptions = {
+			fetch(`${network.serverip}/remove-from-wishlist?id=${product?._id}`, {
 				method: 'GET',
-				headers: myHeaders,
+				headers: {
+					'x-auth-token': user.token,
+				},
 				redirect: 'follow',
-			};
-
-			fetch(
-				`${network.serverip}/remove-from-wishlist?id=${product?._id}`,
-				requestOptions
-			)
+			})
 				.then((response) => response.json())
 				.then((result) => {
 					if (result.success) {
@@ -121,23 +115,15 @@ const ProductDetailScreen = ({ navigation, route }) => {
 				});
 			setIsDisbale(false);
 		} else {
-			var myHeaders2 = new Headers();
-			myHeaders2.append('x-auth-token', user.token);
-			myHeaders2.append('Content-Type', 'application/json');
-
-			var raw2 = JSON.stringify({
-				productId: product?._id,
-				quantity: 1,
-			});
-
-			var addrequestOptions = {
+			fetch(`${network.serverip}/add-to-wishlist`, {
 				method: 'POST',
-				headers: myHeaders2,
-				body: raw2,
+				headers: {
+					'x-auth-token': user.token,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ id: product?._id }),
 				redirect: 'follow',
-			};
-
-			fetch(`${network.serverip}/add-to-wishlist`, addrequestOptions)
+			})
 				.then((response) => response.json())
 				.then((result) => {
 					if (result.success) {

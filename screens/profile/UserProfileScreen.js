@@ -144,7 +144,7 @@ const UserProfileScreen = ({ navigation, route }) => {
 					onPress={() => showConfirmDialog(userID)}
 				/>
 				<OptionList
-					text={'Change Password'}
+					text='Change Password'
 					Icon={Ionicons}
 					iconName='key-sharp'
 					onPress={() =>

@@ -66,7 +66,11 @@ const MyAddressScreen = ({ navigation, route }) => {
 	}, [number]);
 
 	const handleAddAddress = () => {
-		navigation.navigate('addAddress', { authUser: user });
+		navigation.navigate('addAddress', { authUser: user, address: null });
+	};
+
+	const handleEditAddress = (address) => {
+		navigation.navigate('addAddress', { authUser: user, address });
 	};
 
 	return (
@@ -122,6 +126,7 @@ const MyAddressScreen = ({ navigation, route }) => {
 								authUser={user}
 								setIsloading={setIsloading}
 								key={index}
+								handleEditAddress={handleEditAddress}
 							/>
 						);
 					})}

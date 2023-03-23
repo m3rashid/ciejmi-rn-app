@@ -164,7 +164,7 @@ const ViewDepartmentScreen = ({ navigation, route }) => {
 				}
 			>
 				{!foundItems || foundItems.length === 0 ? (
-					<Text style={{ color: colors.dark }}>{`No departments found !`}</Text>
+					<Text style={{ color: colors.dark }}>No departments found !</Text>
 				) : (
 					foundItems.map((dept) => {
 						return (

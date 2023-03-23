@@ -103,7 +103,6 @@ const CheckoutScreen = ({ navigation, route }) => {
 				navigation.replace('orderconfirm');
 			}
 		} catch (err) {
-			console.log('error: ', err);
 			setAlertType('error');
 			setError(err.message || 'Checkout failed');
 		} finally {
@@ -204,7 +203,7 @@ const CheckoutScreen = ({ navigation, route }) => {
 					<Text style={styles.secondaryTextSm}>All Address</Text>
 					<TouchableOpacity
 						// style={styles.list}
-						onPress={() => navigation.navigate('addAddress')}
+						onPress={() => navigation.navigate('addAddress', { authUser: user, address: null })}
 					>
 						<Text style={styles.primaryTextSm}>Add Address</Text>
 					</TouchableOpacity>

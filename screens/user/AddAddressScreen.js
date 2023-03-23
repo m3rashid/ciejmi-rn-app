@@ -16,12 +16,17 @@ import CustomButton from '../../components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddAdressScreen = ({ navigation, route }) => {
+	const { address } = route.params;
 	const [isloading, setIsloading] = useState(false);
-	const [localAddressOne, setLocalAddressOne] = useState('');
-	const [localAddressTwo, setLocalAddressTwo] = useState('');
-	const [city, setCity] = useState('');
-	const [state, setState] = useState('');
-	const [postalCode, setPostalCode] = useState('');
+	const [localAddressOne, setLocalAddressOne] = useState(
+		address.localAddressOne || ''
+	);
+	const [localAddressTwo, setLocalAddressTwo] = useState(
+		address.localAddressTwo || ''
+	);
+	const [city, setCity] = useState(address.city || '');
+	const [state, setState] = useState(address.state || '');
+	const [postalCode, setPostalCode] = useState(address.postalCode || '');
 	const [error, setError] = useState('');
 	const [authUser, setAuthUser] = useState(null);
 
@@ -51,13 +56,18 @@ const AddAdressScreen = ({ navigation, route }) => {
 		}
 
 		try {
-			fetch(network.serverip + '/add-address', {
+			const endpoint = !!address
+				? network.serverip + '/edit-address'
+				: network.serverip + '/add-address';
+
+			fetch(endpoint, {
 				method: 'POST',
 				headers: {
 					'x-auth-token': authUser.token,
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
+					...(!!address && { _id: address._id }),
 					localAddressOne,
 					localAddressTwo,
 					city,
@@ -69,7 +79,10 @@ const AddAdressScreen = ({ navigation, route }) => {
 				.then((response) => response.json())
 				.then((result) => {
 					if (result.success) {
-						navigation.navigate('myaddress', { user: authUser, number: Math.random() });
+						navigation.navigate('myaddress', {
+							user: authUser,
+							number: Math.random(),
+						});
 					} else {
 						setError(result.message || 'Something went wrong');
 					}
@@ -103,7 +116,9 @@ const AddAdressScreen = ({ navigation, route }) => {
 			</View>
 
 			<View style={styles.screenNameContainer}>
-				<Text style={styles.screenNameText}>Add Address</Text>
+				<Text style={styles.screenNameText}>
+					{!!address ? 'Edit Address' : 'Add Address'}
+				</Text>
 			</View>
 
 			<ScrollView
@@ -159,7 +174,10 @@ const AddAdressScreen = ({ navigation, route }) => {
 				</View>
 			</ScrollView>
 			<View style={styles.buttomContainer}>
-				<CustomButton text='Add Address' onPress={addAddresshandle} />
+				<CustomButton
+					text={!!address ? 'Edit Address' : 'Add Address'}
+					onPress={addAddresshandle}
+				/>
 			</View>
 		</KeyboardAvoidingView>
 	);

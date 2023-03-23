@@ -28,7 +28,6 @@ const ViewUsersScreen = ({ navigation, route }) => {
 	const [foundItems, setFoundItems] = useState([]);
 	const [filterItem, setFilterItem] = useState('');
 
-	//method to convert the authUser to json object
 	const getToken = (obj) => {
 		try {
 			setUser(JSON.parse(obj));
@@ -39,7 +38,6 @@ const ViewUsersScreen = ({ navigation, route }) => {
 		return JSON.parse(obj).token;
 	};
 
-	//method the fetch the users from server using API call
 	const fetchUsers = () => {
 		var myHeaders = new Headers();
 		myHeaders.append('x-auth-token', getToken(authUser));
@@ -88,6 +86,45 @@ const ViewUsersScreen = ({ navigation, route }) => {
 			setFoundItems(users);
 		}
 		setName(keyword);
+	};
+
+	const handleBlockUnBlockUser = async (currentUser) => {
+		if (!currentUser._id) {
+			// do nothing
+			return;
+		}
+
+		const endpoint = currentUser.blocked
+			? network.serverip + '/admin/unblock'
+			: network.serverip + '/admin/block';
+
+		try {
+			setIsloading(true);
+			const res = await fetch(endpoint, {
+				method: 'POST',
+				headers: {
+					'x-auth-token': authUser.token,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ id: currentUser._id }),
+				redirect: 'follow',
+			});
+			if (!res.ok) throw new Error('Something went wrong!');
+			const result = await res.json();
+			if (result.success) {
+				setError('');
+				setAlertType('success');
+				setLabel('Success');
+				handleOnRefresh();
+			} else {
+				throw new Error('Something went wrong!');
+			}
+		} catch (err) {
+			setError(err.message || 'Internal server error');
+			setAlertType('error');
+		} finally {
+			setIsloading(false);
+		}
 	};
 
 	//filter the data whenever filteritem value change
@@ -140,14 +177,15 @@ const ViewUsersScreen = ({ navigation, route }) => {
 				}
 			>
 				{foundItems && foundItems.length == 0 ? (
-					<Text style={{ color: colors.dark }}>{`No user found with the name of ${filterItem}!`}</Text>
+					<Text
+						style={{ color: colors.dark }}
+					>{`No user found with the name of ${filterItem}!`}</Text>
 				) : (
 					foundItems.map((item, index) => (
 						<UserList
 							key={index}
-							username={item?.name}
-							email={item?.email}
-							usertype={item?.userType}
+							user={item}
+							handleBlockUnBlockUser={handleBlockUnBlockUser}
 						/>
 					))
 				)}

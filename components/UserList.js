@@ -2,20 +2,59 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../constants';
+import CustomButton from './CustomButton';
 
-const UserList = ({ username, email }) => {
+const UserList = ({ user, handleBlockUnBlockUser }) => {
+	const isAdmin = user.authType === 'ADMIN';
+	const isBlocked = user.blocked;
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.profileContainer}>
 				<Ionicons
-					name="person-circle-outline"
+					name='person-circle-outline'
 					size={40}
 					color={colors.primary_light}
 				/>
 			</View>
-			<View style={styles.userInfoContainer}>
-				<Text style={styles.usernameText}>{username}</Text>
-				<Text style={styles.userEmailText}>{email}</Text>
+
+			<View
+				style={{
+					flexDirection: 'row',
+					gap: 12,
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<View style={styles.userInfoContainer}>
+					<Text style={styles.usernameText}>{user.name}</Text>
+					<Text style={styles.userEmailText}>{user.email}</Text>
+				</View>
+
+				<View style={{ flex: 3, marginRight: 20 }}>
+					<CustomButton
+						{...{
+							ioniconName: isAdmin
+								? 'ios-person-circle-outline'
+								: 'trash-outline',
+							text: isAdmin ? 'ADMIN' : isBlocked ? 'Unblock' : 'Block',
+							disabled: isAdmin,
+							...(!isAdmin && {
+								onPress: () => handleBlockUnBlockUser(user),
+							}),
+							style: {
+								backgroundColor: isAdmin
+									? colors.muted
+									: isBlocked
+										? colors.success
+										: colors.danger,
+								width: 100,
+								marginVertical: 10,
+								padding: 8,
+							},
+						}}
+					/>
+				</View>
 			</View>
 		</View>
 	);
@@ -34,6 +73,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		elevation: 2,
 		margin: 5,
+		padding: 4,
 	},
 	profileContainer: {
 		display: 'flex',
@@ -46,7 +86,7 @@ const styles = StyleSheet.create({
 	usernameText: {
 		fontWeight: 'bold',
 		fontSize: 15,
-		color: colors.muted
+		color: colors.muted,
 	},
 	userEmailText: {
 		fontSize: 13,
@@ -59,5 +99,6 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
+		flex: 5,
 	},
 });

@@ -38,7 +38,6 @@ const OrderList = ({ item, onPress }) => {
 		name: t.productId.title,
 		quantity: t.quantity,
 	}));
-	console.log(items);
 	const quantity = 0;
 
 	return (

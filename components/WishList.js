@@ -10,10 +10,10 @@ const WishList = ({
 	onPressRemove,
 	onPressView,
 }) => {
-	const [onWishlist, setOnWishlist] = useState(true);
 	const handleChangeState = () => {
 		onPressRemove();
 	};
+
 	return (
 		<TouchableOpacity style={styles.container} onPress={onPressView}>
 			<View style={styles.detailContainer}>
@@ -27,7 +27,7 @@ const WishList = ({
 					<Text style={styles.categoryTitle}>{title}</Text>
 					<Text style={styles.categoryDescription}>{`${description.substring(
 						0,
-						30,
+						30
 					)}..`}</Text>
 				</View>
 			</View>
@@ -36,12 +36,9 @@ const WishList = ({
 					<View style={styles.wishlistButtonContainer}>
 						<TouchableOpacity
 							style={styles.iconContainer}
-							onPress={() => handleChangeState()}>
-							{onWishlist == false ? (
-								<Ionicons name="heart" size={25} color={colors.muted} />
-							) : (
-								<Ionicons name="heart" size={25} color={colors.danger} />
-							)}
+							onPress={() => handleChangeState()}
+						>
+							<Ionicons name='heart' size={25} color={colors.danger} />
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -58,11 +55,11 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		padding: 5,
+		paddingRight: 12,
 		backgroundColor: colors.white,
 		height: 80,
 		borderRadius: 5,
-		elevation: 5,
+		elevation: 2,
 		margin: 5,
 	},
 	detailContainer: {
@@ -87,7 +84,7 @@ const styles = StyleSheet.create({
 	categoryTitle: {
 		fontSize: 15,
 		fontWeight: '500',
-		color: colors.dark
+		color: colors.dark,
 	},
 	categoryDescription: {
 		fontSize: 12,

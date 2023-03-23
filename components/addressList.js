@@ -10,6 +10,7 @@ const AddresssList = ({
 	setIsloading,
 	refresh,
 	authUser,
+	handleEditAddress,
 }) => {
 	// localAddressOne, localAddressTwo, city, state, postalCode
 
@@ -65,9 +66,11 @@ const AddresssList = ({
 					<Text style={styles.secondaryText}>
 						Address Line One : {address.localAddressOne}
 					</Text>
-					<Text style={styles.secondaryText}>
-						Address Line two : {address.localAddressTwo}
-					</Text>
+					{address.localAddressTwo && (
+						<Text style={styles.secondaryText}>
+							Address Line two : {address.localAddressTwo}
+						</Text>
+					)}
 					<Text style={styles.secondaryText}>City : {address.city}</Text>
 					<Text style={styles.secondaryText}>State : {address.state}</Text>
 					<Text style={styles.secondaryText}>
@@ -77,7 +80,23 @@ const AddresssList = ({
 
 				<View style={styles.timeDateContainer}>
 					<TouchableOpacity onPress={handleRemoveAddress}>
-						<AntDesign name='closecircle' size={30} color={colors.danger} />
+						<AntDesign name='closecircle' size={40} color={colors.danger} />
+					</TouchableOpacity>
+
+					<TouchableOpacity
+						onPress={() => handleEditAddress(address)}
+						style={{ marginTop: 20 }}
+					>
+						<AntDesign
+							name='edit'
+							size={30}
+							color={colors.white}
+							style={{
+								backgroundColor: colors.primary,
+								padding: 6,
+								borderRadius: 30,
+							}}
+						/>
 					</TouchableOpacity>
 				</View>
 			</View>
