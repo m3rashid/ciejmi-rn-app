@@ -16,17 +16,17 @@ import CustomButton from '../../components/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddAdressScreen = ({ navigation, route }) => {
-	const { address } = route.params;
+	const address = route.params.address;
 	const [isloading, setIsloading] = useState(false);
 	const [localAddressOne, setLocalAddressOne] = useState(
-		address.localAddressOne || ''
+		address?.localAddressOne || ''
 	);
 	const [localAddressTwo, setLocalAddressTwo] = useState(
-		address.localAddressTwo || ''
+		address?.localAddressTwo || ''
 	);
-	const [city, setCity] = useState(address.city || '');
-	const [state, setState] = useState(address.state || '');
-	const [postalCode, setPostalCode] = useState(address.postalCode || '');
+	const [city, setCity] = useState(address?.city || '');
+	const [state, setState] = useState(address?.state || '');
+	const [postalCode, setPostalCode] = useState(address?.postalCode || '');
 	const [error, setError] = useState('');
 	const [authUser, setAuthUser] = useState(null);
 
