@@ -67,7 +67,7 @@ const AdminProfileScreen = ({ navigation, route }) => {
 					Icon={Ionicons}
 					iconName='log-out'
 					onPress={handleLogout}
-					style={{ borderRadius: 5 }}
+					style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
 				/>
 				<OptionList
 					text='Change Password'
@@ -76,6 +76,7 @@ const AdminProfileScreen = ({ navigation, route }) => {
 					onPress={() =>
 						navigation.navigate('updatepassword', { userID: authUser?._id })
 					}
+					style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5 }}
 				/>
 			</View>
 

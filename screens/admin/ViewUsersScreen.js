@@ -89,7 +89,7 @@ const ViewUsersScreen = ({ navigation, route }) => {
 	};
 
 	const handleBlockUnBlockUser = async (currentUser) => {
-		if (!currentUser._id) {
+		if (!currentUser || !currentUser._id) {
 			// do nothing
 			return;
 		}
@@ -127,12 +127,10 @@ const ViewUsersScreen = ({ navigation, route }) => {
 		}
 	};
 
-	//filter the data whenever filteritem value change
 	useEffect(() => {
 		filter();
 	}, [filterItem]);
 
-	//fetch the orders on initial render
 	useEffect(() => {
 		fetchUsers();
 	}, []);

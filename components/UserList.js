@@ -37,20 +37,21 @@ const UserList = ({ user, handleBlockUnBlockUser }) => {
 							ioniconName: isAdmin
 								? 'ios-person-circle-outline'
 								: 'trash-outline',
-							text: isAdmin ? 'ADMIN' : isBlocked ? 'Unblock' : 'Block',
-							disabled: isAdmin,
-							...(!isAdmin && {
+							text: isAdmin ? 'ADMIN' : isBlocked ? 'Unblock ' : 'Block',
+							// disabled: isAdmin,
+							// ...(!isAdmin && {
 								onPress: () => handleBlockUnBlockUser(user),
-							}),
+							// }),
 							style: {
 								backgroundColor: isAdmin
 									? colors.muted
 									: isBlocked
-										? colors.success
+										? colors.primary
 										: colors.danger,
 								width: 100,
 								marginVertical: 10,
 								padding: 8,
+								paddingVertical: 6,
 							},
 						}}
 					/>
