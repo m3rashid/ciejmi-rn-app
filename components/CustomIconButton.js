@@ -14,15 +14,15 @@ const CustomIconButton = ({ text, image, onPress, active }) => {
 			{image ? (
 				<Image
 					source={{ uri: image }}
-					style={[styles.buttonIcon, { marginRight: 10 }]}
+					style={styles.buttonIcon}
 				/>
 			) : (
-				<Text style={{ marginLeft: 10, color: colors.muted }} />
+					<Text style={{ marginLeft: 10, color: colors.muted, marginHorizontal: 5 }} />
 			)}
 			<Text
 				style={[
 					styles.buttonText,
-					{ color: active ? colors.dark : colors.muted },
+					{ color: active ? colors.dark : colors.muted, marginHorizontal: 8 },
 				]}
 			>
 				{text}
@@ -41,11 +41,9 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: colors.white,
 		borderRadius: 5,
-		height: 40,
+		height: 35,
 		elevation: 2,
-		margin: 5,
-		paddingLeft: 5,
-		paddingRight: 10,
+		marginRight: 5,
 	},
 	buttonText: {
 		fontSize: 12,
@@ -53,8 +51,10 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	buttonIcon: {
-		height: 20,
+		height: 35,
 		width: 35,
+		borderTopLeftRadius: 5,
+		borderBottomLeftRadius: 5,
 		resizeMode: 'contain',
 	},
 });

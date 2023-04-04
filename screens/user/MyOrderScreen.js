@@ -14,6 +14,7 @@ import CustomAlert from '../../components/CustomAlert';
 import ProgressDialog from 'react-native-progress-dialog';
 import OrderList from '../../components/OrderList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Empty from '../../components/empty';
 
 const MyOrderScreen = ({ navigation, route }) => {
 	const { user } = route.params;
@@ -118,9 +119,7 @@ const MyOrderScreen = ({ navigation, route }) => {
 			<CustomAlert message={error} type={alertType} />
 			{orders.length == 0 ? (
 				<View style={styles.ListContiainerEmpty}>
-					<Text style={styles.secondaryTextSmItalic}>
-						"There are no orders placed yet."
-					</Text>
+					<Empty message={'There are no orders placed yet'} />
 				</View>
 			) : (
 				<ScrollView

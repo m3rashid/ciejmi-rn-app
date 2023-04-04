@@ -8,6 +8,7 @@ import {
 	FlatList,
 	RefreshControl,
 	ScrollView,
+	Dimensions,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import cartIcon from '../../assets/icons/cart_beg.jpg';
@@ -20,12 +21,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import SearchableDropdown from 'react-native-searchable-dropdown';
-import { SliderBox } from 'react-native-image-slider-box';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-const slides = [
-	require('../../assets/image/banners/banner.jpg'),
-	require('../../assets/image/banners/banner.jpg'),
-];
+import Empty from '../../components/empty';
 
 const HomeScreen = ({ navigation, route }) => {
 	const { user } = route.params;
@@ -183,8 +180,7 @@ const HomeScreen = ({ navigation, route }) => {
 						/>
 					</View>
 				</View>
-				<ScrollView nestedScrollEnabled={true}>
-					<View style={styles.promotiomSliderContainer}>
+				{/* <View style={styles.promotiomSliderContainer}>
 						<SliderBox
 							images={slides}
 							sliderBoxHeight={140}
@@ -193,42 +189,42 @@ const HomeScreen = ({ navigation, route }) => {
 							paginationBoxVerticalPadding={10}
 							autoplayInterval={6000}
 						/>
-					</View>
+					</View> */}
 
-					<View style={styles.primaryTextContainer}>
-						<Text style={styles.primaryText}>Categories</Text>
-					</View>
+				<View style={styles.primaryTextContainer}>
+					<Text style={styles.primaryText}>Categories</Text>
+				</View>
 
-					<View style={styles.categoryContainer}>
-						<FlatList
-							showsHorizontalScrollIndicator={false}
-							style={styles.flatListContainer}
-							horizontal={true}
-							data={categories}
-							keyExtractor={(item, index) => `${item}-${index}`}
-							renderItem={({ item, index }) => (
-								<View style={{ marginBottom: 10 }} key={index}>
-									<CustomIconButton
-										key={index}
-										text={item.title}
-										image={item.image}
-										onPress={() =>
-											navigation.jumpTo('categories', { categoryID: item })
-										}
-									/>
-								</View>
-							)}
-						/>
-						<View style={styles.emptyView} />
-					</View>
-					<View style={styles.primaryTextContainer}>
-						<Text style={styles.primaryText}>New Arrivals</Text>
-					</View>
+				<View style={styles.categoryContainer}>
+					<FlatList
+						showsHorizontalScrollIndicator={false}
+						style={styles.flatListContainer}
+						horizontal={true}
+						data={categories}
+						keyExtractor={(item, index) => `${item}-${index}`}
+						renderItem={({ item, index }) => (
+							<View style={{ marginBottom: 10 }} key={index}>
+								<CustomIconButton
+									key={index}
+									text={item.title}
+									image={item.image}
+									onPress={() =>
+										navigation.jumpTo('categories', { categoryID: item })
+									}
+								/>
+							</View>
+						)}
+					/>
+				</View>
+
+				<View style={styles.primaryTextContainer}>
+					<Text style={styles.primaryText}>Products</Text>
+				</View>
+
+				<ScrollView nestedScrollEnabled={true}>
 					{products.length === 0 ? (
-						<View style={styles.productCardContainerEmpty}>
-							<Text style={styles.productCardContainerEmptyText}>
-								No Product
-							</Text>
+						<View style={{ height: Dimensions.get('window').height / 2 }}>
+							<Empty message={'No Products \n found in the store'} />
 						</View>
 					) : (
 						<View style={styles.productCardContainer}>
@@ -239,28 +235,23 @@ const HomeScreen = ({ navigation, route }) => {
 										onRefresh={handleOnRefresh}
 									/>
 								}
-								showsHorizontalScrollIndicator={false}
-								initialNumToRender={5}
-								horizontal={true}
-								data={products.slice(0, 4)}
-								keyExtractor={(item) => item._id}
-								renderItem={({ item, index }) => (
-									<View
-										key={item._id}
-										style={{ marginLeft: 5, marginBottom: 10, marginRight: 5 }}
-									>
+									initialNumToRender={5}
+									showsVerticalScrollIndicator={false}
+									data={products}
+									keyExtractor={(item) => item._id}
+									renderItem={({ item }) => (
 										<ProductCard
+											key={item._id}
 											name={item.title}
 											image={item.image}
 											price={item.price}
 											quantity={item.quantity}
+											description={item.description}
 											onPress={() => handleProductPress(item)}
 											onPressSecondary={() => handleAddToCat(item)}
 										/>
-									</View>
-								)}
-							/>
-							<View style={styles.emptyView} />
+									)}
+								/>
 						</View>
 					)}
 				</ScrollView>
@@ -367,7 +358,7 @@ const styles = StyleSheet.create({
 	},
 	primaryTextContainer: {
 		paddingLeft: 12,
-		paddingTop: 20,
+		paddingTop: 12,
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
@@ -397,17 +388,9 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: 60,
 	},
-	emptyView: {
-		// width: 30
-	},
+	emptyView: {},
 	productCardContainer: {
-		paddingLeft: 10,
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		width: '100%',
-		height: 240,
+		paddingHorizontal: 12,
 	},
 	productCardContainerEmpty: {
 		padding: 10,

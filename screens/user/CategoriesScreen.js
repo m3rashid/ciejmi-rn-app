@@ -12,7 +12,6 @@ import {
 import React, { useState, useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import cartIcon from '../../assets/icons/cart_beg.jpg';
-import emptyBox from '../../assets/image/emptybox.jpg';
 import { colors, network } from '../../constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,6 +19,7 @@ import * as actionCreaters from '../../states/actionCreaters/actionCreaters';
 import CustomIconButton from '../../components/CustomIconButton';
 import ProductCard from '../../components/ProductCard';
 import CustomInput from '../../components/CustomInput';
+import Empty from '../../components/empty';
 
 const CategoriesScreen = ({ navigation, route }) => {
 	const { categoryID } = route.params;
@@ -29,7 +29,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 	const [error, setError] = useState('');
 	const [foundItems, setFoundItems] = useState([]);
 	const [filterItem, setFilterItem] = useState('');
-	const windowWidth = Dimensions.get('window').width
+	const windowWidth = Dimensions.get('window').width;
 	const cartproduct = useSelector((state) => state.product);
 	const dispatch = useDispatch();
 
@@ -99,7 +99,9 @@ const CategoriesScreen = ({ navigation, route }) => {
 	const filter = () => {
 		if (filterItem !== '') {
 			const results = (products || []).filter((product) => {
-				return (product?.title || '').toLowerCase().includes(filterItem.toLowerCase());
+				return (product?.title || '')
+					.toLowerCase()
+					.includes(filterItem.toLowerCase());
 			});
 
 			setFoundItems(results);
@@ -149,7 +151,14 @@ const CategoriesScreen = ({ navigation, route }) => {
 				</TouchableOpacity>
 			</View>
 			<View style={styles.bodyContainer}>
-				<View style={{ padding: 0, paddingLeft: 12, paddingRight: 12, marginBottom: 10 }}>
+				<View
+					style={{
+						padding: 0,
+						paddingLeft: 12,
+						paddingRight: 12,
+						marginBottom: 10,
+					}}
+				>
 					<CustomInput
 						radius={5}
 						ioniconName='search'
@@ -183,28 +192,7 @@ const CategoriesScreen = ({ navigation, route }) => {
 				{foundItems.filter(
 					(product) => product?.category?._id === selectedTab?._id
 				).length === 0 ? (
-					<View style={styles.noItemContainer}>
-						<View
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-								backgroundColor: colors.white,
-								height: 200,
-								width: 200,
-								borderRadius: 5,
-								gap: 10
-							}}
-						>
-							<Image
-								source={emptyBox}
-								style={{ height: 80, width: 80, resizeMode: 'contain' }}
-							/>
-							<Text style={styles.emptyBoxText}>
-								No Products {"\n"} found in this category
-							</Text>
-						</View>
-					</View>
+						<Empty message={'No Products\nfound in this category'} />
 				) : (
 					<FlatList
 						data={foundItems.filter(
@@ -217,25 +205,19 @@ const CategoriesScreen = ({ navigation, route }) => {
 							/>
 						}
 						keyExtractor={(index, item) => `${index}-${item}`}
-						contentContainerStyle={{ margin: 3, marginTop: 10 }}
-						numColumns={2}
-						renderItem={({ item: product }) => (
-							<View
-								style={[
-									styles.productCartContainer,
-									{ width: (windowWidth - windowWidth * 0.1) / 2 },
-								]}
-							>
+							numColumns={1}
+							renderItem={({ item: product }) => (
+								<View style={styles.productCartContainer}>
 								<ProductCard
 									cardSize='large'
 									name={product.title}
 									image={product.image}
 									price={product.price}
 									quantity={product.quantity}
+										description={product.description}
 									onPress={() => handleProductPress(product)}
 									onPressSecondary={() => handleAddToCat(product)}
-								/>
-								<View style={styles.emptyView} />
+									/>
 							</View>
 						)}
 					/>
@@ -301,28 +283,9 @@ const styles = StyleSheet.create({
 		fontSize: 10,
 	},
 	productCartContainer: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		borderRadius: 10,
-		margin: 5,
-		padding: 5,
-		paddingBottom: 0,
-		paddingTop: 0,
-		marginBottom: 0,
-	},
-	noItemContainer: {
 		width: '100%',
-		flex: 1,
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		textAlign: 'center',
-	},
-	emptyBoxText: {
-		fontSize: 11,
-		color: colors.muted,
-		textAlign: 'center',
+		borderRadius: 10,
+		paddingHorizontal: 12,
 	},
 	emptyView: {
 		height: 20,
