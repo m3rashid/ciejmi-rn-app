@@ -20,6 +20,7 @@ import CustomAlert from '../../components/CustomAlert';
 import InternetConnectionAlert from 'react-native-internet-connection-alert';
 import debounce from 'lodash.debounce';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import ProgressDialog from 'react-native-progress-dialog';
 
 const SignupScreen = ({ navigation }) => {
 	const [email, setEmail] = useState('');
@@ -30,6 +31,7 @@ const SignupScreen = ({ navigation }) => {
 	const [error, setError] = useState('');
 	const [courses, setCourses] = useState([]);
 	const [searchItems, setSearchItems] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const refRBSheet = useRef();
 
 	const myHeaders = new Headers();
@@ -57,6 +59,7 @@ const SignupScreen = ({ navigation }) => {
 			return setError('password does not match');
 		}
 
+		setLoading(true);
 		fetch(network.serverip + '/register', {
 			method: 'POST',
 			headers: myHeaders,
@@ -68,25 +71,42 @@ const SignupScreen = ({ navigation }) => {
 			}),
 			redirect: 'follow',
 		})
-			.then((response) => response.json())
+			.then((res) => {
+				if (!res.ok) throw new Error('Signup failed');
+				return res.json();
+			})
 			.then((result) => {
-				if (result.data.email == email) {
+				setLoading(false);
+				if (result?.data?.authType == 'ADMIN') {
+					navigation.replace('dashboard', { authUser: result.data });
+				} else if (result?.data?.authType == 'USER') {
+					navigation.replace('tab', { user: result.data });
+				} else {
 					navigation.navigate('login');
 				}
 			})
 			.catch((error) => {
+				setLoading(false);
 				setError(error.message);
 			});
 	};
 
 	const getCourses = async () => {
+		setLoading(true);
 		fetch(network.serverip + '/departments')
-			.then((r) => r.json())
+			.then((r) => {
+				if (!r.ok) throw new Error('Error in fetching departments');
+				return r.json();
+			})
 			.then((result) => {
+				setLoading(false);
 				setCourses(result.data);
 				setSearchItems(result.data);
 			})
-			.catch(console.log);
+			.catch((err) => {
+				setLoading(false);
+				console.log(err);
+			});
 	};
 
 	const filter = debounce((text) => {
@@ -112,6 +132,7 @@ const SignupScreen = ({ navigation }) => {
 
 	return (
 		<InternetConnectionAlert>
+			<ProgressDialog visible={loading} label='Signup in progress . . .' />
 			<RBSheet
 				ref={refRBSheet}
 				closeOnDragDown={true}
@@ -121,7 +142,7 @@ const SignupScreen = ({ navigation }) => {
 						backgroundColor: colors.muted,
 					},
 				}}
-				height={Dimensions.get('window').height * 0.7}
+				height={Dimensions.get('window').height * 0.5}
 			>
 				<View style={{ width: '103%', padding: 12 }}>
 					<CustomInput

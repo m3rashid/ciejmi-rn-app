@@ -77,7 +77,7 @@ const UserProfileScreen = ({ navigation, route }) => {
 				{
 					text: 'Yes',
 					onPress: () => {
-						setShowBox(false);
+						// setShowBox(false);
 						DeleteAccontHandle(id);
 					},
 				},
