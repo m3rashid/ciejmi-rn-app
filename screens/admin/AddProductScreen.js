@@ -20,14 +20,15 @@ import { useEffect } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RNFS from 'react-native-fs';
 import CustomAlert from '../../components/CustomAlert';
+import CheckBox from '../../components/checkbox';
 
 const AddProductScreen = ({ navigation, route }) => {
 	const { authUser } = route.params;
 	const [isloading, setIsloading] = useState(false);
 	const [title, setTitle] = useState('');
 	const [price, setPrice] = useState('');
-	const [sku, setSku] = useState('');
 	const [image, setImage] = useState('');
+	const [nonInventoryItem, setNonInventoryItem] = useState(true)
 	const [error, setError] = useState('');
 	const [quantity, setQuantity] = useState('');
 	const [description, setDescription] = useState('');
@@ -140,52 +141,48 @@ const AddProductScreen = ({ navigation, route }) => {
 		}
 	};
 
-	//Method for imput validation and post data to server to insert product using API call
 	const addProductHandle = () => {
-		setIsloading(true);
-
-		//[check validation] -- Start
 		if (title == '') {
 			setError('Please enter the product title');
-			setIsloading(false);
 		} else if (price == 0) {
 			setError('Please enter the product price');
-			setIsloading(false);
 		} else if (quantity <= 0) {
 			setError('Quantity must be greater then 1');
-			setIsloading(false);
 		} else if (!image) {
 			setError('Please upload the product image');
-			setIsloading(false);
 		} else {
 			const requestOptions = {
 				method: 'POST',
 				headers: myHeaders,
 				body: JSON.stringify({
 					title: title,
-					sku: sku,
 					price: price,
 					image: image,
 					description: description,
 					category: category,
 					quantity: quantity,
+					nonInventoryItem: nonInventoryItem,
 				}),
 				redirect: 'follow',
 			};
 
+			setIsloading(true);
 			fetch(network.serverip + '/product', requestOptions)
-				.then((response) => response.json())
+				.then((r) => {
+					if (!r.ok) throw new Error("Error in adding product")
+					return r.json()
+				})
 				.then((result) => {
 					if (result.success == true) {
 						setIsloading(false);
 						setAlertType('success');
 						setError(result.message);
 						setTitle('');
-						setSku('');
 						setPrice(0);
 						setImage('');
 						setDescription('');
 						setCategory('');
+						setNonInventoryItem(true)
 						setQuantity(0);
 					}
 				})
@@ -243,15 +240,6 @@ const AddProductScreen = ({ navigation, route }) => {
 							</TouchableOpacity>
 						)}
 					</View>
-
-					<CustomInput
-						isRequired
-						value={sku}
-						setValue={setSku}
-						placeholder='SKU (Stock Keeping Unit)'
-						placeholderTextColor={colors.muted}
-						radius={5}
-					/>
 					<CustomInput
 						isRequired
 						value={title}
@@ -284,6 +272,7 @@ const AddProductScreen = ({ navigation, route }) => {
 						placeholderTextColor={colors.muted}
 						radius={5}
 					/>
+					<CheckBox value={nonInventoryItem} setValue={setNonInventoryItem} label="Non Inventory Item" />
 				</View>
 
 				<View style={{ marginTop: 10, display: 'flex', flexDirection: 'row' }}>
