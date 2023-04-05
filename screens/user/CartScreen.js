@@ -6,6 +6,7 @@ import {
 	StatusBar,
 	Text,
 	ScrollView,
+	Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -28,11 +29,19 @@ const CartScreen = ({ navigation }) => {
 		bindActionCreators(actionCreaters, dispatch);
 
 	const deleteItem = (id) => {
-		removeCartItem(id);
+		return Alert.alert(
+			'Remove from Cart ?',
+			'Are you sure you want to remove this item from cart ?',
+			[{ text: 'Cancel' }, { text: 'Remove', onPress: () => removeCartItem(id) }]
+		);
 	};
 
-	const increaseQuantity = (id, quantity, avaiableQuantity) => {
-		if (avaiableQuantity > quantity) {
+	const increaseQuantity = (id, quantity, avaiableQuantity, nonInventoryItem) => {
+		if (nonInventoryItem) {
+			increaseCartItemQuantity({ id: id, type: 'increase' });
+			setRefresh(!refresh);
+		}
+		else if (avaiableQuantity > quantity) {
 			increaseCartItemQuantity({ id: id, type: 'increase' });
 			setRefresh(!refresh);
 		}
@@ -98,10 +107,12 @@ const CartScreen = ({ navigation }) => {
 								price={item.price}
 								quantity={item.quantity}
 								onPressIncrement={() => {
+									console.log(item)
 									increaseQuantity(
 										item._id,
 										item.quantity,
-										item.avaiableQuantity
+										item.avaiableQuantity,
+										item.nonInventoryItem
 									);
 								}}
 								onPressDecrement={() => {

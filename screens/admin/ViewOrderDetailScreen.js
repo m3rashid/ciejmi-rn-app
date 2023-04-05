@@ -6,6 +6,7 @@ import {
 	ScrollView,
 	TouchableOpacity,
 	Share,
+	Linking,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { colors, network } from '../../constants';
@@ -100,6 +101,17 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 		const result = await Share.share({
 			message: `Here is your invoice for order # ${orderDetail?._id} ordered from CIE-JMI : ${orderDetail?.invoiceUrl}`,
 		});
+	};
+
+	const handleDownloadInvoice = () => {
+		if (!orderDetail?.invoiceUrl) {
+			// handle the error
+			return;
+		}
+
+		Linking.openURL(`${orderDetail?.invoiceUrl}`).catch((err) =>
+			console.error('Error', err)
+		);
 	};
 
 	// calculate the total cost and set the all requried variables on initial render
@@ -244,10 +256,19 @@ const ViewOrderDetailScreen = ({ navigation, route }) => {
 						>
 							<CustomButton
 								onPress={handleViewInvoice}
-								text='View Invoice'
+								text='View'
 								style={{
 									flex: 1,
 									padding: 8,
+									backgroundColor: colors.primary,
+								}}
+							/>
+							<CustomButton
+								onPress={handleDownloadInvoice}
+								text='Download'
+								style={{
+									padding: 8,
+									flex: 1,
 									backgroundColor: colors.primary,
 								}}
 							/>

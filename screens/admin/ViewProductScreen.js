@@ -54,7 +54,10 @@ const ViewProductScreen = ({ navigation, route }) => {
 	const handleDelete = (id) => {
 		setIsloading(true);
 		fetch(`${network.serverip}/delete-product?id=${id}`, requestOptions)
-			.then((response) => response.json())
+			.then((r) => {
+				if (!r.ok) throw new Error("Network error");
+				return r.json()
+			})
 			.then((result) => {
 				if (result.success) {
 					fetchProduct();
@@ -64,19 +67,19 @@ const ViewProductScreen = ({ navigation, route }) => {
 					setError(result.message);
 					setAlertType('error');
 				}
-				setIsloading(false);
 			})
 			.catch((error) => {
-				setIsloading(false);
 				setError(error.message);
-			});
+			}).finally(() => {
+				setIsloading(false);
+			})
 	};
 
 	//method for alert
 	const showConfirmDialog = (id) => {
 		return Alert.alert(
 			'Are your sure?',
-			'Are you sure you want to delete the category?',
+			'Are you sure you want to delete this product ?',
 			[
 				{
 					text: 'Yes',
@@ -193,7 +196,8 @@ const ViewProductScreen = ({ navigation, route }) => {
 								title={product?.title}
 								category={product?.category?.title}
 								price={product?.price}
-								qantity={product?.sku}
+								isNonInventory={product?.nonInventoryItem}
+								quantity={product?.quantity}
 								onPressView={() => { }}
 								onPressEdit={() => {
 									navigation.navigate('editproduct', {

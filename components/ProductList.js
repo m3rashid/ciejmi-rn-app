@@ -8,7 +8,7 @@ const ProductList = ({
 	price,
 	title,
 	image,
-	qantity,
+	quantity,
 	onPressView,
 	onPressEdit,
 	onPressDelete,
@@ -23,6 +23,7 @@ const ProductList = ({
 						<View style={styles.ImageContainer} />
 					)}
 				</View>
+
 				<View style={styles.productInfoContainer}>
 					<Text style={styles.productTitle}>{title}</Text>
 					<View style={styles.productInfoItem}>
@@ -33,23 +34,30 @@ const ProductList = ({
 						<Text style={styles.productInfoItemText}>Price: </Text>
 						<Text style={{ color: colors.dark }}>{price}</Text>
 					</View>
-					<View style={styles.productInfoItem}>
-						<Text style={styles.productInfoItemText}>SKU: </Text>
-						<Text style={{ color: colors.dark }}>{qantity <= 0 ? 'Out of Stock' : qantity}</Text>
-					</View>
+
+					{product.nonInventoryItem ? (
+						<View style={styles.productInfoItem}>
+							<Text style={styles.productInfoItemText}>Quantity: </Text>
+							<Text style={{ color: colors.dark }}>
+								{quantity <= 0 ? 'Out of Stock' : quantity}
+							</Text>
+						</View>
+					) : null}
 				</View>
 			</View>
 
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
 					style={[styles.actionButton, { backgroundColor: colors.primary }]}
-					onPress={onPressEdit}>
-					<MaterialIcons name={'edit'} size={15} color={colors.white} />
+					onPress={onPressEdit}
+				>
+					<MaterialIcons name={'edit'} size={20} color={colors.white} />
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={[styles.actionButton, { backgroundColor: colors.danger }]}
-					onPress={onPressDelete}>
-					<MaterialIcons name={'delete'} size={15} color={colors.white} />
+					onPress={onPressDelete}
+				>
+					<MaterialIcons name={'delete'} size={20} color={colors.white} />
 				</TouchableOpacity>
 			</View>
 		</TouchableOpacity>
@@ -65,10 +73,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		backgroundColor: colors.white,
-		padding: 5,
 		borderRadius: 5,
 		marginTop: 10,
-		elevation: 5
+		elevation: 5,
 	},
 	innerContainer: {
 		display: 'flex',
@@ -79,7 +86,8 @@ const styles = StyleSheet.create({
 	productImage: {
 		height: 100,
 		width: 100,
-		borderRadius: 5,
+		borderTopLeftRadius: 5,
+		borderBottomLeftRadius: 5,
 	},
 	ImageContainer: {
 		backgroundColor: colors.light,
@@ -88,19 +96,24 @@ const styles = StyleSheet.create({
 		width: 100,
 	},
 	productInfoContainer: {
-		paddingLeft: 15,
+		padding: 5,
+		paddingLeft: 12,
 	},
 	buttonContainer: {
 		display: 'flex',
 		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginRight: 10,
+		marginTop: 10,
 	},
 	actionButton: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginBottom: 10,
-		height: 30,
-		width: 30,
+		height: 35,
+		width: 35,
 		backgroundColor: colors.primary,
 		borderRadius: 5,
 		elevation: 2,
@@ -114,7 +127,7 @@ const styles = StyleSheet.create({
 	productTitle: {
 		fontSize: 14,
 		fontWeight: 'bold',
-		color: colors.dark
+		color: colors.dark,
 	},
 	productInfoItemText: {
 		fontSize: 13,

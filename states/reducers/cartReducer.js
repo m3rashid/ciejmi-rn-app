@@ -1,28 +1,5 @@
 import * as actions from '../actionTypes/actionTypes';
 
-/** {
- * "__v": 0, 
- * "_id": "6412ff827ff7f216107c7d6c", 
- * "createdAt": "2023-03-16T11:37:38.507Z", 
- * "description": "", 
- * "image": "https://ciejmi-exatorial-ecomm.s3.ap-south-1.amazonaws.com/1678966632292", 
- * "price": 45, 
- * "quantity": 29, 
- * "sku": "22", 
- * "title": "Code App", 
- * "updatedAt": "2023-03-17T11:34:26.136Z"
- * "category": {
-			"__v": 0, 
-			"_id": "6412ff607ff7f216107c7d67", 
-			"createdAt": "2023-03-16T11:37:04.105Z", 
-			"description": "code code code", 
-			"image": "https://ciejmi-exatorial-ecomm.s3.amazonaws.com/1678966610495", 
-			"title": "Code", 
-			"updatedAt": "2023-03-16T11:37:04.105Z"
-		},
- * }
- */
-
 const reducer = (state = [], action) => {
 	let done = false;
 	switch (action.type) {
@@ -47,7 +24,7 @@ const reducer = (state = [], action) => {
 						description: action.payload.item.description,
 						image: action.payload.item.image,
 						price: action.payload.item.price,
-						sku: action.payload.item.sku,
+						nonInventoryItem: action.payload.item.nonInventoryItem,
 						title: action.payload.item.title,
 						updatedAt: action.payload.item.updatedAt,
 						avaiableQuantity: action.payload.item.quantity,

@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import RNFS from 'react-native-fs';
 import CustomAlert from '../../components/CustomAlert';
-import CheckBox from '../../components/checkbox';
+import CheckBoxContainer from '../../components/checkbox';
 
 const AddProductScreen = ({ navigation, route }) => {
 	const { authUser } = route.params;
@@ -169,7 +169,7 @@ const AddProductScreen = ({ navigation, route }) => {
 			setIsloading(true);
 			fetch(network.serverip + '/product', requestOptions)
 				.then((r) => {
-					if (!r.ok) throw new Error("Error in adding product")
+					if (!r.ok || r.status > 300) throw new Error("Error in adding product")
 					return r.json()
 				})
 				.then((result) => {
@@ -272,7 +272,7 @@ const AddProductScreen = ({ navigation, route }) => {
 						placeholderTextColor={colors.muted}
 						radius={5}
 					/>
-					<CheckBox value={nonInventoryItem} setValue={setNonInventoryItem} label="Non Inventory Item" />
+					<CheckBoxContainer checked={nonInventoryItem} setValue={setNonInventoryItem} label="Non Inventory Item" />
 				</View>
 
 				<View style={{ marginTop: 10, display: 'flex', flexDirection: 'row' }}>

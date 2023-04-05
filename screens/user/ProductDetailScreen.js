@@ -72,8 +72,9 @@ const ProductDetailScreen = ({ navigation, route }) => {
 		}
 	};
 
-	const handleIncreaseButton = (quantity) => {
-		if (quantity >= 1 && product.quantity > quantity) {
+	const handleIncreaseButton = (quantity, nonInventoryItem) => {
+		if (nonInventoryItem) setQuantity(quantity + 1);
+		else if (quantity >= 1 && product.quantity > quantity) {
 			setQuantity(quantity + 1);
 		}
 	};
@@ -239,7 +240,7 @@ const ProductDetailScreen = ({ navigation, route }) => {
 								<TouchableOpacity
 									style={styles.counterButtonContainer}
 									onPress={() => {
-										handleIncreaseButton(quantity);
+										handleIncreaseButton(quantity, product.nonInventoryItem);
 									}}
 								>
 									<Text style={styles.counterButtonText}>+</Text>
@@ -247,16 +248,17 @@ const ProductDetailScreen = ({ navigation, route }) => {
 							</View>
 						</View>
 						<View style={styles.productButtonContainer}>
-							{product.quantity > 0 ? (
-								<CustomButton
-									text='Add to Cart'
-									onPress={() => {
-										handleAddToCart(product);
-									}}
-								/>
-							) : (
-								<CustomButton text='Out of Stock' disabled={true} />
-							)}
+							<CustomButton
+								{...{
+									text:
+										product.nonInventoryItem || product.quantity > 0
+											? 'Add to Cart'
+											: 'Out of Stock',
+									...(product.nonInventoryItem || product.quantity > 0
+										? { onPress: () => handleAddToCart(product) }
+										: { disabled: true }),
+								}}
+							/>
 						</View>
 					</View>
 				</View>

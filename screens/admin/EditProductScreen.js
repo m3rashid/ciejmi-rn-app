@@ -17,6 +17,7 @@ import CustomAlert from '../../components/CustomAlert';
 import * as ImagePicker from 'react-native-image-picker';
 import ProgressDialog from 'react-native-progress-dialog';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import CheckBoxContainer from '../../components/checkbox';
 
 const EditProductScreen = ({ navigation, route }) => {
 	const { product, authUser } = route.params;
@@ -24,34 +25,12 @@ const EditProductScreen = ({ navigation, route }) => {
 	const [label, setLabel] = useState('Updating...');
 	const [title, setTitle] = useState('');
 	const [price, setPrice] = useState('');
-	const [sku, setSku] = useState('');
+	const [nonInventoryItem, setNonInventoryItem] = useState(true);
 	const [image, setImage] = useState('');
 	const [error, setError] = useState('');
 	const [quantity, setQuantity] = useState('');
 	const [description, setDescription] = useState('');
 	const [category, setCategory] = useState('garments');
-	const [alertType, setAlertType] = useState('error');
-
-	var myHeaders = new Headers();
-	myHeaders.append('x-auth-token', authUser.token);
-	myHeaders.append('Content-Type', 'application/json');
-
-	var raw = JSON.stringify({
-		title: title,
-		sku: sku,
-		price: price,
-		image: image,
-		description: description,
-		category: category,
-		quantity: quantity,
-	});
-
-	var requestOptions = {
-		method: 'POST',
-		headers: myHeaders,
-		body: raw,
-		redirect: 'follow',
-	};
 
 	//Method for selecting the image from device gallery
 	const pickImage = async () => {
@@ -69,36 +48,51 @@ const EditProductScreen = ({ navigation, route }) => {
 
 	//Method for imput validation and post data to server to edit product using API call
 	const editProductHandle = () => {
-		setIsloading(true);
 		if (title == '') {
 			setError('Please enter the product title');
-			setIsloading(false);
 		} else if (price == 0) {
 			setError('Please enter the product price');
-			setIsloading(false);
 		} else if (quantity <= 0) {
 			setError('Quantity must be greater then 1');
-			setIsloading(false);
 		} else if (image == null) {
 			setError('Please upload the product image');
-			setIsloading(false);
 		} else {
-			fetch(
-				`${network.serverip}/update-product?id=${product._id}`,
-				requestOptions,
-			)
-				.then(response => response.json())
-				.then(result => {
+			setIsloading(true);
+
+			fetch(`${network.serverip}/update-product?id=${product._id}`, {
+				method: 'POST',
+				headers: {
+					'x-auth-token': authUser.token,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					_id: product._id,
+					image,
+					title,
+					price,
+					quantity,
+					description,
+					category: product.category._id,
+					nonInventoryItem,
+				}),
+				redirect: 'follow',
+			})
+				.then((r) => {
+					if (!r.ok || r.status < 200 || r.status >= 300) {
+						throw new Error('Something went wrong!');
+					}
+					return r.json();
+				})
+				.then((result) => {
 					if (result.success == true) {
 						setIsloading(false);
 						setError(result.message);
 						setPrice('');
 						setQuantity('');
-						setSku('');
 						setTitle('');
 					}
 				})
-				.catch(error => {
+				.catch((error) => {
 					setIsloading(false);
 					setError(error.message);
 				});
@@ -109,10 +103,10 @@ const EditProductScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		setImage(product?.image);
 		setTitle(product.title);
-		setSku(product.sku);
 		setQuantity(product.quantity.toString());
 		setPrice(product.price.toString());
 		setDescription(product.description);
+		setNonInventoryItem(product.nonInventoryItem);
 	}, []);
 
 	return (
@@ -124,9 +118,10 @@ const EditProductScreen = ({ navigation, route }) => {
 					onPress={() => {
 						// navigation.replace("viewproduct", { authUser: authUser });
 						navigation.goBack();
-					}}>
+					}}
+				>
 					<Ionicons
-						name="arrow-back-circle-outline"
+						name='arrow-back-circle-outline'
 						size={30}
 						color={colors.muted}
 					/>
@@ -148,18 +143,10 @@ const EditProductScreen = ({ navigation, route }) => {
 							</TouchableOpacity>
 						) : (
 							<TouchableOpacity style={styles.imageHolder} onPress={pickImage}>
-								<AntDesign name="pluscircle" size={50} color={colors.muted} />
+									<AntDesign name='pluscircle' size={50} color={colors.muted} />
 							</TouchableOpacity>
 						)}
 					</View>
-					<CustomInput
-						isRequired
-						value={sku}
-						setValue={setSku}
-						placeholder={'SKU'}
-						placeholderTextColor={colors.muted}
-						radius={5}
-					/>
 					<CustomInput
 						isRequired
 						value={title}
@@ -191,6 +178,11 @@ const EditProductScreen = ({ navigation, route }) => {
 						placeholder={'Description'}
 						placeholderTextColor={colors.muted}
 						radius={5}
+					/>
+					<CheckBoxContainer
+						checked={nonInventoryItem}
+						setValue={setNonInventoryItem}
+						label='Non Inventory Item'
 					/>
 				</View>
 			</ScrollView>

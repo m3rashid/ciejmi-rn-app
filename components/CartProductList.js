@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { colors, network } from '../constants';
+import { colors } from '../constants';
 
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -22,14 +22,15 @@ const CartProductList = ({
 					<MaterialCommunityIcons
 						name="delete"
 						size={25}
-						color={colors.primary}
+						color={colors.white}
 					/>
 				</TouchableOpacity>
 			</View>
 		);
 	};
+
 	return (
-		<GestureHandlerRootView>
+		<GestureHandlerRootView style={{ borderWidth: 0 }}>
 			<View style={styles.containerOuter}>
 				<Swipeable renderRightActions={rightSwipe}>
 					<View style={styles.container}>
@@ -55,6 +56,7 @@ const CartProductList = ({
 										<Text style={styles.counterButtonText}>+</Text>
 									</TouchableOpacity>
 								</View>
+
 							</View>
 						</View>
 					</View>
@@ -73,16 +75,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		backgroundColor: colors.white,
-		height: 120,
+		height: 100,
 		borderRadius: 5,
 		width: '100%',
-		padding: 10,
 		marginBottom: 10,
 		elevation: 2,
 	},
 	containerOuter: {
-		backgroundColor: colors.primary_light,
-		height: 120,
+		height: 100,
 		borderRadius: 5,
 		width: '100%',
 		marginBottom: 10,
@@ -90,6 +90,8 @@ const styles = StyleSheet.create({
 	productImage: {
 		width: 100,
 		height: 100,
+		borderTopLeftRadius: 5,
+		borderBottomLeftRadius: 5
 	},
 	imageContainer: {
 		backgroundColor: colors.light,
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: colors.primary_light,
+		backgroundColor: colors.danger,
 		borderTopEndRadius: 15,
 		borderBottomRightRadius: 15,
 		marginBottom: 10,
