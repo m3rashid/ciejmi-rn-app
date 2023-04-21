@@ -9,6 +9,7 @@ const ProductList = ({
 	title,
 	image,
 	quantity,
+	isNonInventory,
 	onPressView,
 	onPressEdit,
 	onPressDelete,
@@ -35,7 +36,7 @@ const ProductList = ({
 						<Text style={{ color: colors.dark }}>{price}</Text>
 					</View>
 
-					{product.nonInventoryItem ? (
+					{isNonInventory ? (
 						<View style={styles.productInfoItem}>
 							<Text style={styles.productInfoItemText}>Quantity: </Text>
 							<Text style={{ color: colors.dark }}>
