@@ -1,4 +1,4 @@
 export default network = {
-	serverip: 'https://api.ciejmi.exatorial.com',
-	// serverip: 'http://192.168.133.113:4000'
+	serverip: 'https://jmicie-ecomm-server-ydc2f.ondigitalocean.app',
+	// serverip: 'http://192.168.15.113:4000'
 };
